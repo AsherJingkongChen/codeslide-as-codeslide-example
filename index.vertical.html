@@ -406,7 +406,7 @@ import yaml from &#39;https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0
       </div>
       <div class="code">
         <pre><code class="language-css">/*! CodeSlide slides.horizontal.css */
-body {
+html, body {
   margin: 0;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
@@ -492,49 +492,51 @@ Go to home page for more information: ${homepage}
   .helpOption(&#39;-h, --help&#39;,
     &#39;Check all options and their description.&#39;
   )
-  .option(&#39;-o, --output [local_path]&#39;,
-    &#39;The &quot;output file path&quot; of slideshow. &#39; +
-    &#39;If not set, it writes the output to stdout.&#39;
+  .option(&#39;-o, --output [local_path]&#39;, `\
+The &quot;output file path&quot; of slideshow.
+By default it writes the output to stdout.`
   )
-  .option(&#39;--font-family [string]&#39;,
-    &#39;The font family of &quot;displayed texts&quot;. &#39; +
-    &#39;Default is &quot;ui-monospace, SFMono-Regular, &#39; +
-    &#39;SF Mono, Menlo, Consolas, Liberation Mono, monospace&quot;.&#39;
+  .option(&#39;--font-family [CSS_value]&#39;, `\
+The font family of &quot;displayed texts&quot;.
+Default is &quot;ui-monospace, SFMono-Regular, \
+SF Mono, Menlo, Consolas, Liberation Mono, monospace&quot;.`
   )
-  .option(&#39;--font-size [string]&#39;,
-    &#39;The font size of &quot;displayed texts&quot;. &#39; +
-    &#39;Default is &quot;large&quot;.&#39;
+  .option(&#39;--font-size [CSS_value]&#39;, `\
+The font size of &quot;displayed texts&quot;.
+Default is &quot;large&quot;.`
   )
-  .option(&#39;--font-weight [string]&#39;,
-    &#39;The font weight of &quot;displayed texts&quot;. &#39; +
-    &#39;Default is &quot;normal&quot;.&#39;
+  .option(&#39;--font-weight [CSS_value]&#39;, `\
+The font weight of &quot;displayed texts&quot;.
+Default is &quot;normal&quot;.`
   )
-  .option(&#39;--format [html | pdf]&#39;,
-    &#39;The &quot;output file format&quot; of slideshow. &#39; +
-    &#39;Default is &quot;html&quot;.&#39;
+  .option(&#39;--format [html | pdf]&#39;, `\
+The &quot;output file format&quot; of slideshow.
+Default is &quot;html&quot;.`
   )
-  .option(&#39;--layout [horizontal | vertical]&#39;,
-    &#39;The &quot;layout&quot; of slideshow. &#39; +
-    &#39;Default is &quot;horizontal&quot;.&#39;
+  .option(&#39;--layout [layout]&#39;, `\
+The &quot;layout&quot; of slideshow.
+[layout] can be either &quot;horizontal&quot; or &quot;vertical&quot;
+Default is &quot;horizontal&quot;.`
   )
-  .option(&#39;--pagesize [letter | legal | tabloid | ledger | a0 | a1 | a2 | a3 | a4 | a5 | a6]&#39;,
-    &#39;The page size of slideshow &quot;in PDF format&quot;. &#39; +
-    &#39;Default is &quot;a4&quot;.&#39;
+  .option(&#39;--pagesize [size]&#39;, `\
+The page size of slideshow &quot;in PDF format&quot;.
+[size] can be either &quot;letter&quot;, &quot;legal&quot;, &quot;tabloid&quot;, \
+&quot;ledger&quot;, &quot;a0&quot;, &quot;a1&quot;, &quot;a2&quot;, &quot;a3&quot;, &quot;a4&quot;, &quot;a5&quot;, &quot;a6&quot;
+Default is &quot;a4&quot;.`
   )
-  .option(&#39;--slides [slide...]&#39;,
-    &#39;The &quot;contents&quot; to show. &#39; +
-    &#39;An array of slides, each slide is a pair of title and path (URL). &#39; +
-    &#39;Example: --slides &quot;Intro&quot; &quot;./README.md&quot; &quot;Program&quot; &quot;./index.js&quot;; &#39; +
-    &#39;There are 2 slides where the first is titled as &quot;Intro&quot; &#39; +
-    &#39;and shows the content from &quot;./README.md&quot;.&#39;
+  .option(&#39;--slides [slide...]&#39;, `\
+The &quot;contents&quot; to show. An array of slides.
+Each slide is a pair of title and path (URL).
+Example: --slides &quot;Intro&quot; &quot;./README.md&quot; &quot;Program&quot; &quot;./index.js&quot;; \
+There are 2 slides where the first is titled as &quot;Intro&quot; \
+and shows the content from &quot;./README.md&quot;.`
   )
-  .option(&#39;--styles [path...]&#39;,
-    &#39;The &quot;display styles&quot; of slideshow. &#39; +
-    &#39;An array of paths (URLs) of CSS files. &#39; +
-    &#39;You may need this if: &#39; +
-    &#39;1. To load custom font family &#39; +
-    &#39;2. To load custom syntax highlighting theme &#39; +
-    &#39;3. To change the background &#39;
+  .option(&#39;--styles [path...]&#39;, `\
+The &quot;display styles&quot; of slideshow. An array of paths (URLs) of CSS files.
+You may need this if the slideshow needs to ...:
+1. load custom font family
+2. load custom syntax highlighting theme
+3. change the background`
   )
   .action(run)
   .parseAsync();
