@@ -49,7 +49,7 @@ codeslide:
 # The HTML template
 
 CodeSlide uses [Eta](https://github.com/eta-dev/eta) to render
-{% and %} are interpolation symbols
+\{\% and \%\} are interpolation symbols
 
 [:code.html](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/slides/slides.html)
 
