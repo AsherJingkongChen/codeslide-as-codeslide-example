@@ -38,7 +38,7 @@ p:empty {
 #slides {
   display: flex;
   flex-direction: column;
-  position: fixed; /* fix height on mobile */
+  position: absolute; /* fix height on mobile */
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
@@ -333,7 +333,7 @@ pre {
 <span class="hljs-selector-id">#slides</span> {
   <span class="hljs-attribute">display</span>: flex;
   <span class="hljs-attribute">flex-direction</span>: row;
-  <span class="hljs-attribute">position</span>: absolute; <span class="hljs-comment">/* fix height on mobile */</span>
+  <span class="hljs-attribute">position</span>: fixed; <span class="hljs-comment">/* fix height on mobile */</span>
   <span class="hljs-attribute">width</span>: <span class="hljs-number">100vw</span>;
   <span class="hljs-attribute">height</span>: <span class="hljs-number">100vh</span>;
   <span class="hljs-attribute">overflow-x</span>: scroll;
@@ -350,6 +350,11 @@ pre {
   <span class="hljs-attribute">scroll-snap-stop</span>: always;
   <span class="hljs-attribute">scrollbar-width</span>: none;
   <span class="hljs-attribute">padding</span>: <span class="hljs-number">1em</span> <span class="hljs-number">2em</span>;
+}
+<span class="hljs-keyword">@media</span> <span class="hljs-keyword">only</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">max-width</span>: <span class="hljs-number">768px</span>) {
+  <span class="hljs-selector-class">.slide</span> {
+    <span class="hljs-attribute">height</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100</span>dvh - <span class="hljs-number">2em</span>);
+  }
 }
 <span class="hljs-selector-class">.slide</span>::-webkit-scrollbar {
   <span class="hljs-attribute">display</span>: none;
@@ -388,14 +393,14 @@ pre {
 <span class="hljs-selector-id">#slides</span> {
   <span class="hljs-attribute">display</span>: flex;
   <span class="hljs-attribute">flex-direction</span>: column;
-  <span class="hljs-attribute">position</span>: absolute; <span class="hljs-comment">/* fix height on mobile */</span>
+  <span class="hljs-attribute">position</span>: fixed; <span class="hljs-comment">/* fix height on mobile */</span>
   <span class="hljs-attribute">width</span>: <span class="hljs-number">100vw</span>;
   <span class="hljs-attribute">height</span>: <span class="hljs-number">100vh</span>;
   <span class="hljs-attribute">overflow-y</span>: scroll;
   scroll-behavior: smooth;
 }
 <span class="hljs-selector-class">.slide</span> {
-  <span class="hljs-attribute">padding</span>: <span class="hljs-number">1em</span> <span class="hljs-number">2em</span> <span class="hljs-number">0</span> <span class="hljs-number">2em</span>;
+  <span class="hljs-attribute">padding</span>: <span class="hljs-number">1em</span> <span class="hljs-number">2em</span>;
 }
 <span class="hljs-keyword">@page</span> {
   <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
