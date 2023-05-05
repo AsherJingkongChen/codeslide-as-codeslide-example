@@ -78,9 +78,10 @@ The print process runs in an application, the list of all applications is here:
 1. CodeSlide CLI
 
 ---
-# CodeSlide CLI
+[:slide](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/README.md)
 
-A Node.js Command Line Interface
+---
+# CLI entrypoint
 
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/src/index.ts)
 

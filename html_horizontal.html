@@ -462,8 +462,34 @@ pre {
 </ol>
   </div>
   <div class="slide" id="_10">
-    <h1 id="codeslide-cli">CodeSlide CLI</h1>
-<p>A Node.js Command Line Interface</p>
+    <p><h1 id="codeslide-cli">CodeSlide CLI</h1>
+<p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm&style=flat-square" alt=""></a></p>
+<h2 id="usage-demo">Usage demo</h2>
+<p><img src="https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/docs/assets/cli-usage.gif" alt=""></p>
+<p>See also <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/examples/"><strong>Example usages</strong></a></p>
+<h2 id="installation">Installation</h2>
+<ol>
+<li>Prepare <code>Node.js</code> runtime and <code>NPM</code> package manager</li>
+<li>Run <code>npm install -g codeslide-cli</code> on the command line</li>
+</ol>
+<h2 id="features">Features</h2>
+<ul>
+<li>It is an application of <a href="https://github.com/AsherJingkongChen/codeslide">CodeSlide</a></li>
+<li>It allows you to easily make awesome slideshows for code snippets on command lines</li>
+<li>It is a Node.js Command Line Interface (CLI)</li>
+</ul>
+<h2 id="documents">Documents</h2>
+<ul>
+<li>See <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/applications/cli/docs/REFERENCE.md"><strong>Reference</strong></a> for more information</li>
+</ul>
+<h2 id="creator">Creator</h2>
+<ul>
+<li><a href="https://github.com/AsherJingkongChen">AsherJingkongChen</a></li>
+</ul>
+</p>
+  </div>
+  <div class="slide" id="_11">
+    <h1 id="cli-entrypoint">CLI entrypoint</h1>
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { program } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;commander&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { stdin, stdout } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;process&#x27;</span>;
@@ -516,7 +542,7 @@ By default it reads manifest from stdin.`</span>
   .<span class="hljs-title function_">parseAsync</span>();
 </code></pre></p>
   </div>
-  <div class="slide" id="_11">
+  <div class="slide" id="_12">
     <h1 id="validate-cli-options">Validate CLI options</h1>
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 
@@ -529,12 +555,12 @@ By default it reads manifest from stdin.`</span>
 .<span class="hljs-title function_">strict</span>();
 </code></pre></p>
   </div>
-  <div class="slide" id="_12">
+  <div class="slide" id="_13">
     <h1 id="build-a-renderer-form-and-render-with-it">Build a <strong>Renderer</strong> form and render with it</h1>
-<p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> hljs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/core&#x27;</span>;
+<p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> hljs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js&#x27;</span>;
 <span class="hljs-keyword">import</span> matter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;gray-matter&#x27;</span>;
-<span class="hljs-keyword">import</span> { marked } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;marked&#x27;</span>;
 <span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;node-fetch&#x27;</span>;
+<span class="hljs-keyword">import</span> { marked } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;marked&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../src&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { pathToFileURL } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;url&#x27;</span>;
@@ -642,99 +668,9 @@ By default it reads manifest from stdin.`</span>
     });
   }
 };
-
-<span class="hljs-keyword">import</span> armasm <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/armasm&#x27;</span>;
-<span class="hljs-keyword">import</span> c <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/c&#x27;</span>;
-<span class="hljs-keyword">import</span> clojure <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/clojure&#x27;</span>;
-<span class="hljs-keyword">import</span> cmake <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/cmake&#x27;</span>;
-<span class="hljs-keyword">import</span> coffeescript <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/coffeescript&#x27;</span>;
-<span class="hljs-keyword">import</span> cpp <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/cpp&#x27;</span>;
-<span class="hljs-keyword">import</span> csharp <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/csharp&#x27;</span>;
-<span class="hljs-keyword">import</span> css <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/css&#x27;</span>;
-<span class="hljs-keyword">import</span> dart <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/dart&#x27;</span>;
-<span class="hljs-keyword">import</span> diff <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/diff&#x27;</span>;
-<span class="hljs-keyword">import</span> elixir <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/elixir&#x27;</span>;
-<span class="hljs-keyword">import</span> erlang <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/erlang&#x27;</span>;
-<span class="hljs-keyword">import</span> go <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/go&#x27;</span>;
-<span class="hljs-keyword">import</span> graphql <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/graphql&#x27;</span>;
-<span class="hljs-keyword">import</span> groovy <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/groovy&#x27;</span>;
-<span class="hljs-keyword">import</span> haskell <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/haskell&#x27;</span>;
-<span class="hljs-keyword">import</span> ini <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/ini&#x27;</span>;
-<span class="hljs-keyword">import</span> java <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/java&#x27;</span>;
-<span class="hljs-keyword">import</span> javascript <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/javascript&#x27;</span>;
-<span class="hljs-keyword">import</span> json <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/json&#x27;</span>;
-<span class="hljs-keyword">import</span> julia <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/julia&#x27;</span>;
-<span class="hljs-keyword">import</span> kotlin <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/kotlin&#x27;</span>;
-<span class="hljs-keyword">import</span> less <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/less&#x27;</span>;
-<span class="hljs-keyword">import</span> lisp <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/lisp&#x27;</span>;
-<span class="hljs-keyword">import</span> lua <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/lua&#x27;</span>;
-<span class="hljs-keyword">import</span> makefile <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/makefile&#x27;</span>;
-<span class="hljs-keyword">import</span> markdown <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/markdown&#x27;</span>;
-<span class="hljs-keyword">import</span> objectivec <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/objectivec&#x27;</span>;
-<span class="hljs-keyword">import</span> perl <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/perl&#x27;</span>;
-<span class="hljs-keyword">import</span> php <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/php&#x27;</span>;
-<span class="hljs-keyword">import</span> plaintext <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/plaintext&#x27;</span>;
-<span class="hljs-keyword">import</span> python <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/python&#x27;</span>;
-<span class="hljs-keyword">import</span> r <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/r&#x27;</span>;
-<span class="hljs-keyword">import</span> ruby <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/ruby&#x27;</span>;
-<span class="hljs-keyword">import</span> rust <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/rust&#x27;</span>;
-<span class="hljs-keyword">import</span> scala <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/scala&#x27;</span>;
-<span class="hljs-keyword">import</span> scss <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/scss&#x27;</span>;
-<span class="hljs-keyword">import</span> shell <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/shell&#x27;</span>;
-<span class="hljs-keyword">import</span> sql <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/sql&#x27;</span>;
-<span class="hljs-keyword">import</span> swift <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/swift&#x27;</span>;
-<span class="hljs-keyword">import</span> typescript <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/typescript&#x27;</span>;
-<span class="hljs-keyword">import</span> vbnet <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/vbnet&#x27;</span>;
-<span class="hljs-keyword">import</span> xml <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/xml&#x27;</span>;
-<span class="hljs-keyword">import</span> yaml <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js/lib/languages/yaml&#x27;</span>;
-
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;armasm&#x27;</span>, armasm);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;c&#x27;</span>, c);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;clojure&#x27;</span>, clojure);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;cmake&#x27;</span>, cmake);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;coffeescript&#x27;</span>, coffeescript);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;cpp&#x27;</span>, cpp);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;csharp&#x27;</span>, csharp);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;css&#x27;</span>, css);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;dart&#x27;</span>, dart);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;diff&#x27;</span>, diff);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;elixir&#x27;</span>, elixir);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;erlang&#x27;</span>, erlang);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;go&#x27;</span>, go);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;graphql&#x27;</span>, graphql);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;groovy&#x27;</span>, groovy);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;haskell&#x27;</span>, haskell);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;ini&#x27;</span>, ini);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;java&#x27;</span>, java);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;javascript&#x27;</span>, javascript);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;json&#x27;</span>, json);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;julia&#x27;</span>, julia);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;kotlin&#x27;</span>, kotlin);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;less&#x27;</span>, less);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;lisp&#x27;</span>, lisp);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;lua&#x27;</span>, lua);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;makefile&#x27;</span>, makefile);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;markdown&#x27;</span>, markdown);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;objectivec&#x27;</span>, objectivec);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;perl&#x27;</span>, perl);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;php&#x27;</span>, php);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;plaintext&#x27;</span>, plaintext);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;python&#x27;</span>, python);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;r&#x27;</span>, r);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;ruby&#x27;</span>, ruby);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;rust&#x27;</span>, rust);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;scala&#x27;</span>, scala);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;scss&#x27;</span>, scss);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;shell&#x27;</span>, shell);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;sql&#x27;</span>, sql);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;swift&#x27;</span>, swift);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;typescript&#x27;</span>, typescript);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;vbnet&#x27;</span>, vbnet);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;xml&#x27;</span>, xml);
-hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hljs-string">&#x27;yaml&#x27;</span>, yaml);
 </code></pre></p>
   </div>
-  <div class="slide" id="_13">
+  <div class="slide" id="_14">
     <h1 id="print-the-slideshow-to-the-output-1">Print the slideshow to the output</h1>
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">PathOrFileDescriptor</span>, writeFile } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { launch } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;puppeteer&#x27;</span>;
@@ -765,7 +701,7 @@ hljs.<span class="hljs-title function_">registerLanguage</span>(<span class="hlj
 };
 </code></pre></p>
   </div>
-  <div class="slide" id="_14">
+  <div class="slide" id="_15">
     <h1 id="thanks-for-your-watching">Thanks for your watching!</h1>
 <p>See other CodeSlide CLI examples <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/examples/">here</a></p>
 <p>The installation guide <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/docs/REFERENCE.md#installtion">here</a></p>
