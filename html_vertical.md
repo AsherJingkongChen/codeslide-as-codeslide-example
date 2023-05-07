@@ -10,7 +10,7 @@ codeslide:
     - https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&display=swap
 
 ---
-# The Introduction of CodeSlide
+# Behind the Scenes of CodeSlide
 
 ---
 [:slide](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/README.md)
@@ -29,21 +29,21 @@ codeslide:
 
 ## Renderer
 
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/renderer.ts)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/Renderer.ts)
 
 ---
 # Build a Renderer form
 
-## Enumerations of fields
+## Options
 
 - Export slideshow file as HTML or PDF format
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/format.ts)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/Format.ts)
 
 - Specify page size for PDF format
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/pagesize.ts)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/PageSize.ts)
 
 - Present the slideshow in horizontal or vertical layout
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/layout.ts)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/Layout.ts)
 
 ---
 # The HTML template
@@ -88,10 +88,10 @@ The print process runs in an application, the list of all applications is here:
 ---
 # Validate CLI options
 
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/src/options.ts)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/src/CLIOptions.ts)
 
 ---
-# Build a **Renderer** form and render with it
+# Build a Renderer form and render with it
 
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/src/parse.ts)
 
