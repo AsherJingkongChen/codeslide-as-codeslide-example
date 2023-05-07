@@ -75,7 +75,7 @@ p:empty {
   src: url(https://fonts.gstatic.com/s/notosansmono/v26/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_LRO49o.ttf) format('truetype');
 }
 
-.hljs, code { font-family: Noto Sans Mono, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; }
+code, .hljs { font-family: Noto Sans Mono, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; }
 #slides { font-size: large; }
 #slides { font-weight: normal; }
   </style>
@@ -83,11 +83,11 @@ p:empty {
 <body class="hljs">
   <div id="slides">
   <div class="slide" id="slide_0">
-    <h1 id="behind-the-scenes-of-codeslide">Behind the Scenes of CodeSlide</h1>
+<h1 id="behind-the-scenes-of-codeslide">Behind the Scenes of CodeSlide</h1>
   </div>
   <div class="slide" id="slide_1">
     <hr>
-    <p><h1 id="codeslide">CodeSlide</h1>
+<p><h1 id="codeslide">CodeSlide</h1>
 <p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm%3Acodeslide-cli&style=flat-square" alt=""></a></p>
 <h2 id="features">Features</h2>
 <ul>
@@ -123,7 +123,7 @@ p:empty {
   </div>
   <div class="slide" id="slide_2">
     <hr>
-    <h1 id="the-abstract-process">The abstract process</h1>
+<h1 id="the-abstract-process">The abstract process</h1>
 <ol>
 <li>Build a <strong>Renderer</strong> form</li>
 <li>Render the HTML template and CSS with the built renderer</li>
@@ -132,7 +132,7 @@ p:empty {
   </div>
   <div class="slide" id="slide_3">
     <hr>
-    <h1 id="build-a-renderer-form">Build a Renderer form</h1>
+<h1 id="build-a-renderer-form">Build a Renderer form</h1>
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./Format&#x27;</span>;
 <span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./Layout&#x27;</span>;
 <span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./PageSize&#x27;</span>;
@@ -167,7 +167,7 @@ p:empty {
     Stylesheets[<span class="hljs-string">&#x27;github&#x27;</span>],
     Stylesheets[renderer.layout],
     ...renderer.styles,
-    <span class="hljs-string">`.hljs, code { font-family: <span class="hljs-subst">${renderer.fontFamily}</span>; }`</span>,
+    <span class="hljs-string">`code, .hljs { font-family: <span class="hljs-subst">${renderer.fontFamily}</span>; }`</span>,
     <span class="hljs-string">`#slides { font-size: <span class="hljs-subst">${renderer.fontSize}</span>; }`</span>,
     <span class="hljs-string">`#slides { font-weight: <span class="hljs-subst">${renderer.fontWeight}</span>; }`</span>,
   ].join(<span class="hljs-string">&#x27;\n&#x27;</span>)
@@ -227,7 +227,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
   </div>
   <div class="slide" id="slide_4">
     <hr>
-    <h1 id="build-a-renderer-form-1">Build a Renderer form</h1>
+<h1 id="build-a-renderer-form-1">Build a Renderer form</h1>
 <h2 id="options">Options</h2>
 <ul>
 <li><p>Export slideshow file as HTML or PDF format
@@ -282,7 +282,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
   </div>
   <div class="slide" id="slide_5">
     <hr>
-    <h1 id="the-html-template">The HTML template</h1>
+<h1 id="the-html-template">The HTML template</h1>
 <p>CodeSlide uses <a href="https://github.com/eta-dev/eta">Eta</a> to render
 {% and %} are interpolation symbols</p>
 <p><pre><code class="language-html hljs"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">HTML</span>&gt;</span>
@@ -301,7 +301,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
   {%_ if (index !== 0 &amp;&amp; it.layout === &#x27;vertical&#x27;) { %}
     <span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
   {%_ } %}
-    {%~ slide %}
+{%~ slide %}
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 {%_ } %}
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -311,7 +311,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
   </div>
   <div class="slide" id="slide_6">
     <hr>
-    <h1 id="css-horizontal-layout">CSS (Horizontal layout)</h1>
+<h1 id="css-horizontal-layout">CSS (Horizontal layout)</h1>
 <p><pre><code class="language-css hljs"><span class="hljs-comment">/*! CodeSlide slides.horizontal.css */</span>
 <span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
   <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
@@ -375,7 +375,7 @@ pre {
   </div>
   <div class="slide" id="slide_7">
     <hr>
-    <h1 id="css-vertical-layout">CSS (Vertical layout)</h1>
+<h1 id="css-vertical-layout">CSS (Vertical layout)</h1>
 <p><pre><code class="language-css hljs"><span class="hljs-comment">/*! CodeSlide slides.vertical.css */</span>
 <span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
   <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
@@ -418,7 +418,7 @@ pre {
   </div>
   <div class="slide" id="slide_8">
     <hr>
-    <h1 id="the-html-template-and-css-are-imported-as-text-in-the-program">The HTML template and CSS are imported as text in the program</h1>
+<h1 id="the-html-template-and-css-are-imported-as-text-in-the-program">The HTML template and CSS are imported as text in the program</h1>
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">declare</span> <span class="hljs-variable language_">module</span> <span class="hljs-string">&#x27;*.css&#x27;</span> {
   <span class="hljs-keyword">const</span> <span class="hljs-attr">_</span>: <span class="hljs-built_in">string</span>;
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _;
@@ -444,7 +444,7 @@ pre {
   </div>
   <div class="slide" id="slide_9">
     <hr>
-    <h1 id="print-the-slideshow-to-the-output">Print the slideshow to the output</h1>
+<h1 id="print-the-slideshow-to-the-output">Print the slideshow to the output</h1>
 <h2 id="applications">Applications</h2>
 <p>The print process runs in an application, the list of all applications is here:</p>
 <ol>
@@ -453,7 +453,7 @@ pre {
   </div>
   <div class="slide" id="slide_10">
     <hr>
-    <p><h1 id="codeslide-cli">CodeSlide CLI</h1>
+<p><h1 id="codeslide-cli">CodeSlide CLI</h1>
 <p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm&style=flat-square" alt=""></a></p>
 <h2 id="usage-demo">Usage demo</h2>
 <p><img src="https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/docs/assets/cli-usage.gif" alt=""></p>
@@ -481,7 +481,7 @@ pre {
   </div>
   <div class="slide" id="slide_11">
     <hr>
-    <h1 id="cli-entrypoint">CLI entrypoint</h1>
+<h1 id="cli-entrypoint">CLI entrypoint</h1>
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { program } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;commander&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { stdin, stdout } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;process&#x27;</span>;
@@ -536,7 +536,7 @@ By default it reads manifest from stdin.`</span>
   </div>
   <div class="slide" id="slide_12">
     <hr>
-    <h1 id="validate-cli-options">Validate CLI options</h1>
+<h1 id="validate-cli-options">Validate CLI options</h1>
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">CLIOptions</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">CLIOptions</span>&gt;;
@@ -550,7 +550,7 @@ By default it reads manifest from stdin.`</span>
   </div>
   <div class="slide" id="slide_13">
     <hr>
-    <h1 id="build-a-renderer-form-and-render-with-it">Build a Renderer form and render with it</h1>
+<h1 id="build-a-renderer-form-and-render-with-it">Build a Renderer form and render with it</h1>
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> hljs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js&#x27;</span>;
 <span class="hljs-keyword">import</span> matter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;gray-matter&#x27;</span>;
 <span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;node-fetch&#x27;</span>;
@@ -666,7 +666,7 @@ By default it reads manifest from stdin.`</span>
   </div>
   <div class="slide" id="slide_14">
     <hr>
-    <h1 id="print-the-slideshow-to-the-output-1">Print the slideshow to the output</h1>
+<h1 id="print-the-slideshow-to-the-output-1">Print the slideshow to the output</h1>
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">PathOrFileDescriptor</span>, writeFile } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { launch } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;puppeteer&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../src&#x27;</span>;
@@ -698,7 +698,7 @@ By default it reads manifest from stdin.`</span>
   </div>
   <div class="slide" id="slide_15">
     <hr>
-    <h1 id="thanks-for-your-watching">Thanks for your watching!</h1>
+<h1 id="thanks-for-your-watching">Thanks for your watching!</h1>
 <p>See other CodeSlide CLI examples <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/examples/">here</a></p>
 <p>The installation guide <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/docs/REFERENCE.md#installtion">here</a></p>
   </div>
