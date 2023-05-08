@@ -12,18 +12,22 @@ codeslide:
 ---
 # Behind the Scenes of CodeSlide
 
+```html
+<code id="slide">
+```
+
 ---
 [:slide](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/README.md)
 
 ---
 # The abstract process
 
-1. Build a **Renderer** form
+1. Build a **Renderer**
 2. Render the HTML template and CSS with the built renderer
 3. Print thet slideshow to the output
 
 ---
-# Build a Renderer form
+# Build a Renderer
 
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/index.ts)
 
@@ -32,7 +36,7 @@ codeslide:
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/Renderer.ts)
 
 ---
-# Build a Renderer form
+# Build a Renderer
 
 ## Options
 
@@ -64,7 +68,7 @@ CodeSlide uses [Eta](https://github.com/eta-dev/eta) to render
 [:code.css](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/slides/slides.vertical.css)
 
 ---
-# The HTML template and CSS are imported as text in the program
+# Reference the HTML template and CSS as text
 
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/slides/text.d.ts)
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/slides/index.ts)
@@ -72,9 +76,11 @@ CodeSlide uses [Eta](https://github.com/eta-dev/eta) to render
 ---
 # Print the slideshow to the output
 
-## Applications
+The print process is implemented in an application ...
 
-The print process runs in an application, the list of all applications is here:
+---
+# Applications of CodeSlide
+
 1. CodeSlide CLI
 
 ---
@@ -86,17 +92,16 @@ The print process runs in an application, the list of all applications is here:
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/src/index.ts)
 
 ---
-# Validate CLI options
+# CLI options validation
+
+1. Manifest path
+2. Output path
 
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/src/CLIOptions.ts)
 
 ---
-# Build a Renderer form and render with it
+# Build a Renderer and Print to the output
 
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/src/parse.ts)
-
----
-# Print the slideshow to the output
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/src/print.ts)
 
 ---
