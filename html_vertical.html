@@ -1,11 +1,14 @@
 <!DOCTYPE HTML>
 <html class="hljs">
 <head>
-  <meta
-    name="viewport"
-    charset="utf-8"
-    content="width=device-width, initial-scale=1, user-scalable=no">
-  <style>
+<meta charset="utf-8">
+<meta
+  name="description"
+  content="CodeSlide makes a slideshow for code snippets">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1">
+<style>
 pre code.hljs {
   display: block;
   overflow-x: auto;
@@ -115,21 +118,21 @@ a {
   color: dodgerblue;
 }
 li {
-  margin-top: 0.4em;
+  margin-top: 0.25em;
 }
 p:empty {
   display: none;
 }
 pre {
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 pre > code {
   display: block;
   padding: 1em;
 }
 .slide {
-  padding: 0.8em 2em;
+  padding: 1em 2em;
 }
 #slides {
   display: flex;
@@ -140,11 +143,11 @@ pre > code {
   overflow-y: scroll;
   scroll-behavior: smooth;
 }
-@page {
-  margin: 0;
-  size: auto;
-}
 @media print {
+  @page {
+    margin: 0;
+    size: auto;
+  }
   #slides {
     width: auto;
     height: auto;
@@ -170,25 +173,25 @@ pre > code {
 
 code {
   font-family: Noto Sans Mono, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-  font-size: 86%;
+  font-size: 85%;
 }
 #slides {
   font-family: system-ui;
   font-size: large;
   font-weight: normal;
-  line-height: 1.6;
+  line-height: 1.5;
 }
-  </style>
+</style>
 </head>
 <body class="hljs">
-  <div id="slides">
-  <div class="slide" id="slide_0">
+<div id="slides">
+<div class="slide" id="slide_0">
 <h1 id="behind-the-scenes-of-codeslide">Behind the Scenes of CodeSlide</h1>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide&quot;</span>&gt;</span>
 </code></pre>
-  </div>
-  <div class="slide" id="slide_1">
-    <hr>
+</div>
+<div class="slide" id="slide_1">
+  <hr>
 <p><h1 id="codeslide">CodeSlide</h1>
 <p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm%3Acodeslide-cli&style=flat-square" alt=""></a></p>
 <h2 id="features">Features</h2>
@@ -222,18 +225,18 @@ code {
 <li><a href="https://github.com/AsherJingkongChen">AsherJingkongChen</a></li>
 </ul>
 </p>
-  </div>
-  <div class="slide" id="slide_2">
-    <hr>
+</div>
+<div class="slide" id="slide_2">
+  <hr>
 <h1 id="the-general-process">The general process</h1>
 <ol>
 <li>Build a <strong><code>Renderer</code></strong></li>
 <li>Render HTML and CSS</li>
 <li>Print the slideshow to the output</li>
 </ol>
-  </div>
-  <div class="slide" id="slide_3">
-    <hr>
+</div>
+<div class="slide" id="slide_3">
+  <hr>
 <h1 id="build-a-renderer">Build a <code>Renderer</code></h1>
 <h2 id="renderer"><code>Renderer</code></h2>
 <ul>
@@ -260,40 +263,36 @@ code {
     <span class="hljs-attr">layout</span>: renderer.<span class="hljs-property">layout</span>,
     <span class="hljs-attr">slides</span>: renderer.<span class="hljs-property">slides</span>,
     <span class="hljs-attr">style</span>: <span class="hljs-string">`\
-  &lt;style&gt;
-<span class="hljs-subst">${
-  [
-    Stylesheets[<span class="hljs-string">&#x27;github&#x27;</span>],
-    Stylesheets[renderer.layout],
-    ...renderer.styles,
-    <span class="hljs-string">`\
-code {
+&lt;style&gt;
+<span class="hljs-subst">${[
+  Stylesheets[<span class="hljs-string">&#x27;github&#x27;</span>],
+  Stylesheets[renderer.layout],
+  ...renderer.styles,
+<span class="hljs-string">`code {
   font-family: <span class="hljs-subst">${renderer.fontFamily}</span>;
-  font-size: 86%;
+  font-size: 85%;
 }`</span>,
-    <span class="hljs-string">`\
-#slides {
+<span class="hljs-string">`#slides {
   font-family: system-ui;
   font-size: <span class="hljs-subst">${renderer.fontSize}</span>;
   font-weight: <span class="hljs-subst">${renderer.fontWeight}</span>;
-  line-height: 1.6;
+  line-height: 1.5;
 }`</span>,
-  ].join(<span class="hljs-string">&#x27;\n&#x27;</span>)
-}</span>
-  &lt;/style&gt;`</span>,
+].join(<span class="hljs-string">&#x27;\n&#x27;</span>)}</span>
+&lt;/style&gt;`</span>,
   }, { <span class="hljs-attr">autoTrim</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">tags</span>: [<span class="hljs-string">&#x27;{%&#x27;</span>, <span class="hljs-string">&#x27;%}&#x27;</span>] });
 }
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_4">
-    <hr>
+</div>
+<div class="slide" id="slide_4">
+  <hr>
 <h1 id="build-a-renderer-1">Build a <code>Renderer</code></h1>
 <h2 id="parsers">Parsers</h2>
 <p><code>Renderer</code> = <code>ManifestParser</code> (Parsed)</p>
 <p><code>ManifestParser</code> = <code>FrontMatterParser</code> + <code>SlideShowParser</code></p>
-  </div>
-  <div class="slide" id="slide_5">
-    <hr>
+</div>
+<div class="slide" id="slide_5">
+  <hr>
 <h1 id="build-a-renderer-2">Build a <code>Renderer</code></h1>
 <h2 id="manifestparser"><code>ManifestParser</code></h2>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> matter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;gray-matter&#x27;</span>;
@@ -322,9 +321,9 @@ code {
   }
 );
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_6">
-    <hr>
+</div>
+<div class="slide" id="slide_6">
+  <hr>
 <h1 id="build-a-renderer-3">Build a <code>Renderer</code></h1>
 <h2 id="frontmatterparser"><code>FrontMatterParser</code></h2>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
@@ -357,9 +356,9 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
   <span class="hljs-keyword">return</span> fm;
 });
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_7">
-    <hr>
+</div>
+<div class="slide" id="slide_7">
+  <hr>
 <h1 id="build-a-renderer-4">Build a <code>Renderer</code></h1>
 <h2 id="slideshowparser"><code>SlideShowParser</code></h2>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> hljs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js&#x27;</span>;
@@ -427,9 +426,9 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
   <span class="hljs-keyword">return</span> token;
 };
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_8">
-    <hr>
+</div>
+<div class="slide" id="slide_8">
+  <hr>
 <h1 id="build-a-renderer-5">Build a <code>Renderer</code></h1>
 <h2 id="the-utility-to-acquire-resources">The utility to acquire resources</h2>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { isNode } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;browser-or-node&#x27;</span>;
@@ -462,9 +461,9 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
   );
 };
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_9">
-    <hr>
+</div>
+<div class="slide" id="slide_9">
+  <hr>
 <h1 id="build-a-renderer-6">Build a <code>Renderer</code></h1>
 <h2 id="options">Options</h2>
 <ul>
@@ -517,9 +516,9 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 </code></pre></p>
 </li>
 </ul>
-  </div>
-  <div class="slide" id="slide_10">
-    <hr>
+</div>
+<div class="slide" id="slide_10">
+  <hr>
 <h1 id="render-html-and-css">Render HTML and CSS</h1>
 <h2 id="html-template">HTML template</h2>
 <p>CodeSlide depends on <a href="https://github.com/eta-dev/eta">Eta</a> 
@@ -528,29 +527,32 @@ to render HTML template.</p>
 <p><pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">HTML</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hljs&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span>
-    <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span>
-    <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>
-    <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1, user-scalable=no&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">meta</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;description&quot;</span>
+  <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;CodeSlide makes a slideshow for code snippets&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">meta</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span>
+  <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1&quot;</span>&gt;</span>
 {%~ it.style %}
 <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hljs&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slides&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slides&quot;</span>&gt;</span>
 {%_ for (const [index, slide] of it.slides.entries()) { %}
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide_{%~ index %}&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide_{%~ index %}&quot;</span>&gt;</span>
   {%_ if (index !== 0 &amp;&amp; it.layout === &#x27;vertical&#x27;) { %}
-    <span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
   {%_ } %}
 {%~ slide %}
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 {%_ } %}
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_11">
-    <hr>
+</div>
+<div class="slide" id="slide_11">
+  <hr>
 <h1 id="render-html-and-css-1">Render HTML and CSS</h1>
 <h2 id="css-horizontal-layout">CSS (Horizontal layout)</h2>
 <p><pre><code class="language-css"><span class="hljs-comment">/*! CodeSlide slides.horizontal.css */</span>
@@ -560,23 +562,19 @@ to render HTML template.</p>
   print-<span class="hljs-attribute">color</span>-adjust: exact;
   <span class="hljs-attribute">overflow</span>: hidden;
   overscroll-behavior: none;
-  <span class="hljs-attribute">scrollbar-width</span>: none;
 }
 <span class="hljs-selector-tag">a</span> {
   <span class="hljs-attribute">color</span>: dodgerblue;
 }
-<span class="hljs-selector-tag">body</span>::-webkit-scrollbar {
-  <span class="hljs-attribute">display</span>: none;
-}
 <span class="hljs-selector-tag">li</span> {
-  <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">0.4em</span>;
+  <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">0.25em</span>;
 }
 <span class="hljs-selector-tag">p</span><span class="hljs-selector-pseudo">:empty</span> {
   <span class="hljs-attribute">display</span>: none;
 }
 pre {
   <span class="hljs-attribute">white-space</span>: pre-wrap;
-  <span class="hljs-attribute">word-wrap</span>: break-word;
+  <span class="hljs-attribute">overflow-wrap</span>: break-word;
 }
 pre &gt; <span class="hljs-selector-tag">code</span> {
   <span class="hljs-attribute">display</span>: block;
@@ -584,45 +582,45 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 }
 <span class="hljs-selector-class">.slide</span> {
   <span class="hljs-attribute">min-width</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100vw</span> - <span class="hljs-number">4em</span>);
-  <span class="hljs-attribute">height</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100vh</span> - <span class="hljs-number">1.6em</span>);
+  <span class="hljs-attribute">height</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100vh</span> - <span class="hljs-number">2em</span>);
+  <span class="hljs-attribute">padding</span>: <span class="hljs-number">1em</span> <span class="hljs-number">2em</span>;
   <span class="hljs-attribute">overflow-y</span>: scroll;
   <span class="hljs-attribute">scroll-snap-align</span>: start;
   <span class="hljs-attribute">scroll-snap-stop</span>: always;
   <span class="hljs-attribute">scrollbar-width</span>: none;
-  <span class="hljs-attribute">padding</span>: <span class="hljs-number">0.8em</span> <span class="hljs-number">2em</span>;
+}
+<span class="hljs-selector-class">.slide</span>::-webkit-scrollbar {
+  <span class="hljs-attribute">display</span>: none;
+}
+<span class="hljs-keyword">@media</span> <span class="hljs-keyword">only</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">max-width</span>: <span class="hljs-number">768px</span>) {
+  <span class="hljs-selector-class">.slide</span> {
+    <span class="hljs-attribute">height</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">90%</span> - <span class="hljs-number">2em</span>);
+    <span class="hljs-attribute">height</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100s</span>vh - <span class="hljs-number">2em</span>);
+  }
 }
 <span class="hljs-selector-id">#slides</span> {
   <span class="hljs-attribute">display</span>: flex;
   <span class="hljs-attribute">flex-direction</span>: row;
-  <span class="hljs-attribute">position</span>: absolute; <span class="hljs-comment">/* fix height on mobile */</span>
   <span class="hljs-attribute">width</span>: <span class="hljs-number">100vw</span>;
   <span class="hljs-attribute">height</span>: <span class="hljs-number">100vh</span>;
   <span class="hljs-attribute">overflow-x</span>: scroll;
   scroll-behavior: smooth;
   <span class="hljs-attribute">scroll-snap-type</span>: x mandatory;
 }
-<span class="hljs-keyword">@media</span> <span class="hljs-keyword">only</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">max-width</span>: <span class="hljs-number">768px</span>) {
-  <span class="hljs-selector-class">.slide</span> {
-    <span class="hljs-attribute">height</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100</span>dvh - <span class="hljs-number">1.6em</span>);
-  }
-}
-<span class="hljs-selector-class">.slide</span>::-webkit-scrollbar {
-  <span class="hljs-attribute">display</span>: none;
-}
-<span class="hljs-keyword">@page</span> {
-  <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
-  size: auto;
-}
 <span class="hljs-keyword">@media</span> print {
+  <span class="hljs-keyword">@page</span> {
+    <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
+    size: auto;
+  }
   <span class="hljs-selector-id">#slides</span> {
     <span class="hljs-attribute">width</span>: auto;
     <span class="hljs-attribute">height</span>: auto;
   }
 }
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_12">
-    <hr>
+</div>
+<div class="slide" id="slide_12">
+  <hr>
 <h1 id="render-html-and-css-2">Render HTML and CSS</h1>
 <h2 id="css-vertical-layout">CSS (Vertical layout)</h2>
 <p><pre><code class="language-css"><span class="hljs-comment">/*! CodeSlide slides.vertical.css */</span>
@@ -637,21 +635,21 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
   <span class="hljs-attribute">color</span>: dodgerblue;
 }
 <span class="hljs-selector-tag">li</span> {
-  <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">0.4em</span>;
+  <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">0.25em</span>;
 }
 <span class="hljs-selector-tag">p</span><span class="hljs-selector-pseudo">:empty</span> {
   <span class="hljs-attribute">display</span>: none;
 }
 pre {
   <span class="hljs-attribute">white-space</span>: pre-wrap;
-  <span class="hljs-attribute">word-wrap</span>: break-word;
+  <span class="hljs-attribute">overflow-wrap</span>: break-word;
 }
 pre &gt; <span class="hljs-selector-tag">code</span> {
   <span class="hljs-attribute">display</span>: block;
   <span class="hljs-attribute">padding</span>: <span class="hljs-number">1em</span>;
 }
 <span class="hljs-selector-class">.slide</span> {
-  <span class="hljs-attribute">padding</span>: <span class="hljs-number">0.8em</span> <span class="hljs-number">2em</span>;
+  <span class="hljs-attribute">padding</span>: <span class="hljs-number">1em</span> <span class="hljs-number">2em</span>;
 }
 <span class="hljs-selector-id">#slides</span> {
   <span class="hljs-attribute">display</span>: flex;
@@ -662,20 +660,20 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
   <span class="hljs-attribute">overflow-y</span>: scroll;
   scroll-behavior: smooth;
 }
-<span class="hljs-keyword">@page</span> {
-  <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
-  size: auto;
-}
 <span class="hljs-keyword">@media</span> print {
+  <span class="hljs-keyword">@page</span> {
+    <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
+    size: auto;
+  }
   <span class="hljs-selector-id">#slides</span> {
     <span class="hljs-attribute">width</span>: auto;
     <span class="hljs-attribute">height</span>: auto;
   }
 }
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_13">
-    <hr>
+</div>
+<div class="slide" id="slide_13">
+  <hr>
 <h1 id="render-html-and-css-3">Render HTML and CSS</h1>
 <h2 id="referenced-as-text-modules">Referenced as text modules</h2>
 <p><pre><code class="language-ts"><span class="hljs-keyword">declare</span> <span class="hljs-variable language_">module</span> <span class="hljs-string">&#x27;*.css&#x27;</span> {
@@ -700,21 +698,21 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 
 <span class="hljs-keyword">export</span> { <span class="hljs-title class_">Stylesheets</span>, <span class="hljs-title class_">Template</span> };
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_14">
-    <hr>
+</div>
+<div class="slide" id="slide_14">
+  <hr>
 <h1 id="print-the-slideshow-to-the-output">Print the slideshow to the output</h1>
 <p>The print process is implemented by application ...</p>
-  </div>
-  <div class="slide" id="slide_15">
-    <hr>
+</div>
+<div class="slide" id="slide_15">
+  <hr>
 <h1 id="applications-of-codeslide">Applications of CodeSlide</h1>
 <ol>
 <li>CodeSlide CLI</li>
 </ol>
-  </div>
-  <div class="slide" id="slide_16">
-    <hr>
+</div>
+<div class="slide" id="slide_16">
+  <hr>
 <p><h1 id="codeslide-cli">CodeSlide CLI</h1>
 <p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm&style=flat-square" alt=""></a></p>
 <h2 id="usage-demo">Usage demo</h2>
@@ -740,9 +738,9 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 <li><a href="https://github.com/AsherJingkongChen">AsherJingkongChen</a></li>
 </ul>
 </p>
-  </div>
-  <div class="slide" id="slide_17">
-    <hr>
+</div>
+<div class="slide" id="slide_17">
+  <hr>
 <h1 id="cli-entry-point">CLI entry point</h1>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { program } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;commander&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
@@ -759,8 +757,8 @@ Example: <span class="hljs-subst">${name}</span> -m ./manifest.md -o ./output.ht
 Make a slideshow (HTML/PDF file) for code snippets
 with a manifest (Markdown file).
 
-Go to home page for more information: <span class="hljs-subst">${homepage}</span>
-`</span> )
+Go to home page for more information: <span class="hljs-subst">${homepage}</span>`</span>
+  )
   .<span class="hljs-title function_">version</span>(version, <span class="hljs-string">&#x27;-v, --version&#x27;</span>, <span class="hljs-string">`\
 Check the version number.`</span>
   )
@@ -793,9 +791,9 @@ By default it reads manifest from stdin.`</span>
   .<span class="hljs-title function_">parseAsync</span>()
   .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> { <span class="hljs-keyword">throw</span> err; });
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_18">
-    <hr>
+</div>
+<div class="slide" id="slide_18">
+  <hr>
 <h1 id="cli-options-validation">CLI options validation</h1>
 <ol>
 <li><code>-m, --manifest</code>: Manifest file path</li>
@@ -811,9 +809,9 @@ By default it reads manifest from stdin.`</span>
 })
 .<span class="hljs-title function_">strict</span>();
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_19">
-    <hr>
+</div>
+<div class="slide" id="slide_19">
+  <hr>
 <h1 id="build-a-renderer-and-print-to-the-output">Build a <code>Renderer</code> and Print to the output</h1>
 <p>Make use of <code>Renderer.parse</code> and <code>Renderer.render</code></p>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">PathOrFileDescriptor</span>, writeFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
@@ -841,13 +839,13 @@ By default it reads manifest from stdin.`</span>
   }
 };
 </code></pre></p>
-  </div>
-  <div class="slide" id="slide_20">
-    <hr>
+</div>
+<div class="slide" id="slide_20">
+  <hr>
 <h1 id="thanks-for-your-watching">Thanks for your watching!</h1>
 <p>See other CodeSlide CLI examples <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/examples">here</a></p>
 <p>See the installation guide of CodeSlide CLI <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/README.md#installation">here</a></p>
-  </div>
-  </div>
+</div>
+</div>
 </body>
 </html>
