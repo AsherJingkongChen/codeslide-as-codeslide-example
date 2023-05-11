@@ -186,39 +186,37 @@ code {
 <body class="hljs">
 <div id="slides">
 <div class="slide" id="slide_0">
-<h1 id="behind-the-scenes-of-codeslide">Behind the Scenes of CodeSlide</h1>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide&quot;</span>&gt;</span>
+<h1 id="behind-the-scenes-of-codeslide-cli">Behind the Scenes of CodeSlide CLI</h1>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;cli&quot;</span>&gt;</span>
+  CodeSlide CLI
+<span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
 </code></pre>
 </div>
 <div class="slide" id="slide_1">
   <hr>
-<p><h1 id="codeslide">CodeSlide</h1>
-<p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm%3Acodeslide-cli&style=flat-square" alt=""></a></p>
+<h1 id="the-repository-of-this-example-is-here">The repository of this example is <a href="https://github.com/AsherJingkongChen/codeslide-cli-as-codeslide-cli-example.git">here</a></h1>
+</div>
+<div class="slide" id="slide_2">
+  <hr>
+<p><h1 id="codeslide-cli">CodeSlide CLI</h1>
+<p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm&style=flat-square" alt=""></a></p>
+<h2 id="usage-demo">Usage demo</h2>
+<p><img src="https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/docs/assets/cli-usage.gif" alt=""></p>
+<p>See also <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/app/cli/examples/"><strong>Example usages</strong></a></p>
+<h2 id="installation">Installation</h2>
+<ol>
+<li>Prepare <code>Node.js</code> runtime and <code>NPM</code> package manager</li>
+<li>Run <code>npm install -g codeslide-cli</code> on the command line</li>
+</ol>
 <h2 id="features">Features</h2>
 <ul>
-<li>CodeSlide makes a slideshow for code snippets</li>
-<li>Its applications:<ul>
-<li><a href="https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli">CodeSlide CLI</a></li>
-</ul>
-</li>
-</ul>
-<h2 id="dependencies">Dependencies</h2>
-<ul>
-<li>It uses <a href="https://github.com/lquixada/cross-fetch">cross-fetch</a> as resource fetcher</li>
-<li>It uses <a href="https://github.com/evanw/esbuild">esbuild</a> as module bundler</li>
-<li>It uses <a href="https://github.com/jonschlinkert/gray-matter">gray-matter</a> as YAML Front Matter parser</li>
-<li>It uses <a href="https://github.com/tj/commander.js">Commander.js</a> as CLI framework</li>
-<li>It uses <a href="https://github.com/eta-dev/eta">Eta</a> as HTML template engine</li>
-<li>It uses <a href="https://github.com/highlightjs/highlight.js">Highlight.js</a> as syntax highlighter</li>
-<li>It uses <a href="https://github.com/markedjs/marked">Marked</a> as Markdown renderer</li>
-<li>It uses <a href="https://github.com/puppeteer/puppeteer">Puppeteer</a> as PDF printer</li>
-<li>It uses <a href="https://www.typescriptlang.org/">TypeScript</a> as the main programming language</li>
-<li>It uses <a href="https://github.com/colinhacks/zod">Zod</a> as JSON schema validator</li>
+<li>It allows you to easily make awesome slideshows for code snippets on command lines</li>
+<li>It is an application of <a href="https://github.com/AsherJingkongChen/codeslide">CodeSlide</a></li>
+<li>It is a Node.js Command Line Interface (CLI)</li>
 </ul>
 <h2 id="documents">Documents</h2>
 <ul>
-<li>See <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/docs/REFERENCE.md">Reference</a> for more usage information</li>
-<li>See <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/docs/CHANGELOG.md">Change Log</a> for more version information</li>
+<li>See <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/docs/REFERENCE.md">Reference</a> for more information</li>
 </ul>
 <h2 id="creator">Creator</h2>
 <ul>
@@ -226,83 +224,39 @@ code {
 </ul>
 </p>
 </div>
-<div class="slide" id="slide_2">
+<div class="slide" id="slide_3">
   <hr>
 <h1 id="the-general-process">The general process</h1>
 <ol>
-<li>Build a <strong><code>Renderer</code></strong></li>
-<li>Render HTML and CSS</li>
-<li>Print the slideshow to the output</li>
+<li>Build a schema</li>
+<li>Render HTML and CSS to slideshow with it</li>
+<li>Print the rendered slideshow to the output</li>
 </ol>
-</div>
-<div class="slide" id="slide_3">
-  <hr>
-<h1 id="build-a-renderer">Build a <code>Renderer</code></h1>
-<h2 id="renderer"><code>Renderer</code></h2>
-<ul>
-<li><code>Renderer.parse</code>: Parse the manifest into renderer</li>
-<li><code>Renderer.render</code>: Render the slideshow</li>
-</ul>
-<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Stylesheets</span>, <span class="hljs-title class_">Template</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides&#x27;</span>;
-<span class="hljs-keyword">import</span> { render <span class="hljs-keyword">as</span> renderEta } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;eta&#x27;</span>;
-<span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">ManifestParser</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./parsers&#x27;</span>;
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Renderer</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">ManifestParser</span>&gt;;
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">Renderer</span> {
-  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = (
-    <span class="hljs-attr">manifest</span>: <span class="hljs-built_in">string</span>
-  ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">Renderer</span>&gt; =&gt; (
-    <span class="hljs-title class_">ManifestParser</span>.<span class="hljs-title function_">parseAsync</span>(manifest)
-  );
-
-  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> render = (
-    <span class="hljs-attr">renderer</span>: <span class="hljs-title class_">Renderer</span>
-  ): <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> <span class="hljs-title function_">renderEta</span>(<span class="hljs-title class_">Template</span>, {
-    <span class="hljs-attr">layout</span>: renderer.<span class="hljs-property">layout</span>,
-    <span class="hljs-attr">slides</span>: renderer.<span class="hljs-property">slides</span>,
-    <span class="hljs-attr">style</span>: <span class="hljs-string">`\
-&lt;style&gt;
-<span class="hljs-subst">${[
-  Stylesheets[<span class="hljs-string">&#x27;github&#x27;</span>],
-  Stylesheets[renderer.layout],
-  ...renderer.styles,
-<span class="hljs-string">`code {
-  font-family: <span class="hljs-subst">${renderer.fontFamily}</span>;
-  font-size: 85%;
-}`</span>,
-<span class="hljs-string">`#slides {
-  font-family: system-ui;
-  font-size: <span class="hljs-subst">${renderer.fontSize}</span>;
-  font-weight: <span class="hljs-subst">${renderer.fontWeight}</span>;
-  line-height: 1.5;
-}`</span>,
-].join(<span class="hljs-string">&#x27;\n&#x27;</span>)}</span>
-&lt;/style&gt;`</span>,
-  }, { <span class="hljs-attr">autoTrim</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">tags</span>: [<span class="hljs-string">&#x27;{%&#x27;</span>, <span class="hljs-string">&#x27;%}&#x27;</span>] });
-}
-</code></pre></p>
 </div>
 <div class="slide" id="slide_4">
   <hr>
-<h1 id="build-a-renderer-1">Build a <code>Renderer</code></h1>
-<h2 id="parsers">Parsers</h2>
-<p><code>Renderer</code> = <code>ManifestParser</code> (Parsed)</p>
-<p><code>ManifestParser</code> = <code>FrontMatterParser</code> + <code>SlideShowParser</code></p>
-</div>
-<div class="slide" id="slide_5">
-  <hr>
-<h1 id="build-a-renderer-2">Build a <code>Renderer</code></h1>
-<h2 id="manifestparser"><code>ManifestParser</code></h2>
-<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> matter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;gray-matter&#x27;</span>;
-<span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">FrontMatterParser</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./FrontMatterParser&#x27;</span>;
-<span class="hljs-keyword">import</span> { _getContent } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_getContent&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">SlideShowParser</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./SlideShowParser&#x27;</span>;
+<h1 id="manifest"><code>Manifest</code></h1>
+<ul>
+<li>The main schema</li>
+<li>A combination of <a href="#frontmatter"><code>FrontMatter</code></a> and <a href="#slideshow"><code>SlideShow</code></a></li>
+<li>An extended <a href="#renderer"><code>Renderer</code></a> schema</li>
+<li><code>Manifest.parse</code>: Parse a <a href="#manifest-file">manifest file</a> into a <code>Manifest</code> schema</li>
+<li><code>Manifest.print</code>: Render the slideshow and print it to the output</li>
+</ul>
+<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">PathOrFileDescriptor</span>, writeFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
+<span class="hljs-keyword">import</span> matter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;gray-matter&#x27;</span>;
+<span class="hljs-keyword">import</span> { launch } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;puppeteer&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">FrontMatter</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./FrontMatter&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">SlideShow</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./SlideShow&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../src&#x27;</span>;
+<span class="hljs-keyword">import</span> { getContent } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">ManifestParser</span> = z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">transform</span>(
-  <span class="hljs-keyword">async</span> (<span class="hljs-attr">manifest</span>: <span class="hljs-built_in">string</span>) =&gt; {
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Manifest</span> = <span class="hljs-title class_">FrontMatter</span> &amp; <span class="hljs-title class_">SlideShow</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">Manifest</span> {
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = <span class="hljs-keyword">async</span> (
+    <span class="hljs-attr">manifest</span>: <span class="hljs-built_in">string</span>
+  ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">Manifest</span>&gt; =&gt; {
     manifest = manifest.<span class="hljs-title function_">replace</span>(
       <span class="hljs-regexp">/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/</span>, <span class="hljs-string">&#x27;&#x27;</span>
     );
@@ -312,67 +266,117 @@ code {
         <span class="hljs-string">&#x27;Cannot find the key &quot;codeslide&quot; in the Front Matter section&#x27;</span>
       );
     }
-    <span class="hljs-keyword">const</span> codeslide = <span class="hljs-title class_">FrontMatterParser</span>.<span class="hljs-title function_">parse</span>(data.<span class="hljs-property">codeslide</span>);
-    <span class="hljs-keyword">const</span> slides = <span class="hljs-keyword">await</span> <span class="hljs-title class_">SlideShowParser</span>.<span class="hljs-title function_">parseAsync</span>(content);
-    codeslide.<span class="hljs-property">styles</span> = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(
-      codeslide.<span class="hljs-property">styles</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">path</span>) =&gt;</span> <span class="hljs-title function_">_getContent</span>(path))
+    <span class="hljs-keyword">const</span> fm = <span class="hljs-title class_">FrontMatter</span>.<span class="hljs-title function_">parse</span>(data.<span class="hljs-property">codeslide</span>);
+    fm.<span class="hljs-property">styles</span> = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(
+      fm.<span class="hljs-property">styles</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">path</span>) =&gt;</span> <span class="hljs-title function_">getContent</span>(path))
     );
-    <span class="hljs-keyword">return</span> { slides, ...codeslide };
-  }
-);
+    <span class="hljs-keyword">const</span> slides = <span class="hljs-keyword">await</span> <span class="hljs-title class_">SlideShow</span>.<span class="hljs-title function_">parse</span>(content);
+    <span class="hljs-keyword">return</span> { ...fm, ...slides };
+  };
+
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> print = <span class="hljs-keyword">async</span> (
+    <span class="hljs-attr">output</span>: <span class="hljs-title class_">PathOrFileDescriptor</span>,
+    <span class="hljs-attr">manifest</span>: <span class="hljs-title class_">Manifest</span>,
+  ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; =&gt; {
+    <span class="hljs-keyword">if</span> (manifest.<span class="hljs-property">format</span> === <span class="hljs-string">&#x27;html&#x27;</span>) {
+      <span class="hljs-title function_">writeFileSync</span>(output, <span class="hljs-title class_">Renderer</span>.<span class="hljs-title function_">render</span>(manifest), <span class="hljs-string">&#x27;utf8&#x27;</span>);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (manifest.<span class="hljs-property">format</span> === <span class="hljs-string">&#x27;pdf&#x27;</span>) {
+      <span class="hljs-keyword">const</span> browser = <span class="hljs-keyword">await</span> <span class="hljs-title function_">launch</span>();
+      <span class="hljs-keyword">const</span> page = <span class="hljs-keyword">await</span> browser.<span class="hljs-title function_">newPage</span>();
+      <span class="hljs-keyword">await</span> page.<span class="hljs-title function_">setContent</span>(<span class="hljs-title class_">Renderer</span>.<span class="hljs-title function_">render</span>(manifest));
+      <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> page.<span class="hljs-title function_">pdf</span>({
+        <span class="hljs-attr">printBackground</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">format</span>: manifest.<span class="hljs-property">pageSize</span>,
+      });
+      <span class="hljs-keyword">const</span> closeBrowser = browser.<span class="hljs-title function_">close</span>();
+      <span class="hljs-title function_">writeFileSync</span>(output, result, <span class="hljs-string">&#x27;base64&#x27;</span>);
+      <span class="hljs-keyword">await</span> closeBrowser;
+    }
+  };  
+}
 </code></pre></p>
+</div>
+<div class="slide" id="slide_5">
+  <hr>
+<h1 id="manifest-file">Manifest file</h1>
+<ul>
+<li>A markdown document constructed of the <code>Front Matter</code> section and the <code>Slide Show</code> section</li>
+<li>The specifications of Manifest file is <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/docs/REFERENCE.md#manifest-file-specifications">here</a></li>
+</ul>
 </div>
 <div class="slide" id="slide_6">
   <hr>
-<h1 id="build-a-renderer-3">Build a <code>Renderer</code></h1>
-<h2 id="frontmatterparser"><code>FrontMatterParser</code></h2>
+<h1 id="frontmatter"><code>FrontMatter</code></h1>
+<ul>
+<li>The Front Matter section schema</li>
+<li>An extended <code>Renderer</code> schema</li>
+<li>Parsed from the <code>Front Matter</code> section of <a href="#manifest-file">manifest file</a> (YAML syntax)</li>
+</ul>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
-<span class="hljs-keyword">import</span> { isFormat } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../Format&#x27;</span>;
-<span class="hljs-keyword">import</span> { isLayout } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../Layout&#x27;</span>;
-<span class="hljs-keyword">import</span> { isPageSize } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../PageSize&#x27;</span>;
-<span class="hljs-keyword">import</span> { version } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../package.json&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../src&#x27;</span>;
+<span class="hljs-keyword">import</span> { version } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../package.json&#x27;</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">FrontMatterParser</span> = z.<span class="hljs-title function_">object</span>({
-  <span class="hljs-attr">fontFamily</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;&#x27;</span>).<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> <span class="hljs-string">`\
-<span class="hljs-subst">${arg ? <span class="hljs-string">`<span class="hljs-subst">${arg}</span>, `</span> : <span class="hljs-string">&#x27;&#x27;</span>}</span>ui-monospace, SFMono-Regular, \
-SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
-  ),
-  <span class="hljs-attr">fontSize</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;large&#x27;</span>),
-  <span class="hljs-attr">fontWeight</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;normal&#x27;</span>),
-  <span class="hljs-attr">format</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">refine</span>(isFormat).<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;html&#x27;</span>),
-  <span class="hljs-attr">layout</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">refine</span>(isLayout).<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;horizontal&#x27;</span>),
-  <span class="hljs-attr">pageSize</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">refine</span>(isPageSize).<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;A4&#x27;</span>),
-  <span class="hljs-attr">styles</span>: z.<span class="hljs-title function_">array</span>(z.<span class="hljs-title function_">string</span>()).<span class="hljs-title function_">default</span>([]),
-  <span class="hljs-attr">version</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(version),
-})
-.<span class="hljs-title function_">strict</span>()
-.<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">fm</span>) =&gt;</span> {
-  <span class="hljs-keyword">if</span> (
-    fm.<span class="hljs-property">layout</span> === <span class="hljs-string">&#x27;horizontal&#x27;</span> &amp;&amp;
-    fm.<span class="hljs-property">format</span> === <span class="hljs-string">&#x27;pdf&#x27;</span>
-  ) {
-    fm.<span class="hljs-property">layout</span> = <span class="hljs-string">&#x27;vertical&#x27;</span>;
-  }
-  <span class="hljs-keyword">return</span> fm;
-});
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">FrontMatter</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">FrontMatter</span>.<span class="hljs-property">schema</span>&gt;;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">FrontMatter</span> {
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = (
+    <span class="hljs-attr">fm</span>: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">FrontMatter</span>&gt;
+  ): <span class="hljs-function"><span class="hljs-params">FrontMatter</span> =&gt;</span> (
+    schema.<span class="hljs-title function_">parse</span>(fm)
+  );
+
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> schema = z
+    .<span class="hljs-title function_">object</span>({
+      <span class="hljs-attr">format</span>: z.<span class="hljs-title function_">enum</span>([<span class="hljs-string">&#x27;html&#x27;</span>, <span class="hljs-string">&#x27;pdf&#x27;</span>]).<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;html&#x27;</span>),
+      <span class="hljs-attr">pageSize</span>: z
+        .<span class="hljs-title function_">enum</span>([
+          <span class="hljs-string">&#x27;letter&#x27;</span>, <span class="hljs-string">&#x27;legal&#x27;</span>, <span class="hljs-string">&#x27;tabloid&#x27;</span>, <span class="hljs-string">&#x27;ledger&#x27;</span>,
+          <span class="hljs-string">&#x27;A0&#x27;</span>, <span class="hljs-string">&#x27;A1&#x27;</span>, <span class="hljs-string">&#x27;A2&#x27;</span>, <span class="hljs-string">&#x27;A3&#x27;</span>, <span class="hljs-string">&#x27;A4&#x27;</span>, <span class="hljs-string">&#x27;A5&#x27;</span>, <span class="hljs-string">&#x27;A6&#x27;</span>
+        ])
+        .<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;A4&#x27;</span>),
+      <span class="hljs-attr">version</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(version),
+    })
+    .<span class="hljs-title function_">and</span>(<span class="hljs-title class_">Renderer</span>.<span class="hljs-property">schema</span>.<span class="hljs-title function_">omit</span>({ <span class="hljs-attr">slides</span>: <span class="hljs-literal">true</span> }))
+    .<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">fm</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (
+        fm.<span class="hljs-property">format</span> === <span class="hljs-string">&#x27;pdf&#x27;</span> &amp;&amp;
+        fm.<span class="hljs-property">layout</span> !== <span class="hljs-string">&#x27;vertical&#x27;</span>
+      ) {
+        fm.<span class="hljs-property">layout</span> = <span class="hljs-string">&#x27;vertical&#x27;</span>;
+      }
+      <span class="hljs-keyword">return</span> fm;
+    });
+}
 </code></pre></p>
 </div>
 <div class="slide" id="slide_7">
   <hr>
-<h1 id="build-a-renderer-4">Build a <code>Renderer</code></h1>
-<h2 id="slideshowparser"><code>SlideShowParser</code></h2>
+<h1 id="slideshow"><code>SlideShow</code></h1>
+<ul>
+<li>The Slide Show section schema</li>
+<li>An labeled object whose type is <code>{ slides: string[] }</code></li>
+<li>Parsed from the <code>Slide Show</code> section of <a href="#manifest-file">manifest file</a> (Markdown syntax)</li>
+<li>Each slide is splitted by a horizontal line</li>
+<li>Has special rules for rendering embedding code snippets and slides</li>
+</ul>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> hljs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js&#x27;</span>;
 <span class="hljs-keyword">import</span> { marked } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;marked&#x27;</span>;
-<span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
-<span class="hljs-keyword">import</span> { _getContent } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_getContent&#x27;</span>;
+<span class="hljs-keyword">import</span> { getContent } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">SlideShowParser</span> = z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">markdown</span>) =&gt;</span> (
-  <span class="hljs-title function_">_parseSlideShow</span>(markdown).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">html</span>) =&gt;</span> (
-    html.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;&lt;hr&gt;&#x27;</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> s.<span class="hljs-title function_">trim</span>())
-  ))
-));
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">SlideShow</span> = { <span class="hljs-attr">slides</span>: <span class="hljs-built_in">string</span>[] };
 
-<span class="hljs-keyword">const</span> _parseSlideShow = (
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">SlideShow</span> {
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = <span class="hljs-keyword">async</span> (
+    <span class="hljs-attr">markdown</span>: <span class="hljs-built_in">string</span>
+  ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">SlideShow</span>&gt; =&gt; {
+    <span class="hljs-keyword">const</span> html = <span class="hljs-keyword">await</span> <span class="hljs-title function_">_parseMarkdown</span>(markdown);
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">slides</span>: html.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;&lt;hr&gt;&#x27;</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> s.<span class="hljs-title function_">trim</span>())
+    };
+  };
+}
+
+<span class="hljs-keyword">const</span> _parseMarkdown = (
   <span class="hljs-attr">markdown</span>: <span class="hljs-built_in">string</span>
 ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; =&gt; marked.<span class="hljs-title function_">parse</span>(markdown, {
   <span class="hljs-attr">async</span>: <span class="hljs-literal">true</span>,
@@ -390,12 +394,12 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
       <span class="hljs-keyword">if</span> (prefix === <span class="hljs-string">&#x27;:slide&#x27;</span>) {
         token = <span class="hljs-title function_">_toHTMLToken</span>(token);
         token.<span class="hljs-property">raw</span> = raw;
-        token.<span class="hljs-property">text</span> = <span class="hljs-keyword">await</span> <span class="hljs-title function_">_getContent</span>(href)
-          .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">content</span>) =&gt;</span> <span class="hljs-title function_">_parseSlideShow</span>(content));
+        token.<span class="hljs-property">text</span> = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getContent</span>(href)
+          .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">content</span>) =&gt;</span> <span class="hljs-title function_">_parseMarkdown</span>(content));
       } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (prefix === <span class="hljs-string">&#x27;:code&#x27;</span>) {
         token = <span class="hljs-title function_">_toHTMLToken</span>(token);
         token.<span class="hljs-property">raw</span> = raw;
-        <span class="hljs-keyword">const</span> code = <span class="hljs-keyword">await</span> <span class="hljs-title function_">_getContent</span>(href).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">content</span>) =&gt;</span> (
+        <span class="hljs-keyword">const</span> code = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getContent</span>(href).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">content</span>) =&gt;</span> (
           hljs.<span class="hljs-title function_">highlight</span>(content, {
             <span class="hljs-attr">language</span>: suffix ?? <span class="hljs-string">&#x27;plaintext&#x27;</span>
           })
@@ -429,101 +433,102 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 </div>
 <div class="slide" id="slide_8">
   <hr>
-<h1 id="build-a-renderer-5">Build a <code>Renderer</code></h1>
-<h2 id="the-utility-to-acquire-resources">The utility to acquire resources</h2>
-<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { isNode } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;browser-or-node&#x27;</span>;
-<span class="hljs-keyword">import</span> { fetch } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;cross-fetch&#x27;</span>;
-<span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
-<span class="hljs-keyword">import</span> { pathToFileURL } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;url&#x27;</span>;
+<h1 id="renderer"><code>Renderer</code></h1>
+<ul>
+<li>The slideshow renderer schema </li>
+<li>Depends on <a href="https://github.com/eta-dev/eta">Eta</a> to render <a href="#html-template">HTML template</a></li>
+<li><code>Renderer.parse</code>: Parse an object into a <code>Renderer</code> schema</li>
+<li><code>Renderer.render</code>: Render the slideshow to HTML text</li>
+</ul>
+<h2 id="note">Note</h2>
+<ul>
+<li><code>Renderer</code> is the root schema of <a href="#manifest"><code>Manifest</code></a>. That is, <a href="#manifest"><code>Manifest</code></a> is an extended <code>Renderer</code>.</li>
+</ul>
+<p><pre><code class="language-ts"><span class="hljs-keyword">declare</span> <span class="hljs-variable language_">module</span> <span class="hljs-string">&#x27;*.css&#x27;</span> {
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">_</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _;
+}
+<span class="hljs-keyword">declare</span> <span class="hljs-variable language_">module</span> <span class="hljs-string">&#x27;*.html&#x27;</span> {
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">_</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _;
+}
+</code></pre>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-title class_">GithubDarkDimmed</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./github-dark-dimmed.css&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">HorizontalStylesheet</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.horizontal.css&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">VerticalStylesheet</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.vertical.css&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">Template</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.html&#x27;</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> _getContent = <span class="hljs-keyword">async</span> (
-  <span class="hljs-attr">path</span>: <span class="hljs-built_in">string</span> | <span class="hljs-variable constant_">URL</span>,
-): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; =&gt; {
-  <span class="hljs-keyword">if</span> (isNode) {
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> path === <span class="hljs-string">&#x27;string&#x27;</span>) {
-      <span class="hljs-keyword">try</span> {
-        path = <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(path);
-      } <span class="hljs-keyword">catch</span> (err) {
-        path = <span class="hljs-title function_">pathToFileURL</span>(path.<span class="hljs-title function_">toString</span>());
-      }
-    }
-    <span class="hljs-keyword">if</span> (path.<span class="hljs-property">protocol</span> === <span class="hljs-string">&#x27;file:&#x27;</span>) {
-      <span class="hljs-keyword">return</span> <span class="hljs-title function_">readFileSync</span>(path, <span class="hljs-string">&#x27;utf8&#x27;</span>);
-    } <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">return</span> <span class="hljs-title function_">fetch</span>(path).<span class="hljs-title function_">then</span>(<span class="hljs-keyword">async</span> (r) =&gt; {
-        <span class="hljs-keyword">if</span> (r.<span class="hljs-property">ok</span>) { <span class="hljs-keyword">return</span> r.<span class="hljs-title function_">text</span>(); }
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-keyword">await</span> r.<span class="hljs-title function_">text</span>());
-      });
-    }
-  }
-  <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
-    <span class="hljs-string">&#x27;_getContent is not implemented yet for the current platform&#x27;</span>
-  );
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Stylesheets</span> = {
+  <span class="hljs-attr">horizontal</span>: <span class="hljs-title class_">HorizontalStylesheet</span>,
+  <span class="hljs-attr">vertical</span>: <span class="hljs-title class_">VerticalStylesheet</span>,
+  <span class="hljs-attr">highlight</span>: <span class="hljs-title class_">GithubDarkDimmed</span>,
 };
+
+<span class="hljs-keyword">export</span> { <span class="hljs-title class_">Stylesheets</span>, <span class="hljs-title class_">Template</span> };
+</code></pre>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> { render <span class="hljs-keyword">as</span> renderEta } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;eta&#x27;</span>;
+<span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Stylesheets</span>, <span class="hljs-title class_">Template</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../assets&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Renderer</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Renderer</span>.<span class="hljs-property">schema</span>&gt;;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">Renderer</span> {
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = (
+    <span class="hljs-attr">renderer</span>: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">Renderer</span>&gt;
+  ): <span class="hljs-function"><span class="hljs-params">Renderer</span> =&gt;</span> (
+    schema.<span class="hljs-title function_">parse</span>(renderer)
+  );
+
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> render = (
+    <span class="hljs-attr">renderer</span>: <span class="hljs-title class_">Renderer</span>
+  ): <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">renderEta</span>(<span class="hljs-title class_">Template</span>, {
+      <span class="hljs-attr">layout</span>: renderer.<span class="hljs-property">layout</span>,
+      <span class="hljs-attr">slides</span>: renderer.<span class="hljs-property">slides</span>,
+      <span class="hljs-attr">style</span>: <span class="hljs-string">`\
+&lt;style&gt;
+<span class="hljs-subst">${[
+  Stylesheets[<span class="hljs-string">&#x27;highlight&#x27;</span>],
+  Stylesheets[renderer.layout],
+  ...renderer.styles,
+<span class="hljs-string">`code {
+  font-family: <span class="hljs-subst">${renderer.fontFamily}</span>;
+  font-size: 85%;
+}`</span>,
+<span class="hljs-string">`#slides {
+  font-family: system-ui;
+  font-size: <span class="hljs-subst">${renderer.fontSize}</span>;
+  font-weight: <span class="hljs-subst">${renderer.fontWeight}</span>;
+  line-height: 1.5;
+}`</span>,
+].join(<span class="hljs-string">&#x27;\n&#x27;</span>)}</span>
+&lt;/style&gt;`</span>,
+    },
+    {
+      <span class="hljs-attr">autoTrim</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">tags</span>: [<span class="hljs-string">&#x27;{%&#x27;</span>, <span class="hljs-string">&#x27;%}&#x27;</span>]
+    });
+  };
+
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> schema = z
+    .<span class="hljs-title function_">object</span>({
+      <span class="hljs-attr">fontFamily</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>().<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> <span class="hljs-string">`\
+<span class="hljs-subst">${arg ? <span class="hljs-string">`<span class="hljs-subst">${arg}</span>, `</span> : <span class="hljs-string">&#x27;&#x27;</span>}</span>ui-monospace, SFMono-Regular, \
+SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
+      ),
+      <span class="hljs-attr">fontSize</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;large&#x27;</span>),
+      <span class="hljs-attr">fontWeight</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;normal&#x27;</span>),
+      <span class="hljs-attr">layout</span>: z.<span class="hljs-title function_">enum</span>([<span class="hljs-string">&#x27;horizontal&#x27;</span>, <span class="hljs-string">&#x27;vertical&#x27;</span>]).<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;horizontal&#x27;</span>),
+      <span class="hljs-attr">slides</span>: z.<span class="hljs-title function_">array</span>(z.<span class="hljs-title function_">string</span>()).<span class="hljs-title function_">default</span>([]),
+      <span class="hljs-attr">styles</span>: z.<span class="hljs-title function_">array</span>(z.<span class="hljs-title function_">string</span>()).<span class="hljs-title function_">default</span>([]),
+    });
+}
 </code></pre></p>
 </div>
 <div class="slide" id="slide_9">
   <hr>
-<h1 id="build-a-renderer-6">Build a <code>Renderer</code></h1>
-<h2 id="options">Options</h2>
-<ul>
-<li><p>Export a slideshow as a HTML or PDF file
-<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Format</span> = keyof <span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Format</span>;
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Format</span> = {
-  <span class="hljs-attr">html</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">pdf</span>: <span class="hljs-literal">true</span>,
-} <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isFormat = (
-  <span class="hljs-attr">raw</span>: <span class="hljs-built_in">string</span>
-): raw is <span class="hljs-title class_">Format</span> =&gt; raw <span class="hljs-keyword">in</span> <span class="hljs-title class_">Format</span>;
-</code></pre></p>
-</li>
-<li><p>Specify the page size in PDF format
-<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">PageSize</span> = keyof <span class="hljs-keyword">typeof</span> <span class="hljs-title class_">PageSize</span>;
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">PageSize</span> = {
-  <span class="hljs-attr">letter</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">legal</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">tabloid</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">ledger</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">A0</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">A1</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">A2</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">A3</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">A4</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">A5</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">A6</span>: <span class="hljs-literal">true</span>,
-} <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPageSize = (
-  <span class="hljs-attr">raw</span>: <span class="hljs-built_in">string</span>
-): raw is <span class="hljs-title class_">PageSize</span> =&gt; raw <span class="hljs-keyword">in</span> <span class="hljs-title class_">PageSize</span>;
-</code></pre></p>
-</li>
-<li><p>Present the slideshow in horizontal or vertical layout
-<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Layout</span> = keyof <span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Layout</span>;
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Layout</span> = {
-  <span class="hljs-string">&#x27;horizontal&#x27;</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-string">&#x27;vertical&#x27;</span>: <span class="hljs-literal">true</span>,
-} <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isLayout = (
-  <span class="hljs-attr">raw</span>: <span class="hljs-built_in">string</span>
-): raw is <span class="hljs-title class_">Layout</span> =&gt; raw <span class="hljs-keyword">in</span> <span class="hljs-title class_">Layout</span>;
-</code></pre></p>
-</li>
-</ul>
-</div>
-<div class="slide" id="slide_10">
-  <hr>
-<h1 id="render-html-and-css">Render HTML and CSS</h1>
-<h2 id="html-template">HTML template</h2>
-<p>CodeSlide depends on <a href="https://github.com/eta-dev/eta">Eta</a> 
-to render HTML template.</p>
-<p>{% and %} are interpolation characters.</p>
+<h1 id="html-template">HTML template</h1>
+<p>{% and %} are interpolation characters</p>
 <p><pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">HTML</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hljs&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
@@ -551,10 +556,9 @@ to render HTML template.</p>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre></p>
 </div>
-<div class="slide" id="slide_11">
+<div class="slide" id="slide_10">
   <hr>
-<h1 id="render-html-and-css-1">Render HTML and CSS</h1>
-<h2 id="css-horizontal-layout">CSS (Horizontal layout)</h2>
+<h1 id="css-horizontal-layout">CSS (Horizontal layout)</h1>
 <p><pre><code class="language-css"><span class="hljs-comment">/*! CodeSlide slides.horizontal.css */</span>
 <span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
   <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
@@ -619,10 +623,9 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 }
 </code></pre></p>
 </div>
-<div class="slide" id="slide_12">
+<div class="slide" id="slide_11">
   <hr>
-<h1 id="render-html-and-css-2">Render HTML and CSS</h1>
-<h2 id="css-vertical-layout">CSS (Vertical layout)</h2>
+<h1 id="css-vertical-layout">CSS (Vertical layout)</h1>
 <p><pre><code class="language-css"><span class="hljs-comment">/*! CodeSlide slides.vertical.css */</span>
 <span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
   <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
@@ -672,82 +675,14 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 }
 </code></pre></p>
 </div>
-<div class="slide" id="slide_13">
+<div class="slide" id="slide_12">
   <hr>
-<h1 id="render-html-and-css-3">Render HTML and CSS</h1>
-<h2 id="referenced-as-text-modules">Referenced as text modules</h2>
-<p><pre><code class="language-ts"><span class="hljs-keyword">declare</span> <span class="hljs-variable language_">module</span> <span class="hljs-string">&#x27;*.css&#x27;</span> {
-  <span class="hljs-keyword">const</span> <span class="hljs-attr">_</span>: <span class="hljs-built_in">string</span>;
-  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _;
-}
-<span class="hljs-keyword">declare</span> <span class="hljs-variable language_">module</span> <span class="hljs-string">&#x27;*.html&#x27;</span> {
-  <span class="hljs-keyword">const</span> <span class="hljs-attr">_</span>: <span class="hljs-built_in">string</span>;
-  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _;
-}
-</code></pre>
-<pre><code class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-title class_">GithubDarkDimmed</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./github-dark-dimmed.css&#x27;</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-title class_">HorizontalStylesheet</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.horizontal.css&#x27;</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-title class_">VerticalStylesheet</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.vertical.css&#x27;</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-title class_">Template</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.html&#x27;</span>;
-
-<span class="hljs-keyword">const</span> <span class="hljs-title class_">Stylesheets</span> = {
-  <span class="hljs-attr">horizontal</span>: <span class="hljs-title class_">HorizontalStylesheet</span>,
-  <span class="hljs-attr">vertical</span>: <span class="hljs-title class_">VerticalStylesheet</span>,
-  <span class="hljs-attr">github</span>: <span class="hljs-title class_">GithubDarkDimmed</span>,
-};
-
-<span class="hljs-keyword">export</span> { <span class="hljs-title class_">Stylesheets</span>, <span class="hljs-title class_">Template</span> };
-</code></pre></p>
-</div>
-<div class="slide" id="slide_14">
-  <hr>
-<h1 id="print-the-slideshow-to-the-output">Print the slideshow to the output</h1>
-<p>The print process is implemented by application ...</p>
-</div>
-<div class="slide" id="slide_15">
-  <hr>
-<h1 id="applications-of-codeslide">Applications of CodeSlide</h1>
-<ol>
-<li>CodeSlide CLI</li>
-</ol>
-</div>
-<div class="slide" id="slide_16">
-  <hr>
-<p><h1 id="codeslide-cli">CodeSlide CLI</h1>
-<p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm&style=flat-square" alt=""></a></p>
-<h2 id="usage-demo">Usage demo</h2>
-<p><img src="https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/docs/assets/cli-usage.gif" alt=""></p>
-<p>See also <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/examples/"><strong>Example usages</strong></a></p>
-<h2 id="installation">Installation</h2>
-<ol>
-<li>Prepare <code>Node.js</code> runtime and <code>NPM</code> package manager</li>
-<li>Run <code>npm install -g codeslide-cli</code> on the command line</li>
-</ol>
-<h2 id="features">Features</h2>
-<ul>
-<li>It is an application of <a href="https://github.com/AsherJingkongChen/codeslide">CodeSlide</a></li>
-<li>It allows you to easily make awesome slideshows for code snippets on command lines</li>
-<li>It is a Node.js Command Line Interface (CLI)</li>
-</ul>
-<h2 id="documents">Documents</h2>
-<ul>
-<li>See <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/applications/cli/docs/REFERENCE.md"><strong>Reference</strong></a> for more information</li>
-</ul>
-<h2 id="creator">Creator</h2>
-<ul>
-<li><a href="https://github.com/AsherJingkongChen">AsherJingkongChen</a></li>
-</ul>
-</p>
-</div>
-<div class="slide" id="slide_17">
-  <hr>
-<h1 id="cli-entry-point">CLI entry point</h1>
+<h1 id="the-entry-point">The entry point</h1>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { program } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;commander&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { stdin, stdout } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;process&#x27;</span>;
 <span class="hljs-keyword">import</span> { version, homepage, name } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../package.json&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CLIOptions</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./CLIOptions&#x27;</span>;
-<span class="hljs-keyword">import</span> { print } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./print&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CLIOptions</span>, <span class="hljs-title class_">Manifest</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./schemas&#x27;</span>;
 
 program
   .<span class="hljs-title function_">name</span>(name)
@@ -776,75 +711,90 @@ By default it reads manifest from stdin.`</span>
   .<span class="hljs-title function_">action</span>(<span class="hljs-keyword">async</span> (<span class="hljs-attr">options</span>: <span class="hljs-title class_">CLIOptions</span>) =&gt; {
     <span class="hljs-keyword">let</span> { output, manifest } = <span class="hljs-title class_">CLIOptions</span>.<span class="hljs-title function_">parse</span>(options);
     <span class="hljs-keyword">if</span> (manifest) {
-      <span class="hljs-title function_">print</span>(output ?? stdout.<span class="hljs-property">fd</span>, <span class="hljs-title function_">readFileSync</span>(manifest, <span class="hljs-string">&#x27;utf8&#x27;</span>));
+      <span class="hljs-keyword">const</span> _manifest = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Manifest</span>.<span class="hljs-title function_">parse</span>(
+        <span class="hljs-title function_">readFileSync</span>(manifest, <span class="hljs-string">&#x27;utf8&#x27;</span>)
+      );
+      <span class="hljs-keyword">await</span> <span class="hljs-title class_">Manifest</span>.<span class="hljs-title function_">print</span>(output ?? stdout.<span class="hljs-property">fd</span>, _manifest);
     } <span class="hljs-keyword">else</span> {
       <span class="hljs-keyword">let</span> data = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(<span class="hljs-number">0</span>);
       stdin
         .<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">d</span>) =&gt;</span> {
           data = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">concat</span>([data, d]);
         })
-        .<span class="hljs-title function_">once</span>(<span class="hljs-string">&#x27;end&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-          <span class="hljs-title function_">print</span>(output ?? stdout.<span class="hljs-property">fd</span>, data.<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;utf8&#x27;</span>));
+        .<span class="hljs-title function_">once</span>(<span class="hljs-string">&#x27;end&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+          <span class="hljs-keyword">const</span> _manifest = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Manifest</span>.<span class="hljs-title function_">parse</span>(
+            data.<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;utf8&#x27;</span>)
+          );
+          <span class="hljs-keyword">await</span> <span class="hljs-title class_">Manifest</span>.<span class="hljs-title function_">print</span>(output ?? stdout.<span class="hljs-property">fd</span>, _manifest);
         });
     }
   })
   .<span class="hljs-title function_">parseAsync</span>()
   .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> { <span class="hljs-keyword">throw</span> err; });
 </code></pre></p>
-</div>
-<div class="slide" id="slide_18">
-  <hr>
-<h1 id="cli-options-validation">CLI options validation</h1>
-<ol>
+<h2 id="clioptions"><code>CLIOptions</code></h2>
+<ul>
+<li>The CLI options schema</li>
 <li><code>-m, --manifest</code>: Manifest file path</li>
 <li><code>-o, --output</code>: Output file path</li>
-</ol>
+</ul>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">CLIOptions</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">CLIOptions</span>&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">CLIOptions</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">CLIOptions</span>.<span class="hljs-property">schema</span>&gt;;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">CLIOptions</span> = z.<span class="hljs-title function_">object</span>({
-  <span class="hljs-attr">manifest</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
-  <span class="hljs-attr">output</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
-})
-.<span class="hljs-title function_">strict</span>();
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">CLIOptions</span> {
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = (
+    <span class="hljs-attr">options</span>: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">CLIOptions</span>&gt;
+  ): <span class="hljs-function"><span class="hljs-params">CLIOptions</span> =&gt;</span> (
+    schema.<span class="hljs-title function_">parse</span>(options)
+  );
+
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> schema = z
+    .<span class="hljs-title function_">strictObject</span>({
+      <span class="hljs-attr">manifest</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
+      <span class="hljs-attr">output</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
+    });
+}
 </code></pre></p>
 </div>
-<div class="slide" id="slide_19">
+<div class="slide" id="slide_13">
   <hr>
-<h1 id="build-a-renderer-and-print-to-the-output">Build a <code>Renderer</code> and Print to the output</h1>
-<p>Make use of <code>Renderer.parse</code> and <code>Renderer.render</code></p>
-<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">PathOrFileDescriptor</span>, writeFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
-<span class="hljs-keyword">import</span> { launch } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;puppeteer&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../src&#x27;</span>;
+<h1 id="miscellaneous">Miscellaneous</h1>
+<ul>
+<li>Because <a href="https://github.com/node-fetch/node-fetch">Node Fetch</a> does not handle <code>file:</code> URI scheme, CodeSlide CLI implements it with <code>fs.readFileSync</code>:
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;node-fetch&#x27;</span>;
+<span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
+<span class="hljs-keyword">import</span> { pathToFileURL } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;url&#x27;</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> print = <span class="hljs-keyword">async</span> (
-  <span class="hljs-attr">output</span>: <span class="hljs-title class_">PathOrFileDescriptor</span>,
-  <span class="hljs-attr">manifest</span>: <span class="hljs-built_in">string</span>,
-): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; =&gt; {
-  <span class="hljs-keyword">const</span> renderer = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Renderer</span>.<span class="hljs-title function_">parse</span>(manifest);
-  <span class="hljs-keyword">if</span> (renderer.<span class="hljs-property">format</span> === <span class="hljs-string">&#x27;html&#x27;</span>) {
-    <span class="hljs-title function_">writeFileSync</span>(output, <span class="hljs-title class_">Renderer</span>.<span class="hljs-title function_">render</span>(renderer), <span class="hljs-string">&#x27;utf8&#x27;</span>);
-  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (renderer.<span class="hljs-property">format</span> === <span class="hljs-string">&#x27;pdf&#x27;</span>) {
-    <span class="hljs-keyword">const</span> browser = <span class="hljs-keyword">await</span> <span class="hljs-title function_">launch</span>();
-    <span class="hljs-keyword">const</span> page = <span class="hljs-keyword">await</span> browser.<span class="hljs-title function_">newPage</span>();
-    <span class="hljs-keyword">await</span> page.<span class="hljs-title function_">setContent</span>(<span class="hljs-title class_">Renderer</span>.<span class="hljs-title function_">render</span>(renderer));
-    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> page.<span class="hljs-title function_">pdf</span>({
-      <span class="hljs-attr">printBackground</span>: <span class="hljs-literal">true</span>,
-      <span class="hljs-attr">format</span>: renderer.<span class="hljs-property">pageSize</span>,
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> getContent = <span class="hljs-keyword">async</span> (
+  <span class="hljs-attr">path</span>: <span class="hljs-built_in">string</span> | <span class="hljs-variable constant_">URL</span>,
+): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; =&gt; {
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> path === <span class="hljs-string">&#x27;string&#x27;</span>) {
+    <span class="hljs-keyword">try</span> {
+      path = <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(path);
+    } <span class="hljs-keyword">catch</span> (err) {
+      path = <span class="hljs-title function_">pathToFileURL</span>(path.<span class="hljs-title function_">toString</span>());
+    }
+  }
+  <span class="hljs-keyword">if</span> (path.<span class="hljs-property">protocol</span> === <span class="hljs-string">&#x27;file:&#x27;</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">readFileSync</span>(path, <span class="hljs-string">&#x27;utf8&#x27;</span>);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">fetch</span>(path).<span class="hljs-title function_">then</span>(<span class="hljs-keyword">async</span> (r) =&gt; {
+      <span class="hljs-keyword">if</span> (r.<span class="hljs-property">ok</span>) { <span class="hljs-keyword">return</span> r.<span class="hljs-title function_">text</span>(); }
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-keyword">await</span> r.<span class="hljs-title function_">text</span>());
     });
-    <span class="hljs-keyword">const</span> closeBrowser = browser.<span class="hljs-title function_">close</span>();
-    <span class="hljs-title function_">writeFileSync</span>(output, result, <span class="hljs-string">&#x27;base64&#x27;</span>);
-    <span class="hljs-keyword">await</span> closeBrowser;
   }
 };
-</code></pre></p>
+</code></pre></li>
+</ul>
 </div>
-<div class="slide" id="slide_20">
+<div class="slide" id="slide_14">
   <hr>
 <h1 id="thanks-for-your-watching">Thanks for your watching!</h1>
-<p>See other CodeSlide CLI examples <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/examples">here</a></p>
-<p>See the installation guide of CodeSlide CLI <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/README.md#installation">here</a></p>
+<ul>
+<li>See other CodeSlide CLI examples <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/app/cli/examples">here</a></li>
+<li>See the installation guide of CodeSlide CLI <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/README.md#installation">here</a></li>
+</ul>
 </div>
 </div>
 </body>

@@ -10,153 +10,117 @@ codeslide:
     - https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&display=swap
 
 ---
-# Behind the Scenes of CodeSlide
+# Behind the Scenes of CodeSlide CLI
 
 ```html
-<code id="slide">
+<code id="slide" class="cli">
+  CodeSlide CLI
+</code>
 ```
 
 ---
-[:slide](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/README.md)
+# The repository of this example is [here](https://github.com/AsherJingkongChen/codeslide-cli-as-codeslide-cli-example.git)
+
+---
+[:slide](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/README.md)
 
 ---
 # The general process
 
-1. Build a **`Renderer`**
-2. Render HTML and CSS
-3. Print the slideshow to the output
+1. Build a schema
+2. Render HTML and CSS to slideshow with it
+3. Print the rendered slideshow to the output
 
 ---
-# Build a `Renderer`
+# `Manifest`
 
-## `Renderer`
+- The main schema
+- A combination of [`FrontMatter`](#frontmatter) and [`SlideShow`](#slideshow)
+- An extended [`Renderer`](#renderer) schema
+- `Manifest.parse`: Parse a [manifest file](#manifest-file) into a `Manifest` schema
+- `Manifest.print`: Render the slideshow and print it to the output
 
-- `Renderer.parse`: Parse the manifest into renderer
-- `Renderer.render`: Render the slideshow
-
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/Renderer.ts)
-
----
-# Build a `Renderer`
-
-## Parsers
-
-`Renderer` = `ManifestParser` (Parsed)
-
-`ManifestParser` = `FrontMatterParser` + `SlideShowParser`
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/src/schemas/Manifest.ts)
 
 ---
-# Build a `Renderer`
+# Manifest file
 
-## `ManifestParser`
-
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/parsers/ManifestParser.ts)
-
----
-# Build a `Renderer`
-
-## `FrontMatterParser`
-
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/parsers/FrontMatterParser.ts)
+- A markdown document constructed of the `Front Matter` section and the `Slide Show` section
+- The specifications of Manifest file is [here](https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/docs/REFERENCE.md#manifest-file-specifications)
 
 ---
-# Build a `Renderer`
+# `FrontMatter`
 
-## `SlideShowParser`
+- The Front Matter section schema
+- An extended `Renderer` schema
+- Parsed from the `Front Matter` section of [manifest file](#manifest-file) (YAML syntax)
 
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/parsers/SlideShowParser.ts)
-
----
-# Build a `Renderer`
-
-## The utility to acquire resources
-
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/parsers/_getContent.ts)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/src/schemas/FrontMatter.ts)
 
 ---
-# Build a `Renderer`
+# `SlideShow`
 
-## Options
+- The Slide Show section schema
+- An labeled object whose type is `{ slides: string[] }`
+- Parsed from the `Slide Show` section of [manifest file](#manifest-file) (Markdown syntax)
+- Each slide is splitted by a horizontal line
+- Has special rules for rendering embedding code snippets and slides
 
-- Export a slideshow as a HTML or PDF file
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/Format.ts)
-
-- Specify the page size in PDF format
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/PageSize.ts)
-
-- Present the slideshow in horizontal or vertical layout
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/Layout.ts)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/src/schemas/SlideShow.ts)
 
 ---
-# Render HTML and CSS
+# `Renderer`
 
-## HTML template
+- The slideshow renderer schema 
+- Depends on [Eta](https://github.com/eta-dev/eta) to render [HTML template](#html-template)
+- `Renderer.parse`: Parse an object into a `Renderer` schema
+- `Renderer.render`: Render the slideshow to HTML text
 
-CodeSlide depends on [Eta](https://github.com/eta-dev/eta) 
-to render HTML template.
+## Note
+- `Renderer` is the root schema of [`Manifest`](#manifest). That is, [`Manifest`](#manifest) is an extended `Renderer`.
 
-\{\% and \%\} are interpolation characters.
-
-[:code.html](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/slides/slides.html)
-
----
-# Render HTML and CSS
-
-## CSS (Horizontal layout)
-
-[:code.css](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/slides/slides.horizontal.css)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/assets/text.d.ts)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/assets/index.ts)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/schemas/Renderer.ts)
 
 ---
-# Render HTML and CSS
+# HTML template
 
-## CSS (Vertical layout)
+\{\% and \%\} are interpolation characters
 
-[:code.css](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/slides/slides.vertical.css)
-
----
-# Render HTML and CSS
-
-## Referenced as text modules
-
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/slides/text.d.ts)
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/slides/index.ts)
+[:code.html](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/assets/slides.html)
 
 ---
-# Print the slideshow to the output
+# CSS (Horizontal layout)
 
-The print process is implemented by application ...
-
----
-# Applications of CodeSlide
-
-1. CodeSlide CLI
+[:code.css](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/assets/slides.horizontal.css)
 
 ---
-[:slide](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/README.md)
+# CSS (Vertical layout)
+
+[:code.css](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/assets/slides.vertical.css)
 
 ---
-# CLI entry point
+# The entry point
 
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/src/index.ts)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/src/index.ts)
+
+## `CLIOptions`
+
+- The CLI options schema
+- `-m, --manifest`: Manifest file path
+- `-o, --output`: Output file path
+
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/src/schemas/CLIOptions.ts)
 
 ---
-# CLI options validation
+# Miscellaneous
 
-1. `-m, --manifest`: Manifest file path
-2. `-o, --output`: Output file path
-
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/src/CLIOptions.ts)
-
----
-# Build a `Renderer` and Print to the output
-
-Make use of `Renderer.parse` and `Renderer.render`
-
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/applications/cli/src/print.ts)
+- Because [Node Fetch](https://github.com/node-fetch/node-fetch) does not handle `file:` URI scheme, CodeSlide CLI implements it with `fs.readFileSync`:
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/src/utils/getContent.ts)
 
 ---
 # Thanks for your watching!
 
-See other CodeSlide CLI examples [here](https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/examples)
-
-See the installation guide of CodeSlide CLI [here](https://github.com/AsherJingkongChen/codeslide/tree/main/applications/cli/README.md#installation)
+- See other CodeSlide CLI examples [here](https://github.com/AsherJingkongChen/codeslide/tree/main/app/cli/examples)
+- See the installation guide of CodeSlide CLI [here](https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/README.md#installation)
