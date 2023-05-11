@@ -208,9 +208,6 @@ code {
 </code></pre>
 </div>
 <div class="slide" id="slide_1">
-<h1 id="the-repository-of-this-example-is-here">The repository of this example is <a href="https://github.com/AsherJingkongChen/codeslide-cli-as-codeslide-cli-example.git">here</a></h1>
-</div>
-<div class="slide" id="slide_2">
 <p><h1 id="codeslide-cli">CodeSlide CLI</h1>
 <p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm&style=flat-square" alt=""></a></p>
 <h2 id="usage-demo">Usage demo</h2>
@@ -237,7 +234,7 @@ code {
 </ul>
 </p>
 </div>
-<div class="slide" id="slide_3">
+<div class="slide" id="slide_2">
 <h1 id="the-general-process">The general process</h1>
 <ol>
 <li>Build a schema</li>
@@ -245,7 +242,7 @@ code {
 <li>Print the rendered slideshow to the output</li>
 </ol>
 </div>
-<div class="slide" id="slide_4">
+<div class="slide" id="slide_3">
 <h1 id="manifest"><code>Manifest</code></h1>
 <ul>
 <li>The main schema</li>
@@ -307,14 +304,14 @@ code {
 }
 </code></pre></p>
 </div>
-<div class="slide" id="slide_5">
+<div class="slide" id="slide_4">
 <h1 id="manifest-file">Manifest file</h1>
 <ul>
 <li>A markdown document constructed of the <code>Front Matter</code> section and the <code>Slide Show</code> section</li>
 <li>The specifications of Manifest file is <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/docs/REFERENCE.md#manifest-file-specifications">here</a></li>
 </ul>
 </div>
-<div class="slide" id="slide_6">
+<div class="slide" id="slide_5">
 <h1 id="frontmatter"><code>FrontMatter</code></h1>
 <ul>
 <li>The Front Matter section schema</li>
@@ -358,7 +355,7 @@ code {
 }
 </code></pre></p>
 </div>
-<div class="slide" id="slide_7">
+<div class="slide" id="slide_6">
 <h1 id="slideshow"><code>SlideShow</code></h1>
 <ul>
 <li>The Slide Show section schema</li>
@@ -439,7 +436,7 @@ code {
 };
 </code></pre></p>
 </div>
-<div class="slide" id="slide_8">
+<div class="slide" id="slide_7">
 <h1 id="renderer"><code>Renderer</code></h1>
 <ul>
 <li>The slideshow renderer schema </li>
@@ -532,7 +529,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 }
 </code></pre></p>
 </div>
-<div class="slide" id="slide_9">
+<div class="slide" id="slide_8">
 <h1 id="html-template">HTML template</h1>
 <p>{% and %} are interpolation characters</p>
 <p><pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">HTML</span>&gt;</span>
@@ -562,7 +559,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre></p>
 </div>
-<div class="slide" id="slide_10">
+<div class="slide" id="slide_9">
 <h1 id="css-horizontal-layout">CSS (Horizontal layout)</h1>
 <p><pre><code class="language-css"><span class="hljs-comment">/*! CodeSlide slides.horizontal.css */</span>
 <span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
@@ -628,7 +625,7 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 }
 </code></pre></p>
 </div>
-<div class="slide" id="slide_11">
+<div class="slide" id="slide_10">
 <h1 id="css-vertical-layout">CSS (Vertical layout)</h1>
 <p><pre><code class="language-css"><span class="hljs-comment">/*! CodeSlide slides.vertical.css */</span>
 <span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
@@ -679,7 +676,7 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 }
 </code></pre></p>
 </div>
-<div class="slide" id="slide_12">
+<div class="slide" id="slide_11">
 <h1 id="the-entry-point">The entry point</h1>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { program } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;commander&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
@@ -760,7 +757,7 @@ By default it reads manifest from stdin.`</span>
 }
 </code></pre></p>
 </div>
-<div class="slide" id="slide_13">
+<div class="slide" id="slide_12">
 <h1 id="miscellaneous">Miscellaneous</h1>
 <ul>
 <li>Because <a href="https://github.com/node-fetch/node-fetch">Node Fetch</a> does not handle <code>file:</code> URI scheme, CodeSlide CLI implements it with <code>fs.readFileSync</code>:
@@ -790,9 +787,10 @@ By default it reads manifest from stdin.`</span>
 </code></pre></li>
 </ul>
 </div>
-<div class="slide" id="slide_14">
+<div class="slide" id="slide_13">
 <h1 id="thanks-for-your-watching">Thanks for your watching!</h1>
 <ul>
+<li>The repository of this example is <a href="https://github.com/AsherJingkongChen/codeslide-cli-as-codeslide-cli-example.git">here</a></li>
 <li>See other CodeSlide CLI examples <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/app/cli/examples">here</a></li>
 <li>See the installation guide of CodeSlide CLI <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/README.md#installation">here</a></li>
 </ul>

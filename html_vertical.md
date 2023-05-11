@@ -19,9 +19,6 @@ codeslide:
 ```
 
 ---
-# The repository of this example is [here](https://github.com/AsherJingkongChen/codeslide-cli-as-codeslide-cli-example.git)
-
----
 [:slide](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/README.md)
 
 ---
@@ -122,5 +119,6 @@ codeslide:
 ---
 # Thanks for your watching!
 
+- The repository of this example is [here](https://github.com/AsherJingkongChen/codeslide-cli-as-codeslide-cli-example.git)
 - See other CodeSlide CLI examples [here](https://github.com/AsherJingkongChen/codeslide/tree/main/app/cli/examples)
 - See the installation guide of CodeSlide CLI [here](https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/README.md#installation)
