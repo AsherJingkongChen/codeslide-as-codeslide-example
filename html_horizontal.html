@@ -268,13 +268,13 @@ code {
     manifest = manifest.<span class="hljs-title function_">replace</span>(
       <span class="hljs-regexp">/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/</span>, <span class="hljs-string">&#x27;&#x27;</span>
     );
-    <span class="hljs-keyword">const</span> { content, data } = <span class="hljs-title function_">matter</span>(manifest);
-    <span class="hljs-keyword">if</span> (data.<span class="hljs-property">codeslide</span> === <span class="hljs-literal">undefined</span>) {
+    <span class="hljs-keyword">const</span> { content, <span class="hljs-attr">data</span>: { codeslide } } = <span class="hljs-title function_">matter</span>(manifest);
+    <span class="hljs-keyword">if</span> (codeslide === <span class="hljs-literal">undefined</span>) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
         <span class="hljs-string">&#x27;Cannot find the key &quot;codeslide&quot; in the Front Matter section&#x27;</span>
       );
     }
-    <span class="hljs-keyword">const</span> fm = <span class="hljs-title class_">FrontMatter</span>.<span class="hljs-title function_">parse</span>(data.<span class="hljs-property">codeslide</span>);
+    <span class="hljs-keyword">const</span> fm = <span class="hljs-title class_">FrontMatter</span>.<span class="hljs-title function_">parse</span>(codeslide);
     fm.<span class="hljs-property">styles</span> = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(
       fm.<span class="hljs-property">styles</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">path</span>) =&gt;</span> <span class="hljs-title function_">getContent</span>(path))
     );
@@ -321,15 +321,24 @@ code {
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../src&#x27;</span>;
 <span class="hljs-keyword">import</span> { version } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../package.json&#x27;</span>;
+<span class="hljs-keyword">import</span> { formatZodErrors } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">FrontMatter</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">FrontMatter</span>.<span class="hljs-property">schema</span>&gt;;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">FrontMatter</span> {
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = (
     <span class="hljs-attr">fm</span>: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">FrontMatter</span>&gt;
-  ): <span class="hljs-function"><span class="hljs-params">FrontMatter</span> =&gt;</span> (
-    schema.<span class="hljs-title function_">parse</span>(fm)
-  );
+  ): <span class="hljs-function"><span class="hljs-params">FrontMatter</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> result = schema.<span class="hljs-title function_">safeParse</span>(fm);
+    <span class="hljs-keyword">if</span> (! result.<span class="hljs-property">success</span>) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
+        <span class="hljs-string">`Cannot parse the Front Matter section: &quot;<span class="hljs-subst">${
+          formatZodErrors(result.error.errors)
+        }</span>&quot;`</span>
+      );
+    }
+    <span class="hljs-keyword">return</span> result.<span class="hljs-property">data</span>;
+  };
 
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> schema = z
     .<span class="hljs-title function_">object</span>({
@@ -739,15 +748,24 @@ By default it reads manifest from stdin.`</span>
 <li><code>-o, --output</code>: Output file path</li>
 </ul>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
+<span class="hljs-keyword">import</span> { formatZodErrors } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">CLIOptions</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">CLIOptions</span>.<span class="hljs-property">schema</span>&gt;;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">CLIOptions</span> {
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = (
     <span class="hljs-attr">options</span>: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">CLIOptions</span>&gt;
-  ): <span class="hljs-function"><span class="hljs-params">CLIOptions</span> =&gt;</span> (
-    schema.<span class="hljs-title function_">parse</span>(options)
-  );
+  ): <span class="hljs-function"><span class="hljs-params">CLIOptions</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> result = schema.<span class="hljs-title function_">safeParse</span>(options);
+    <span class="hljs-keyword">if</span> (! result.<span class="hljs-property">success</span>) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
+        <span class="hljs-string">`Cannot parse the CLI options: &quot;<span class="hljs-subst">${
+          formatZodErrors(result.error.errors)
+        }</span>&quot;`</span>
+      );
+    }
+    <span class="hljs-keyword">return</span> result.<span class="hljs-property">data</span>;
+  };
 
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> schema = z
     .<span class="hljs-title function_">strictObject</span>({
@@ -762,6 +780,7 @@ By default it reads manifest from stdin.`</span>
 <ul>
 <li>Because <a href="https://github.com/node-fetch/node-fetch">Node Fetch</a> does not handle <code>file:</code> URI scheme, CodeSlide CLI implements it with <code>fs.readFileSync</code>:
 <pre><code class="language-ts"><span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;node-fetch&#x27;</span>;
+<span class="hljs-keyword">import</span> status <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;statuses&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { pathToFileURL } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;url&#x27;</span>;
 
@@ -780,7 +799,9 @@ By default it reads manifest from stdin.`</span>
   } <span class="hljs-keyword">else</span> {
     <span class="hljs-keyword">return</span> <span class="hljs-title function_">fetch</span>(path).<span class="hljs-title function_">then</span>(<span class="hljs-keyword">async</span> (r) =&gt; {
       <span class="hljs-keyword">if</span> (r.<span class="hljs-property">ok</span>) { <span class="hljs-keyword">return</span> r.<span class="hljs-title function_">text</span>(); }
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-keyword">await</span> r.<span class="hljs-title function_">text</span>());
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
+        <span class="hljs-string">`Cannot GET <span class="hljs-subst">${r.url}</span>: &quot;<span class="hljs-subst">${r.status}</span> <span class="hljs-subst">${status(r.status)}</span>&quot;`</span>
+      );
     });
   }
 };
