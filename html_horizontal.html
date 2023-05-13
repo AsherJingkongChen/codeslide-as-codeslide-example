@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html class="hljs">
 <head>
 <meta charset="utf-8">
@@ -8,6 +8,9 @@
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1">
+<link
+  href="https://fonts.gstatic.com"
+  rel="preconnect" crossorigin>
 <style>
 pre code.hljs {
   display: block;
@@ -573,7 +576,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 <div class="slide" id="slide_8">
 <h1 id="html-template">HTML template</h1>
 <p>{% and %} are interpolation characters</p>
-<p><pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">HTML</span>&gt;</span>
+<p><pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hljs&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span>
@@ -583,6 +586,9 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">meta</span>
   <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span>
   <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">link</span>
+  <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://fonts.gstatic.com&quot;</span>
+  <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;preconnect&quot;</span> <span class="hljs-attr">crossorigin</span>&gt;</span>
 {%~ it.style %}
 <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hljs&quot;</span>&gt;</span>
@@ -590,7 +596,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 {%_ for (const [index, slide] of it.slides.entries()) { %}
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide_{%~ index %}&quot;</span>&gt;</span>
   {%_ if (index !== 0 &amp;&amp; it.layout === &#x27;vertical&#x27;) { %}
-  <span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
   {%_ } %}
 {%~ slide %}
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>

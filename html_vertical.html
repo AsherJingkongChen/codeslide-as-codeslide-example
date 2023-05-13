@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html class="hljs">
 <head>
 <meta charset="utf-8">
@@ -8,6 +8,9 @@
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1">
+<link
+  href="https://fonts.gstatic.com"
+  rel="preconnect" crossorigin>
 <style>
 pre code.hljs {
   display: block;
@@ -193,7 +196,7 @@ code {
 </code></pre>
 </div>
 <div class="slide" id="slide_1">
-  <hr>
+<hr>
 <p><h1 id="codeslide-cli">CodeSlide CLI</h1>
 <p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm&style=flat-square" alt=""></a></p>
 <h2 id="usage-demo">Usage demo</h2>
@@ -221,7 +224,7 @@ code {
 </p>
 </div>
 <div class="slide" id="slide_2">
-  <hr>
+<hr>
 <h1 id="the-general-process">The general process</h1>
 <ol>
 <li>Build a schema</li>
@@ -230,7 +233,7 @@ code {
 </ol>
 </div>
 <div class="slide" id="slide_3">
-  <hr>
+<hr>
 <h1 id="manifest"><code>Manifest</code></h1>
 <ul>
 <li>The main schema</li>
@@ -296,7 +299,7 @@ code {
 </code></pre></p>
 </div>
 <div class="slide" id="slide_4">
-  <hr>
+<hr>
 <h1 id="manifest-file">Manifest file</h1>
 <ul>
 <li>A markdown document constructed of the Front Matter section and the Slide Show section</li>
@@ -304,7 +307,7 @@ code {
 </ul>
 </div>
 <div class="slide" id="slide_5">
-  <hr>
+<hr>
 <h1 id="frontmatter"><code>FrontMatter</code></h1>
 <ul>
 <li>The Front Matter section schema</li>
@@ -358,7 +361,7 @@ Cannot parse the Front Matter section:
 </code></pre></p>
 </div>
 <div class="slide" id="slide_6">
-  <hr>
+<hr>
 <h1 id="slideshow"><code>SlideShow</code></h1>
 <ul>
 <li>The Slide Show section schema</li>
@@ -469,7 +472,7 @@ Cannot parse the code at <span class="hljs-subst">${href}</span>:
 </code></pre></p>
 </div>
 <div class="slide" id="slide_7">
-  <hr>
+<hr>
 <h1 id="renderer"><code>Renderer</code></h1>
 <ul>
 <li>The slideshow renderer schema </li>
@@ -563,10 +566,10 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 </code></pre></p>
 </div>
 <div class="slide" id="slide_8">
-  <hr>
+<hr>
 <h1 id="html-template">HTML template</h1>
 <p>{% and %} are interpolation characters</p>
-<p><pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">HTML</span>&gt;</span>
+<p><pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hljs&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span>
@@ -576,6 +579,9 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">meta</span>
   <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span>
   <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">link</span>
+  <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://fonts.gstatic.com&quot;</span>
+  <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;preconnect&quot;</span> <span class="hljs-attr">crossorigin</span>&gt;</span>
 {%~ it.style %}
 <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hljs&quot;</span>&gt;</span>
@@ -583,7 +589,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 {%_ for (const [index, slide] of it.slides.entries()) { %}
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide_{%~ index %}&quot;</span>&gt;</span>
   {%_ if (index !== 0 &amp;&amp; it.layout === &#x27;vertical&#x27;) { %}
-  <span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
   {%_ } %}
 {%~ slide %}
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -594,7 +600,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 </code></pre></p>
 </div>
 <div class="slide" id="slide_9">
-  <hr>
+<hr>
 <h1 id="css-horizontal-layout">CSS (Horizontal layout)</h1>
 <p><pre><code class="language-css"><span class="hljs-comment">/*! CodeSlide slides.horizontal.css */</span>
 <span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
@@ -661,7 +667,7 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 </code></pre></p>
 </div>
 <div class="slide" id="slide_10">
-  <hr>
+<hr>
 <h1 id="css-vertical-layout">CSS (Vertical layout)</h1>
 <p><pre><code class="language-css"><span class="hljs-comment">/*! CodeSlide slides.vertical.css */</span>
 <span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
@@ -713,7 +719,7 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 </code></pre></p>
 </div>
 <div class="slide" id="slide_11">
-  <hr>
+<hr>
 <h1 id="the-entry-point">The entry point</h1>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { program } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;commander&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync, writeFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
@@ -809,7 +815,7 @@ Cannot parse the CLI options:
 </code></pre></p>
 </div>
 <div class="slide" id="slide_12">
-  <hr>
+<hr>
 <h1 id="miscellaneous">Miscellaneous</h1>
 <ul>
 <li>Because <a href="https://github.com/node-fetch/node-fetch">Node Fetch</a> does not handle <code>file:</code> URI scheme, CodeSlide CLI implements it with <code>fs.readFileSync</code>:
@@ -843,7 +849,7 @@ Cannot parse the CLI options:
 </ul>
 </div>
 <div class="slide" id="slide_13">
-  <hr>
+<hr>
 <h1 id="thanks-for-your-watching">Thanks for your watching!</h1>
 <ul>
 <li>The repository of this example is <a href="https://github.com/AsherJingkongChen/codeslide-cli-as-codeslide-cli-example.git">here</a></li>
