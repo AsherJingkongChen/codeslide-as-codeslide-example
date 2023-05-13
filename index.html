@@ -302,7 +302,7 @@ code {
 <div class="slide" id="slide_4">
 <h1 id="manifest-file">Manifest file</h1>
 <ul>
-<li>A markdown document constructed of the <code>Front Matter</code> section and the <code>Slide Show</code> section</li>
+<li>A markdown document constructed of the Front Matter section and the Slide Show section</li>
 <li>The specifications of Manifest file is <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/docs/REFERENCE.md#manifest-file-specifications">here</a></li>
 </ul>
 </div>
@@ -311,7 +311,7 @@ code {
 <ul>
 <li>The Front Matter section schema</li>
 <li>An extended <code>Renderer</code> schema</li>
-<li>Parsed from the <code>Front Matter</code> section of <a href="#manifest-file">manifest file</a> (YAML syntax)</li>
+<li>Parsed from the Front Matter section of <a href="#manifest-file">manifest file</a> (YAML syntax)</li>
 </ul>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../src&#x27;</span>;
@@ -364,7 +364,7 @@ code {
 <ul>
 <li>The Slide Show section schema</li>
 <li>An labeled object whose type is <code>{ slides: string[] }</code></li>
-<li>Parsed from the <code>Slide Show</code> section of <a href="#manifest-file">manifest file</a> (Markdown syntax)</li>
+<li>Parsed from the Slide Show section of <a href="#manifest-file">manifest file</a> (Markdown syntax)</li>
 <li>Each slide is splitted by a horizontal line</li>
 <li>Has special rules for rendering embedding code snippets and slides</li>
 </ul>
