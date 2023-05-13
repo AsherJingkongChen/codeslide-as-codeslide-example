@@ -42,7 +42,7 @@ codeslide:
 ---
 # Manifest file
 
-- A markdown document constructed of the `Front Matter` section and the `Slide Show` section
+- A markdown document constructed of the Front Matter section and the Slide Show section
 - The specifications of Manifest file is [here](https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/docs/REFERENCE.md#manifest-file-specifications)
 
 ---
@@ -50,7 +50,7 @@ codeslide:
 
 - The Front Matter section schema
 - An extended `Renderer` schema
-- Parsed from the `Front Matter` section of [manifest file](#manifest-file) (YAML syntax)
+- Parsed from the Front Matter section of [manifest file](#manifest-file) (YAML syntax)
 
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/src/schemas/FrontMatter.ts)
 
@@ -59,7 +59,7 @@ codeslide:
 
 - The Slide Show section schema
 - An labeled object whose type is `{ slides: string[] }`
-- Parsed from the `Slide Show` section of [manifest file](#manifest-file) (Markdown syntax)
+- Parsed from the Slide Show section of [manifest file](#manifest-file) (Markdown syntax)
 - Each slide is splitted by a horizontal line
 - Has special rules for rendering embedding code snippets and slides
 
