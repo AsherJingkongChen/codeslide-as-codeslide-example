@@ -35,7 +35,7 @@ codeslide:
 - A combination of [`FrontMatter`](#frontmatter) and [`SlideShow`](#slideshow)
 - An extended [`Renderer`](#renderer) schema
 - `Manifest.parse`: Parse a [manifest file](#manifest-file) into a `Manifest` schema
-- `Manifest.print`: Render the slideshow and print it to the output
+- `Manifest.render`: Render the slideshow
 
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/src/schemas/Manifest.ts)
 
@@ -100,7 +100,7 @@ codeslide:
 ---
 # The entry point
 
-[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/src/index.ts)
+[:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/app/cli/src/app.ts)
 
 ## `CLIOptions`
 

@@ -237,10 +237,9 @@ code {
 <li>A combination of <a href="#frontmatter"><code>FrontMatter</code></a> and <a href="#slideshow"><code>SlideShow</code></a></li>
 <li>An extended <a href="#renderer"><code>Renderer</code></a> schema</li>
 <li><code>Manifest.parse</code>: Parse a <a href="#manifest-file">manifest file</a> into a <code>Manifest</code> schema</li>
-<li><code>Manifest.print</code>: Render the slideshow and print it to the output</li>
+<li><code>Manifest.render</code>: Render the slideshow</li>
 </ul>
-<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">PathOrFileDescriptor</span>, writeFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
-<span class="hljs-keyword">import</span> matter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;gray-matter&#x27;</span>;
+<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> matter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;gray-matter&#x27;</span>;
 <span class="hljs-keyword">import</span> { launch } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;puppeteer&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">FrontMatter</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./FrontMatter&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">SlideShow</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./SlideShow&#x27;</span>;
@@ -250,6 +249,11 @@ code {
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Manifest</span> = <span class="hljs-title class_">FrontMatter</span> &amp; <span class="hljs-title class_">SlideShow</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">Manifest</span> {
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">RenderResult</span> = {
+    <span class="hljs-attr">data</span>: <span class="hljs-built_in">string</span>,
+    <span class="hljs-attr">encoding</span>: <span class="hljs-title class_">BufferEncoding</span>,
+  };
+
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = <span class="hljs-keyword">async</span> (
     <span class="hljs-attr">manifest</span>: <span class="hljs-built_in">string</span>
   ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">Manifest</span>&gt; =&gt; {
@@ -265,13 +269,15 @@ code {
     <span class="hljs-keyword">return</span> { ...fm, ...slides };
   };
 
-  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> print = <span class="hljs-keyword">async</span> (
-    <span class="hljs-attr">output</span>: <span class="hljs-title class_">PathOrFileDescriptor</span>,
-    <span class="hljs-attr">manifest</span>: <span class="hljs-title class_">Manifest</span>,
-  ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; =&gt; {
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> render = <span class="hljs-keyword">async</span> (
+    <span class="hljs-attr">manifest</span>: <span class="hljs-title class_">Manifest</span>
+  ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">RenderResult</span>&gt; =&gt; {
     <span class="hljs-keyword">if</span> (manifest.<span class="hljs-property">format</span> === <span class="hljs-string">&#x27;html&#x27;</span>) {
-      <span class="hljs-title function_">writeFileSync</span>(output, <span class="hljs-title class_">Renderer</span>.<span class="hljs-title function_">render</span>(manifest), <span class="hljs-string">&#x27;utf8&#x27;</span>);
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (manifest.<span class="hljs-property">format</span> === <span class="hljs-string">&#x27;pdf&#x27;</span>) {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: <span class="hljs-title class_">Renderer</span>.<span class="hljs-title function_">render</span>(manifest),
+        <span class="hljs-attr">encoding</span>: <span class="hljs-string">&#x27;utf8&#x27;</span>,
+      };
+    } <span class="hljs-keyword">else</span> {
       <span class="hljs-keyword">const</span> browser = <span class="hljs-keyword">await</span> <span class="hljs-title function_">launch</span>();
       <span class="hljs-keyword">const</span> page = <span class="hljs-keyword">await</span> browser.<span class="hljs-title function_">newPage</span>();
       <span class="hljs-keyword">await</span> page.<span class="hljs-title function_">setContent</span>(<span class="hljs-title class_">Renderer</span>.<span class="hljs-title function_">render</span>(manifest));
@@ -279,9 +285,11 @@ code {
         <span class="hljs-attr">printBackground</span>: <span class="hljs-literal">true</span>,
         <span class="hljs-attr">format</span>: manifest.<span class="hljs-property">pageSize</span>,
       });
-      <span class="hljs-keyword">const</span> closeBrowser = browser.<span class="hljs-title function_">close</span>();
-      <span class="hljs-title function_">writeFileSync</span>(output, result, <span class="hljs-string">&#x27;base64&#x27;</span>);
-      <span class="hljs-keyword">await</span> closeBrowser;
+      <span class="hljs-keyword">await</span> browser.<span class="hljs-title function_">close</span>();
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: result.<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;base64&#x27;</span>),
+        <span class="hljs-attr">encoding</span>: <span class="hljs-string">&#x27;base64&#x27;</span>,
+      };
     }
   };  
 }
@@ -306,24 +314,16 @@ code {
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../src&#x27;</span>;
 <span class="hljs-keyword">import</span> { version } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../package.json&#x27;</span>;
-<span class="hljs-keyword">import</span> { formatZodErrors } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
-
+<span class="hljs-keyword">import</span> { formatZodError } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
+<span class="hljs-keyword">import</span> semver <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;semver-regex&#x27;</span>;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">FrontMatter</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">FrontMatter</span>.<span class="hljs-property">schema</span>&gt;;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">FrontMatter</span> {
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = (
     fm?: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">FrontMatter</span>&gt;
-  ): <span class="hljs-function"><span class="hljs-params">FrontMatter</span> =&gt;</span> {
-    <span class="hljs-keyword">const</span> result = schema.<span class="hljs-title function_">default</span>({}).<span class="hljs-title function_">safeParse</span>(fm);
-    <span class="hljs-keyword">if</span> (! result.<span class="hljs-property">success</span>) {
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
-        <span class="hljs-string">`Cannot parse the Front Matter section: <span class="hljs-subst">${
-          formatZodErrors(result.error.errors)
-        }</span>`</span>
-      );
-    }
-    <span class="hljs-keyword">return</span> result.<span class="hljs-property">data</span>;
-  };
+  ): <span class="hljs-function"><span class="hljs-params">FrontMatter</span> =&gt;</span> (
+    schema.<span class="hljs-title function_">default</span>({}).<span class="hljs-title function_">parse</span>(fm)
+  );
 
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> schema = z
     .<span class="hljs-title function_">object</span>({
@@ -334,9 +334,17 @@ code {
           <span class="hljs-string">&#x27;A0&#x27;</span>, <span class="hljs-string">&#x27;A1&#x27;</span>, <span class="hljs-string">&#x27;A2&#x27;</span>, <span class="hljs-string">&#x27;A3&#x27;</span>, <span class="hljs-string">&#x27;A4&#x27;</span>, <span class="hljs-string">&#x27;A5&#x27;</span>, <span class="hljs-string">&#x27;A6&#x27;</span>
         ])
         .<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;A4&#x27;</span>),
-      <span class="hljs-attr">version</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(version),
+      <span class="hljs-attr">version</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">regex</span>(<span class="hljs-title function_">semver</span>()).<span class="hljs-title function_">default</span>(version),
     })
     .<span class="hljs-title function_">and</span>(<span class="hljs-title class_">Renderer</span>.<span class="hljs-property">schema</span>.<span class="hljs-title function_">omit</span>({ <span class="hljs-attr">slides</span>: <span class="hljs-literal">true</span> }))
+    .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> error = e.<span class="hljs-property">error</span>.<span class="hljs-property">errors</span>[<span class="hljs-number">0</span>];
+      error.<span class="hljs-property">path</span>.<span class="hljs-title function_">unshift</span>(<span class="hljs-string">&#x27;codeslide&#x27;</span>);
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`\
+Cannot parse the Front Matter section:
+\t<span class="hljs-subst">${formatZodError(error)}</span>`</span>
+      );
+    })
     .<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">fm</span>) =&gt;</span> {
       <span class="hljs-keyword">if</span> (
         fm.<span class="hljs-property">format</span> === <span class="hljs-string">&#x27;pdf&#x27;</span> &amp;&amp;
@@ -359,7 +367,7 @@ code {
 <li>Each slide is splitted by a horizontal line</li>
 <li>Has special rules for rendering embedding code snippets and slides</li>
 </ul>
-<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> hljs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js&#x27;</span>;
+<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> hljs, { <span class="hljs-title class_">HighlightResult</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js&#x27;</span>;
 <span class="hljs-keyword">import</span> { marked } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;marked&#x27;</span>;
 <span class="hljs-keyword">import</span> { getContent } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
 
@@ -370,54 +378,82 @@ code {
     <span class="hljs-attr">markdown</span>: <span class="hljs-built_in">string</span>
   ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">SlideShow</span>&gt; =&gt; {
     <span class="hljs-keyword">const</span> html = <span class="hljs-keyword">await</span> <span class="hljs-title function_">_parseMarkdown</span>(markdown);
-    <span class="hljs-keyword">return</span> {
-      <span class="hljs-attr">slides</span>: html.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;&lt;hr&gt;&#x27;</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> s.<span class="hljs-title function_">trim</span>())
-    };
+    <span class="hljs-keyword">return</span> { <span class="hljs-attr">slides</span>: html.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;&lt;hr&gt;&#x27;</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> s.<span class="hljs-title function_">trim</span>()) };
   };
 }
 
 <span class="hljs-keyword">const</span> _parseMarkdown = (
   <span class="hljs-attr">markdown</span>: <span class="hljs-built_in">string</span>
-): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; =&gt; marked.<span class="hljs-title function_">parse</span>(markdown, {
-  <span class="hljs-attr">async</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">highlight</span>: <span class="hljs-function">(<span class="hljs-params">code, language</span>) =&gt;</span> {
+): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; =&gt; (
+  marked.<span class="hljs-title function_">parse</span>(markdown, {
+    <span class="hljs-attr">async</span>: <span class="hljs-literal">true</span>,
+    highlight,
+    walkTokens,
+  }).<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span></span>) =&gt;</span> {
+    err.<span class="hljs-property">message</span> = err.<span class="hljs-property">message</span>.<span class="hljs-title function_">replace</span>(
+      <span class="hljs-string">&#x27;\nPlease report this to https://github.com/markedjs/marked.&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>
+    );
+    err.<span class="hljs-property">message</span> = <span class="hljs-string">`Cannot parse the Slide Show section:\n\t<span class="hljs-subst">${err.message}</span>`</span>;
+    <span class="hljs-keyword">throw</span> err;
+  })
+);
+
+<span class="hljs-keyword">const</span> highlight = (<span class="hljs-attr">code</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">language</span>: <span class="hljs-built_in">string</span>): <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> {
+  <span class="hljs-keyword">try</span> {
     <span class="hljs-keyword">return</span> hljs.<span class="hljs-title function_">highlight</span>(code, { language }).<span class="hljs-property">value</span>;
-  },
-  <span class="hljs-attr">walkTokens</span>: <span class="hljs-keyword">async</span> (<span class="hljs-attr">token</span>: marked.<span class="hljs-property">Token</span>) =&gt; {
-    <span class="hljs-keyword">if</span> (token.<span class="hljs-property">type</span> === <span class="hljs-string">&#x27;link&#x27;</span>) {
-      <span class="hljs-keyword">const</span> { href, text, raw } = token;
-      <span class="hljs-keyword">if</span> (! text.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&#x27;:&#x27;</span>)) {
-        <span class="hljs-keyword">return</span>;
-      }
-      <span class="hljs-keyword">const</span> [prefix, suffix] = &lt;[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span> | <span class="hljs-literal">undefined</span>]&gt;
-        text.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
-      <span class="hljs-keyword">if</span> (prefix === <span class="hljs-string">&#x27;:slide&#x27;</span>) {
-        token = <span class="hljs-title function_">_toHTMLToken</span>(token);
-        token.<span class="hljs-property">raw</span> = raw;
-        token.<span class="hljs-property">text</span> = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getContent</span>(href)
-          .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">content</span>) =&gt;</span> <span class="hljs-title function_">_parseMarkdown</span>(content));
-      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (prefix === <span class="hljs-string">&#x27;:code&#x27;</span>) {
-        token = <span class="hljs-title function_">_toHTMLToken</span>(token);
-        token.<span class="hljs-property">raw</span> = raw;
-        <span class="hljs-keyword">const</span> code = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getContent</span>(href).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">content</span>) =&gt;</span> (
-          hljs.<span class="hljs-title function_">highlight</span>(content, {
-            <span class="hljs-attr">language</span>: suffix ?? <span class="hljs-string">&#x27;plaintext&#x27;</span>
-          })
-        ));
-        token.<span class="hljs-property">text</span> = <span class="hljs-string">`\
-&lt;pre&gt;&lt;code<span class="hljs-subst">${
-  code.language ? <span class="hljs-string">` class=&quot;language-<span class="hljs-subst">${code.language}</span>&quot;`</span> : <span class="hljs-string">&#x27;&#x27;</span>
-}</span>&gt;<span class="hljs-subst">${
-  code.value
-}</span>&lt;/code&gt;&lt;/pre&gt;`</span>;
-      }
+  } <span class="hljs-keyword">catch</span> (e) {
+    <span class="hljs-keyword">const</span> err = e <span class="hljs-keyword">as</span> <span class="hljs-title class_">Error</span>;
+    err.<span class="hljs-property">message</span> =
+      <span class="hljs-string">`Cannot parse the code &quot;<span class="hljs-subst">${
+        code.substring(<span class="hljs-number">0</span>, <span class="hljs-number">30</span>).split(<span class="hljs-string">&#x27;\n&#x27;</span>)[<span class="hljs-number">0</span>]
+      }</span> ...&quot;:\n\t<span class="hljs-subst">${err.message}</span>`</span>;
+    <span class="hljs-keyword">throw</span> e;
+  }
+};
+
+<span class="hljs-keyword">const</span> walkTokens = <span class="hljs-keyword">async</span> (
+  <span class="hljs-attr">token</span>: marked.<span class="hljs-property">Token</span>
+): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; =&gt; {
+  <span class="hljs-keyword">if</span> (token.<span class="hljs-property">type</span> === <span class="hljs-string">&#x27;link&#x27;</span>) {
+    <span class="hljs-keyword">const</span> { href, text } = token;
+    <span class="hljs-keyword">if</span> (! text.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&#x27;:&#x27;</span>)) {
+      <span class="hljs-keyword">return</span>;
     }
-  },
-});
+    <span class="hljs-keyword">const</span> [prefix, suffix] = &lt;[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span> | <span class="hljs-literal">undefined</span>]&gt;
+      text.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+    token = <span class="hljs-title function_">_toHTMLToken</span>(token);
+    <span class="hljs-keyword">if</span> (prefix === <span class="hljs-string">&#x27;:slide&#x27;</span>) {
+      <span class="hljs-keyword">const</span> slide = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getContent</span>(href);
+      token.<span class="hljs-property">text</span> = <span class="hljs-keyword">await</span> <span class="hljs-title function_">_parseMarkdown</span>(slide);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (prefix === <span class="hljs-string">&#x27;:code&#x27;</span>) {
+      <span class="hljs-keyword">const</span> code = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getContent</span>(href);
+      <span class="hljs-keyword">let</span> <span class="hljs-attr">result</span>: <span class="hljs-title class_">HighlightResult</span> | <span class="hljs-literal">undefined</span>;
+      <span class="hljs-keyword">try</span> {
+        result = hljs.<span class="hljs-title function_">highlight</span>(code, {
+          <span class="hljs-attr">language</span>: suffix ?? <span class="hljs-string">&#x27;plaintext&#x27;</span>
+        });
+      } <span class="hljs-keyword">catch</span> (e) {
+        <span class="hljs-keyword">const</span> err = e <span class="hljs-keyword">as</span> <span class="hljs-title class_">Error</span>;
+        err.<span class="hljs-property">message</span> = <span class="hljs-string">`\
+Cannot parse the code at <span class="hljs-subst">${href}</span>:
+\t<span class="hljs-subst">${err.message}</span>`</span>;
+        <span class="hljs-keyword">throw</span> e;
+      }
+      token.<span class="hljs-property">text</span> = <span class="hljs-string">`\
+&lt;pre&gt;&lt;code<span class="hljs-subst">${
+  result.language ?
+    <span class="hljs-string">` class=&quot;language-<span class="hljs-subst">${result.language}</span>&quot;`</span> : <span class="hljs-string">&#x27;&#x27;</span>
+}</span>&gt;<span class="hljs-subst">${
+  result.value
+}</span>&lt;/code&gt;&lt;/pre&gt;`</span>;
+    }
+  }
+};
 
 <span class="hljs-keyword">const</span> _toHTMLToken = (
   <span class="hljs-attr">token</span>: marked.<span class="hljs-property">Token</span>
 ): marked.<span class="hljs-property">Tokens</span>.<span class="hljs-property">HTML</span> =&gt; {
+  <span class="hljs-keyword">const</span> { raw } = token;
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> p <span class="hljs-keyword">in</span> token) {
     <span class="hljs-keyword">if</span> (token.<span class="hljs-title function_">hasOwnProperty</span>(p)){
       <span class="hljs-keyword">delete</span> token[p <span class="hljs-keyword">as</span> keyof marked.<span class="hljs-property">Token</span>];
@@ -425,6 +461,7 @@ code {
   }
   token = token <span class="hljs-keyword">as</span> marked.<span class="hljs-property">Token</span>;
   token.<span class="hljs-property">type</span> = <span class="hljs-string">&#x27;html&#x27;</span>;
+  token.<span class="hljs-property">raw</span> = raw;
   token = token <span class="hljs-keyword">as</span> marked.<span class="hljs-property">Tokens</span>.<span class="hljs-property">HTML</span>;
   token.<span class="hljs-property">pre</span> = <span class="hljs-literal">true</span>;
   <span class="hljs-keyword">return</span> token;
@@ -456,7 +493,7 @@ code {
 <pre><code class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-title class_">GithubDarkDimmed</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./github-dark-dimmed.css&#x27;</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-title class_">HorizontalStylesheet</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.horizontal.css&#x27;</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-title class_">VerticalStylesheet</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.vertical.css&#x27;</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-title class_">Template</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.html&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">HTMLTemplate</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.html&#x27;</span>;
 
 <span class="hljs-keyword">const</span> <span class="hljs-title class_">Stylesheets</span> = {
   <span class="hljs-attr">horizontal</span>: <span class="hljs-title class_">HorizontalStylesheet</span>,
@@ -464,11 +501,11 @@ code {
   <span class="hljs-attr">highlight</span>: <span class="hljs-title class_">GithubDarkDimmed</span>,
 };
 
-<span class="hljs-keyword">export</span> { <span class="hljs-title class_">Stylesheets</span>, <span class="hljs-title class_">Template</span> };
+<span class="hljs-keyword">export</span> { <span class="hljs-title class_">HTMLTemplate</span>, <span class="hljs-title class_">Stylesheets</span> };
 </code></pre>
 <pre><code class="language-ts"><span class="hljs-keyword">import</span> { render <span class="hljs-keyword">as</span> renderEta } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;eta&#x27;</span>;
 <span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Stylesheets</span>, <span class="hljs-title class_">Template</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../assets&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Stylesheets</span>, <span class="hljs-title class_">HTMLTemplate</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../assets&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Renderer</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Renderer</span>.<span class="hljs-property">schema</span>&gt;;
 
@@ -482,7 +519,7 @@ code {
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> render = (
     <span class="hljs-attr">renderer</span>: <span class="hljs-title class_">Renderer</span>
   ): <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> {
-    <span class="hljs-keyword">return</span> <span class="hljs-title function_">renderEta</span>(<span class="hljs-title class_">Template</span>, {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">renderEta</span>(<span class="hljs-title class_">HTMLTemplate</span>, {
       <span class="hljs-attr">layout</span>: renderer.<span class="hljs-property">layout</span>,
       <span class="hljs-attr">slides</span>: renderer.<span class="hljs-property">slides</span>,
       <span class="hljs-attr">style</span>: <span class="hljs-string">`\
@@ -679,7 +716,7 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
   <hr>
 <h1 id="the-entry-point">The entry point</h1>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { program } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;commander&#x27;</span>;
-<span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
+<span class="hljs-keyword">import</span> { readFileSync, writeFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { stdin, stdout } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;process&#x27;</span>;
 <span class="hljs-keyword">import</span> { version, homepage, name } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../package.json&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">CLIOptions</span>, <span class="hljs-title class_">Manifest</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./schemas&#x27;</span>;
@@ -710,22 +747,29 @@ By default it reads manifest from stdin.`</span>
   )
   .<span class="hljs-title function_">action</span>(<span class="hljs-keyword">async</span> (<span class="hljs-attr">options</span>: <span class="hljs-title class_">CLIOptions</span>) =&gt; {
     <span class="hljs-keyword">let</span> { output, manifest } = <span class="hljs-title class_">CLIOptions</span>.<span class="hljs-title function_">parse</span>(options);
+    <span class="hljs-keyword">const</span> file = output ?? stdout.<span class="hljs-property">fd</span>;
     <span class="hljs-keyword">if</span> (manifest) {
       <span class="hljs-keyword">const</span> _manifest = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Manifest</span>.<span class="hljs-title function_">parse</span>(
         <span class="hljs-title function_">readFileSync</span>(manifest, <span class="hljs-string">&#x27;utf8&#x27;</span>)
       );
-      <span class="hljs-keyword">await</span> <span class="hljs-title class_">Manifest</span>.<span class="hljs-title function_">print</span>(output ?? stdout.<span class="hljs-property">fd</span>, _manifest);
+      <span class="hljs-keyword">const</span> { data, encoding } = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Manifest</span>.<span class="hljs-title function_">render</span>(
+        _manifest
+      );
+      <span class="hljs-title function_">writeFileSync</span>(file, data, encoding);
     } <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">let</span> data = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(<span class="hljs-number">0</span>);
+      <span class="hljs-keyword">let</span> buffer = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(<span class="hljs-number">0</span>);
       stdin
         .<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">d</span>) =&gt;</span> {
-          data = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">concat</span>([data, d]);
+          buffer = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">concat</span>([buffer, d]);
         })
         .<span class="hljs-title function_">once</span>(<span class="hljs-string">&#x27;end&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
           <span class="hljs-keyword">const</span> _manifest = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Manifest</span>.<span class="hljs-title function_">parse</span>(
-            data.<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;utf8&#x27;</span>)
+            buffer.<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;utf8&#x27;</span>)
           );
-          <span class="hljs-keyword">await</span> <span class="hljs-title class_">Manifest</span>.<span class="hljs-title function_">print</span>(output ?? stdout.<span class="hljs-property">fd</span>, _manifest);
+          <span class="hljs-keyword">const</span> { data, encoding } = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Manifest</span>.<span class="hljs-title function_">render</span>(
+            _manifest
+          );
+          <span class="hljs-title function_">writeFileSync</span>(file, data, encoding);
         });
     }
   })
@@ -739,29 +783,27 @@ By default it reads manifest from stdin.`</span>
 <li><code>-o, --output</code>: Output file path</li>
 </ul>
 <p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
-<span class="hljs-keyword">import</span> { formatZodErrors } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
+<span class="hljs-keyword">import</span> { formatZodError } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">CLIOptions</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">CLIOptions</span>.<span class="hljs-property">schema</span>&gt;;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">CLIOptions</span> {
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = (
     options?: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">CLIOptions</span>&gt;
-  ): <span class="hljs-function"><span class="hljs-params">CLIOptions</span> =&gt;</span> {
-    <span class="hljs-keyword">const</span> result = schema.<span class="hljs-title function_">default</span>({}).<span class="hljs-title function_">safeParse</span>(options);
-    <span class="hljs-keyword">if</span> (! result.<span class="hljs-property">success</span>) {
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
-        <span class="hljs-string">`Cannot parse the CLI options: <span class="hljs-subst">${
-          formatZodErrors(result.error.errors)
-        }</span>`</span>
-      );
-    }
-    <span class="hljs-keyword">return</span> result.<span class="hljs-property">data</span>;
-  };
+  ): <span class="hljs-function"><span class="hljs-params">CLIOptions</span> =&gt;</span> (
+    schema.<span class="hljs-title function_">default</span>({}).<span class="hljs-title function_">parse</span>(options)
+  );
 
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> schema = z
     .<span class="hljs-title function_">strictObject</span>({
       <span class="hljs-attr">manifest</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
       <span class="hljs-attr">output</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
+    })
+    .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`\
+Cannot parse the CLI options:
+\t<span class="hljs-subst">${formatZodError(e.error.errors[<span class="hljs-number">0</span>])}</span>`</span>
+      );
     });
 }
 </code></pre></p>
@@ -772,7 +814,7 @@ By default it reads manifest from stdin.`</span>
 <ul>
 <li>Because <a href="https://github.com/node-fetch/node-fetch">Node Fetch</a> does not handle <code>file:</code> URI scheme, CodeSlide CLI implements it with <code>fs.readFileSync</code>:
 <pre><code class="language-ts"><span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;node-fetch&#x27;</span>;
-<span class="hljs-keyword">import</span> status <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;statuses&#x27;</span>;
+<span class="hljs-keyword">import</span> statuses <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;statuses&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { pathToFileURL } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;url&#x27;</span>;
 
@@ -789,12 +831,12 @@ By default it reads manifest from stdin.`</span>
   <span class="hljs-keyword">if</span> (path.<span class="hljs-property">protocol</span> === <span class="hljs-string">&#x27;file:&#x27;</span>) {
     <span class="hljs-keyword">return</span> <span class="hljs-title function_">readFileSync</span>(path, <span class="hljs-string">&#x27;utf8&#x27;</span>);
   } <span class="hljs-keyword">else</span> {
-    <span class="hljs-keyword">return</span> <span class="hljs-title function_">fetch</span>(path).<span class="hljs-title function_">then</span>(<span class="hljs-keyword">async</span> (r) =&gt; {
-      <span class="hljs-keyword">if</span> (r.<span class="hljs-property">ok</span>) { <span class="hljs-keyword">return</span> r.<span class="hljs-title function_">text</span>(); }
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
-        <span class="hljs-string">`Cannot GET <span class="hljs-subst">${r.url}</span>: &quot;<span class="hljs-subst">${r.status}</span> <span class="hljs-subst">${status(r.status)}</span>&quot;`</span>
-      );
-    });
+    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(path);
+    <span class="hljs-keyword">if</span> (res.<span class="hljs-property">ok</span>) { <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">text</span>(); }
+    <span class="hljs-keyword">const</span> { status, url } = res;
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
+      <span class="hljs-string">`Cannot GET <span class="hljs-subst">${url}</span> due to the error <span class="hljs-subst">${status}</span> (<span class="hljs-subst">${statuses(status)}</span>)`</span>
+    );
   }
 };
 </code></pre></li>
