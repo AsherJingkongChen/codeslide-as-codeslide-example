@@ -257,11 +257,6 @@ code {
       <span class="hljs-regexp">/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/</span>, <span class="hljs-string">&#x27;&#x27;</span>
     );
     <span class="hljs-keyword">const</span> { content, <span class="hljs-attr">data</span>: { codeslide } } = <span class="hljs-title function_">matter</span>(manifest);
-    <span class="hljs-keyword">if</span> (codeslide === <span class="hljs-literal">undefined</span>) {
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
-        <span class="hljs-string">&#x27;Cannot find the key &quot;codeslide&quot; in the Front Matter section&#x27;</span>
-      );
-    }
     <span class="hljs-keyword">const</span> fm = <span class="hljs-title class_">FrontMatter</span>.<span class="hljs-title function_">parse</span>(codeslide);
     fm.<span class="hljs-property">styles</span> = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(
       fm.<span class="hljs-property">styles</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">path</span>) =&gt;</span> <span class="hljs-title function_">getContent</span>(path))
@@ -317,14 +312,14 @@ code {
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">FrontMatter</span> {
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = (
-    <span class="hljs-attr">fm</span>: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">FrontMatter</span>&gt;
+    fm?: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">FrontMatter</span>&gt;
   ): <span class="hljs-function"><span class="hljs-params">FrontMatter</span> =&gt;</span> {
-    <span class="hljs-keyword">const</span> result = schema.<span class="hljs-title function_">safeParse</span>(fm);
+    <span class="hljs-keyword">const</span> result = schema.<span class="hljs-title function_">default</span>({}).<span class="hljs-title function_">safeParse</span>(fm);
     <span class="hljs-keyword">if</span> (! result.<span class="hljs-property">success</span>) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
-        <span class="hljs-string">`Cannot parse the Front Matter section: &quot;<span class="hljs-subst">${
+        <span class="hljs-string">`Cannot parse the Front Matter section: <span class="hljs-subst">${
           formatZodErrors(result.error.errors)
-        }</span>&quot;`</span>
+        }</span>`</span>
       );
     }
     <span class="hljs-keyword">return</span> result.<span class="hljs-property">data</span>;
@@ -385,9 +380,9 @@ code {
   <span class="hljs-attr">markdown</span>: <span class="hljs-built_in">string</span>
 ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; =&gt; marked.<span class="hljs-title function_">parse</span>(markdown, {
   <span class="hljs-attr">async</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">highlight</span>: <span class="hljs-function">(<span class="hljs-params">code, language</span>) =&gt;</span> (
-    hljs.<span class="hljs-title function_">highlight</span>(code, { language }).<span class="hljs-property">value</span>
-  ),
+  <span class="hljs-attr">highlight</span>: <span class="hljs-function">(<span class="hljs-params">code, language</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> hljs.<span class="hljs-title function_">highlight</span>(code, { language }).<span class="hljs-property">value</span>;
+  },
   <span class="hljs-attr">walkTokens</span>: <span class="hljs-keyword">async</span> (<span class="hljs-attr">token</span>: marked.<span class="hljs-property">Token</span>) =&gt; {
     <span class="hljs-keyword">if</span> (token.<span class="hljs-property">type</span> === <span class="hljs-string">&#x27;link&#x27;</span>) {
       <span class="hljs-keyword">const</span> { href, text, raw } = token;
@@ -479,9 +474,9 @@ code {
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">Renderer</span> {
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = (
-    <span class="hljs-attr">renderer</span>: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">Renderer</span>&gt;
+    renderer?: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">Renderer</span>&gt;
   ): <span class="hljs-function"><span class="hljs-params">Renderer</span> =&gt;</span> (
-    schema.<span class="hljs-title function_">parse</span>(renderer)
+    schema.<span class="hljs-title function_">default</span>({}).<span class="hljs-title function_">parse</span>(renderer)
   );
 
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> render = (
@@ -750,14 +745,14 @@ By default it reads manifest from stdin.`</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">namespace</span> <span class="hljs-title class_">CLIOptions</span> {
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parse = (
-    <span class="hljs-attr">options</span>: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">CLIOptions</span>&gt;
+    options?: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">CLIOptions</span>&gt;
   ): <span class="hljs-function"><span class="hljs-params">CLIOptions</span> =&gt;</span> {
-    <span class="hljs-keyword">const</span> result = schema.<span class="hljs-title function_">safeParse</span>(options);
+    <span class="hljs-keyword">const</span> result = schema.<span class="hljs-title function_">default</span>({}).<span class="hljs-title function_">safeParse</span>(options);
     <span class="hljs-keyword">if</span> (! result.<span class="hljs-property">success</span>) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
-        <span class="hljs-string">`Cannot parse the CLI options: &quot;<span class="hljs-subst">${
+        <span class="hljs-string">`Cannot parse the CLI options: <span class="hljs-subst">${
           formatZodErrors(result.error.errors)
-        }</span>&quot;`</span>
+        }</span>`</span>
       );
     }
     <span class="hljs-keyword">return</span> result.<span class="hljs-property">data</span>;
