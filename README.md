@@ -2,6 +2,7 @@
 
 ## Links
 - [CodeSlide CLI](https://github.com/AsherJingkongChen/codeslide/tree/main/app/cli)
+- [Other examples of CodeSlide CLI](https://github.com/AsherJingkongChen/codeslide/tree/main/app/cli/examples)
 - [Demo on GitHub Pages!](https://asherjingkongchen.github.io/codeslide-cli-as-codeslide-cli-example/)
 
 ## Configuration
