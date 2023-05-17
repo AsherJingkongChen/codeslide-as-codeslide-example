@@ -8,4 +8,5 @@
 ## Resources
 - [Noto Sans Mono](https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&display=swap) (codeFont)
 
-Maker Script: [`./make.sh`](./make.sh)
+## Build
+- [`./make.sh`](./make.sh)
