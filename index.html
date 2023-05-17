@@ -309,6 +309,7 @@ pre > code {
       <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> page.<span class="hljs-title function_">pdf</span>({
         <span class="hljs-attr">printBackground</span>: <span class="hljs-literal">true</span>,
         <span class="hljs-attr">format</span>: manifest.<span class="hljs-property">pageSize</span>,
+        <span class="hljs-attr">landscape</span>: manifest.<span class="hljs-property">orientation</span>! === <span class="hljs-string">&#x27;landscape&#x27;</span>
       });
       <span class="hljs-keyword">await</span> browser.<span class="hljs-title function_">close</span>();
       <span class="hljs-keyword">return</span> {
@@ -337,7 +338,7 @@ pre > code {
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> semver <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;semver-regex&#x27;</span>;
 <span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../src&#x27;</span>;
-<span class="hljs-keyword">import</span> { version } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../package.json&#x27;</span>;
+<span class="hljs-keyword">import</span> { homepage, version } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../package.json&#x27;</span>;
 <span class="hljs-keyword">import</span> { formatZodError, getContent } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">FrontMatter</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">FrontMatter</span>.<span class="hljs-property">schema</span>&gt;;
@@ -349,18 +350,46 @@ pre > code {
     schema.<span class="hljs-title function_">default</span>({}).<span class="hljs-title function_">parseAsync</span>(fm)
   );
 
-  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> schema = z
-    .<span class="hljs-title function_">object</span>({
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> schema =
+    z.<span class="hljs-title function_">object</span>({
+      <span class="hljs-attr">version</span>: z.<span class="hljs-title function_">string</span>()
+        .<span class="hljs-title function_">regex</span>(<span class="hljs-title function_">semver</span>(), <span class="hljs-string">&#x27;Expect semver string&#x27;</span>)
+        .<span class="hljs-title function_">default</span>(version),
       <span class="hljs-attr">format</span>: z.<span class="hljs-title function_">enum</span>([<span class="hljs-string">&#x27;html&#x27;</span>, <span class="hljs-string">&#x27;pdf&#x27;</span>]).<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;html&#x27;</span>),
-      <span class="hljs-attr">pageSize</span>: z
-        .<span class="hljs-title function_">enum</span>([
-          <span class="hljs-string">&#x27;letter&#x27;</span>, <span class="hljs-string">&#x27;legal&#x27;</span>, <span class="hljs-string">&#x27;tabloid&#x27;</span>, <span class="hljs-string">&#x27;ledger&#x27;</span>,
-          <span class="hljs-string">&#x27;A0&#x27;</span>, <span class="hljs-string">&#x27;A1&#x27;</span>, <span class="hljs-string">&#x27;A2&#x27;</span>, <span class="hljs-string">&#x27;A3&#x27;</span>, <span class="hljs-string">&#x27;A4&#x27;</span>, <span class="hljs-string">&#x27;A5&#x27;</span>, <span class="hljs-string">&#x27;A6&#x27;</span>
-        ])
-        .<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;A4&#x27;</span>),
-      <span class="hljs-attr">version</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">regex</span>(<span class="hljs-title function_">semver</span>()).<span class="hljs-title function_">default</span>(version),
+      <span class="hljs-attr">pageSize</span>: z.<span class="hljs-title function_">enum</span>([
+        <span class="hljs-string">&#x27;ledger&#x27;</span>, <span class="hljs-string">&#x27;legal&#x27;</span>, <span class="hljs-string">&#x27;letter&#x27;</span>, <span class="hljs-string">&#x27;tabloid&#x27;</span>,
+        <span class="hljs-string">&#x27;A0&#x27;</span>, <span class="hljs-string">&#x27;A1&#x27;</span>, <span class="hljs-string">&#x27;A2&#x27;</span>, <span class="hljs-string">&#x27;A3&#x27;</span>, <span class="hljs-string">&#x27;A4&#x27;</span>, <span class="hljs-string">&#x27;A5&#x27;</span>, <span class="hljs-string">&#x27;A6&#x27;</span>,
+      ]).<span class="hljs-title function_">optional</span>(),
+      <span class="hljs-attr">orientation</span>: z.<span class="hljs-title function_">enum</span>([
+        <span class="hljs-string">&#x27;landscape&#x27;</span>, <span class="hljs-string">&#x27;portrait&#x27;</span>,
+      ]).<span class="hljs-title function_">optional</span>(),
     })
-    .<span class="hljs-title function_">and</span>(<span class="hljs-title class_">Renderer</span>.<span class="hljs-property">schema</span>.<span class="hljs-title function_">omit</span>({ <span class="hljs-attr">slides</span>: <span class="hljs-literal">true</span> }))
+    .<span class="hljs-title function_">and</span>(
+      <span class="hljs-title class_">Renderer</span>.<span class="hljs-property">schema</span>.<span class="hljs-title function_">omit</span>({ <span class="hljs-attr">slides</span>: <span class="hljs-literal">true</span> })
+    )
+    .superRefine(<span class="hljs-function">(<span class="hljs-params">fm, ctx</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (fm.<span class="hljs-property">format</span> === <span class="hljs-string">&#x27;pdf&#x27;</span>) {
+        fm.<span class="hljs-property">pageSize</span> = fm.<span class="hljs-property">pageSize</span> ?? <span class="hljs-string">&#x27;A4&#x27;</span>;
+        fm.<span class="hljs-property">orientation</span> = fm.<span class="hljs-property">orientation</span> ?? <span class="hljs-string">&#x27;landscape&#x27;</span>;
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span> (fm.<span class="hljs-property">pageSize</span>) {
+          ctx.<span class="hljs-title function_">addIssue</span>({
+            <span class="hljs-attr">code</span>: <span class="hljs-string">&#x27;invalid_type&#x27;</span>,
+            <span class="hljs-attr">path</span>: [<span class="hljs-string">&#x27;pageSize&#x27;</span>],
+            <span class="hljs-attr">expected</span>: <span class="hljs-string">&#x27;never&#x27;</span>,
+            <span class="hljs-attr">received</span>: <span class="hljs-string">&#x27;string&#x27;</span>,
+          });
+        }
+        <span class="hljs-keyword">if</span> (fm.<span class="hljs-property">orientation</span>) {
+          ctx.<span class="hljs-title function_">addIssue</span>({
+            <span class="hljs-attr">code</span>: <span class="hljs-string">&#x27;invalid_type&#x27;</span>,
+            <span class="hljs-attr">path</span>: [<span class="hljs-string">&#x27;orientation&#x27;</span>],
+            <span class="hljs-attr">expected</span>: <span class="hljs-string">&#x27;never&#x27;</span>,
+            <span class="hljs-attr">received</span>: <span class="hljs-string">&#x27;string&#x27;</span>,
+          });
+        }
+      }
+    })
     .<span class="hljs-title function_">transform</span>(<span class="hljs-keyword">async</span> (fm) =&gt; {
       fm.<span class="hljs-property">styles</span> = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(
         fm.<span class="hljs-property">styles</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">path</span>) =&gt;</span> <span class="hljs-title function_">getContent</span>(path))
@@ -374,21 +403,11 @@ pre > code {
       <span class="hljs-keyword">return</span> fm;
     })
     .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-      <span class="hljs-keyword">const</span> error = e.<span class="hljs-property">error</span>.<span class="hljs-property">errors</span>[<span class="hljs-number">0</span>];
-      error.<span class="hljs-property">path</span>.<span class="hljs-title function_">unshift</span>(<span class="hljs-string">&#x27;codeslide&#x27;</span>);
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`\
 Cannot parse the Front Matter section:
-\t<span class="hljs-subst">${formatZodError(error)}</span>`</span>
+\t<span class="hljs-subst">${formatZodError(e.error, [<span class="hljs-string">&#x27;codeslide&#x27;</span>])}</span>
+\tReference: <span class="hljs-subst">${homepage}</span>/docs/REFERENCE.md`</span>
       );
-    })
-    .<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">fm</span>) =&gt;</span> {
-      <span class="hljs-keyword">if</span> (
-        fm.<span class="hljs-property">format</span> === <span class="hljs-string">&#x27;pdf&#x27;</span> &amp;&amp;
-        fm.<span class="hljs-property">layout</span> !== <span class="hljs-string">&#x27;vertical&#x27;</span>
-      ) {
-        fm.<span class="hljs-property">layout</span> = <span class="hljs-string">&#x27;vertical&#x27;</span>;
-      }
-      <span class="hljs-keyword">return</span> fm;
     });
 }
 </code></pre></p>
@@ -541,22 +560,23 @@ Cannot parse the code at <span class="hljs-subst">${href}</span>:
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _;
 }
 </code></pre>
-<pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> <span class="hljs-title class_">VisualStudio</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./VisualStudio.css&#x27;</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-title class_">HorizontalStylesheet</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.horizontal.css&#x27;</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-title class_">VerticalStylesheet</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.vertical.css&#x27;</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-title class_">HTMLTemplate</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.html&#x27;</span>;
+<pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> <span class="hljs-title class_">HighlightCSS</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./highlight.css&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">SlidesCSS</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.css&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">SlidesHTML</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.html&#x27;</span>;
 
-<span class="hljs-keyword">const</span> <span class="hljs-title class_">Stylesheets</span> = {
-  <span class="hljs-attr">horizontal</span>: <span class="hljs-title class_">HorizontalStylesheet</span>,
-  <span class="hljs-attr">vertical</span>: <span class="hljs-title class_">VerticalStylesheet</span>,
-  <span class="hljs-attr">highlight</span>: <span class="hljs-title class_">VisualStudio</span>,
+<span class="hljs-keyword">export</span> {
+  <span class="hljs-title class_">HighlightCSS</span>,
+  <span class="hljs-title class_">SlidesCSS</span>,
+  <span class="hljs-title class_">SlidesHTML</span>,
 };
-
-<span class="hljs-keyword">export</span> { <span class="hljs-title class_">HTMLTemplate</span>, <span class="hljs-title class_">Stylesheets</span> };
 </code></pre>
 <pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { render <span class="hljs-keyword">as</span> renderEta } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;eta&#x27;</span>;
 <span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Stylesheets</span>, <span class="hljs-title class_">HTMLTemplate</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../assets&#x27;</span>;
+<span class="hljs-keyword">import</span> {
+  <span class="hljs-title class_">HighlightCSS</span>,
+  <span class="hljs-title class_">SlidesCSS</span>,
+  <span class="hljs-title class_">SlidesHTML</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../assets&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Renderer</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Renderer</span>.<span class="hljs-property">schema</span>&gt;;
 
@@ -571,15 +591,15 @@ Cannot parse the code at <span class="hljs-subst">${href}</span>:
     <span class="hljs-attr">renderer</span>: <span class="hljs-title class_">Renderer</span>
   ): <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> {
     <span class="hljs-keyword">let</span> {
+      slides, styles,
       codeFont, slideFont,
-      layout, slides, styles,
     } = renderer;
 
     <span class="hljs-keyword">const</span> preStyles = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>&lt;<span class="hljs-built_in">string</span>&gt;();
     <span class="hljs-keyword">if</span> (! styles.<span class="hljs-property">length</span>) {
-      preStyles.<span class="hljs-title function_">push</span>(<span class="hljs-title class_">Stylesheets</span>[<span class="hljs-string">&#x27;highlight&#x27;</span>]);
+      preStyles.<span class="hljs-title function_">push</span>(<span class="hljs-title class_">HighlightCSS</span>);
     }
-    preStyles.<span class="hljs-title function_">push</span>(<span class="hljs-title class_">Stylesheets</span>[layout]);
+    preStyles.<span class="hljs-title function_">push</span>(<span class="hljs-title class_">SlidesCSS</span>);
     styles.<span class="hljs-title function_">unshift</span>(...preStyles);
 
     <span class="hljs-keyword">if</span> (codeFont.<span class="hljs-property">rule</span>) {
@@ -594,6 +614,7 @@ Cannot parse the code at <span class="hljs-subst">${href}</span>:
         slideFont.<span class="hljs-property">rule</span>,
       );
     }
+
     styles.<span class="hljs-title function_">push</span>(<span class="hljs-string">`\
 /*! CodeSlide codeFont properties */
 code {
@@ -610,49 +631,40 @@ pre &gt; code {
   font-size: <span class="hljs-subst">${slideFont.size}</span>;
   font-weight: <span class="hljs-subst">${slideFont.weight}</span>;
 }`</span>);
-    <span class="hljs-keyword">const</span> style = <span class="hljs-string">`&lt;style&gt;<span class="hljs-subst">${styles.join(<span class="hljs-string">&#x27;\n&#x27;</span>)}</span>&lt;/style&gt;`</span>;
+
+    <span class="hljs-keyword">const</span> style = <span class="hljs-string">`\
+&lt;style&gt;
+<span class="hljs-subst">${styles.join(<span class="hljs-string">&#x27;\n&#x27;</span>)}</span>
+&lt;/style&gt;`</span>;
 
     <span class="hljs-keyword">return</span> <span class="hljs-title function_">renderEta</span>(
-      <span class="hljs-title class_">HTMLTemplate</span>,
-      {
-        layout,
-        slides,
-        style,
-      },
-      {
-        <span class="hljs-attr">autoTrim</span>: <span class="hljs-literal">false</span>,
-        <span class="hljs-attr">tags</span>: [<span class="hljs-string">&#x27;{%&#x27;</span>, <span class="hljs-string">&#x27;%}&#x27;</span>]
-      }
+      <span class="hljs-title class_">SlidesHTML</span>,
+      { slides, style },
+      { <span class="hljs-attr">autoTrim</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">tags</span>: [<span class="hljs-string">&#x27;{%&#x27;</span>, <span class="hljs-string">&#x27;%}&#x27;</span>] }
     );
   };
 
-  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> schema = z
-    .<span class="hljs-title function_">object</span>({
-      <span class="hljs-attr">codeFont</span>: z
-        .<span class="hljs-title function_">object</span>({
-          <span class="hljs-attr">family</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>()
-            .<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> <span class="hljs-string">`\
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> schema = z.<span class="hljs-title function_">object</span>({
+    <span class="hljs-attr">slides</span>: z.<span class="hljs-title function_">array</span>(z.<span class="hljs-title function_">string</span>()).<span class="hljs-title function_">default</span>([]),
+    <span class="hljs-attr">styles</span>: z.<span class="hljs-title function_">array</span>(z.<span class="hljs-title function_">string</span>()).<span class="hljs-title function_">default</span>([]),
+    <span class="hljs-attr">codeFont</span>: z.<span class="hljs-title function_">object</span>({
+      <span class="hljs-attr">family</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>().<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> <span class="hljs-string">`\
 <span class="hljs-subst">${arg ? <span class="hljs-string">`<span class="hljs-subst">${arg}</span>, `</span> : <span class="hljs-string">&#x27;&#x27;</span>}</span>ui-monospace, SFMono-Regular, \
 SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
-            ),
-          <span class="hljs-attr">rule</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
-          <span class="hljs-attr">size</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;medium&#x27;</span>),
-          <span class="hljs-attr">weight</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;normal&#x27;</span>),
-        })
-        .<span class="hljs-title function_">default</span>({}),
-      <span class="hljs-attr">slideFont</span>: z
-        .<span class="hljs-title function_">object</span>({
-          <span class="hljs-attr">family</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>()
-            .<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> <span class="hljs-string">`<span class="hljs-subst">${arg ? <span class="hljs-string">`<span class="hljs-subst">${arg}</span>, `</span> : <span class="hljs-string">&#x27;&#x27;</span>}</span>system-ui`</span>),
-          <span class="hljs-attr">rule</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
-          <span class="hljs-attr">size</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;large&#x27;</span>),
-          <span class="hljs-attr">weight</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;normal&#x27;</span>),
-        })
-        .<span class="hljs-title function_">default</span>({}),
-      <span class="hljs-attr">layout</span>: z.<span class="hljs-title function_">enum</span>([<span class="hljs-string">&#x27;horizontal&#x27;</span>, <span class="hljs-string">&#x27;vertical&#x27;</span>]).<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;horizontal&#x27;</span>),
-      <span class="hljs-attr">slides</span>: z.<span class="hljs-title function_">array</span>(z.<span class="hljs-title function_">string</span>()).<span class="hljs-title function_">default</span>([]),
-      <span class="hljs-attr">styles</span>: z.<span class="hljs-title function_">array</span>(z.<span class="hljs-title function_">string</span>()).<span class="hljs-title function_">default</span>([]),
-    });
+      ),
+      <span class="hljs-attr">rule</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
+      <span class="hljs-attr">size</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;medium&#x27;</span>),
+      <span class="hljs-attr">weight</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;normal&#x27;</span>),
+    }).<span class="hljs-title function_">default</span>({}),
+    <span class="hljs-attr">slideFont</span>: z.<span class="hljs-title function_">object</span>({
+      <span class="hljs-attr">family</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>().<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> <span class="hljs-string">`\
+<span class="hljs-subst">${arg ? <span class="hljs-string">`<span class="hljs-subst">${arg}</span>, `</span> : <span class="hljs-string">&#x27;&#x27;</span>}</span>system-ui`</span>
+      ),
+      <span class="hljs-attr">rule</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
+      <span class="hljs-attr">size</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;large&#x27;</span>),
+      <span class="hljs-attr">weight</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;normal&#x27;</span>),
+    }).<span class="hljs-title function_">default</span>({}),
+  });
 }
 </code></pre></p>
 </div>
@@ -678,9 +690,6 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slides&quot;</span>&gt;</span>
 {%_ for (const [index, slide] of it.slides.entries()) { %}
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide_{%~ index %}&quot;</span>&gt;</span>
-  {%_ if (index !== 0 &amp;&amp; it.layout === &#x27;vertical&#x27;) { %}
-<span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
-  {%_ } %}
 {%~ slide %}
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 {%_ } %}
@@ -690,8 +699,8 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 </code></pre></p>
 </div>
 <div class="slide" id="slide_9">
-<h1 id="css-horizontal-layout">CSS (Horizontal layout)</h1>
-<p><pre><code class="language-css hljs"><span class="hljs-comment">/*! CodeSlide slides.horizontal.css */</span>
+<h1 id="default-css-for-slides">Default CSS for slides</h1>
+<p><pre><code class="language-css hljs"><span class="hljs-comment">/*! CodeSlide Presets */</span>
 <span class="hljs-selector-tag">a</span> {
   <span class="hljs-attribute">color</span>: dodgerblue;
 }
@@ -704,8 +713,6 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 }
 <span class="hljs-selector-tag">html</span> {
   <span class="hljs-attribute">overflow</span>: hidden;
-  -webkit-print-<span class="hljs-attribute">color</span>-adjust: exact;
-  print-<span class="hljs-attribute">color</span>-adjust: exact;
 }
 <span class="hljs-selector-tag">img</span> {
   <span class="hljs-attribute">max-width</span>: <span class="hljs-number">100%</span>;
@@ -728,107 +735,141 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
   <span class="hljs-attribute">max-width</span>: <span class="hljs-number">100%</span>;
 }
 <span class="hljs-selector-class">.slide</span> {
-  <span class="hljs-attribute">min-width</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100vw</span> - <span class="hljs-number">4em</span>);
-  <span class="hljs-attribute">height</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100vh</span> - <span class="hljs-number">2em</span>);
   <span class="hljs-attribute">padding</span>: <span class="hljs-number">1em</span> <span class="hljs-number">2em</span>;
-  <span class="hljs-attribute">overflow-y</span>: scroll;
-  <span class="hljs-attribute">scroll-snap-align</span>: start;
-  <span class="hljs-attribute">scroll-snap-stop</span>: always;
-  <span class="hljs-attribute">scrollbar-width</span>: none;
-}
-<span class="hljs-selector-class">.slide</span>::-webkit-scrollbar {
-  <span class="hljs-attribute">display</span>: none;
-}
-<span class="hljs-keyword">@media</span> <span class="hljs-keyword">only</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">max-width</span>: <span class="hljs-number">768px</span>) {
-  <span class="hljs-selector-class">.slide</span> {
-    <span class="hljs-attribute">height</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">90%</span> - <span class="hljs-number">2em</span>);
-    <span class="hljs-attribute">height</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100</span>dvh - <span class="hljs-number">2em</span>);
-  }
 }
 <span class="hljs-selector-id">#slides</span> {
-  <span class="hljs-attribute">display</span>: flex;
-  <span class="hljs-attribute">flex-direction</span>: row;
-  <span class="hljs-attribute">width</span>: <span class="hljs-number">100vw</span>;
-  <span class="hljs-attribute">height</span>: <span class="hljs-number">100vh</span>;
-  <span class="hljs-attribute">overflow-x</span>: scroll;
-  overscroll-behavior: none;
-  scroll-behavior: smooth;
-  <span class="hljs-attribute">scroll-snap-type</span>: x mandatory;
   <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1.5</span>;
+}
+<span class="hljs-keyword">@media</span> screen {
+  <span class="hljs-selector-class">.slide</span> {
+    <span class="hljs-attribute">min-width</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100vw</span> - <span class="hljs-number">4em</span>);
+    <span class="hljs-attribute">height</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100vh</span> - <span class="hljs-number">2em</span>);
+    <span class="hljs-attribute">height</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">100</span>dvh - <span class="hljs-number">2em</span>);
+    <span class="hljs-attribute">overflow-y</span>: scroll;
+    <span class="hljs-attribute">scroll-margin</span>: <span class="hljs-number">0</span>;
+    <span class="hljs-attribute">scroll-snap-align</span>: start;
+    <span class="hljs-attribute">scroll-snap-stop</span>: always;
+    <span class="hljs-attribute">scrollbar-width</span>: none;
+  }
+  <span class="hljs-selector-class">.slide</span>::-webkit-scrollbar {
+    <span class="hljs-attribute">display</span>: none;
+  }
+  <span class="hljs-selector-id">#slides</span> {
+    <span class="hljs-attribute">display</span>: flex;
+    <span class="hljs-attribute">flex-direction</span>: row;
+    <span class="hljs-attribute">width</span>: <span class="hljs-number">100vw</span>;
+    <span class="hljs-attribute">height</span>: <span class="hljs-number">100vh</span>;
+    <span class="hljs-attribute">overflow-x</span>: scroll;
+    overscroll-behavior: none;
+    scroll-behavior: smooth;
+    <span class="hljs-attribute">scroll-snap-type</span>: x mandatory;
+  }
 }
 <span class="hljs-keyword">@media</span> print {
   <span class="hljs-keyword">@page</span> {
     <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
-    size: auto;
   }
-  <span class="hljs-selector-id">#slides</span> {
-    <span class="hljs-attribute">width</span>: auto;
-    <span class="hljs-attribute">height</span>: auto;
+  <span class="hljs-selector-tag">html</span> {
+    print-<span class="hljs-attribute">color</span>-adjust: exact;
+    -webkit-print-<span class="hljs-attribute">color</span>-adjust: exact;
+  }
+  <span class="hljs-comment">/* h1, h2, h3, h4, h5, h6 {
+    break-after: avoid-page;
+  } */</span>
+  <span class="hljs-selector-class">.slide</span> {
+    <span class="hljs-attribute">break-after</span>: page;
   }
 }
 </code></pre></p>
 </div>
 <div class="slide" id="slide_10">
-<h1 id="css-vertical-layout">CSS (Vertical layout)</h1>
-<p><pre><code class="language-css hljs"><span class="hljs-comment">/*! CodeSlide slides.vertical.css */</span>
-<span class="hljs-selector-tag">a</span> {
-  <span class="hljs-attribute">color</span>: dodgerblue;
+<h1 id="default-css-for-syntax-highlighting">Default CSS for syntax highlighting</h1>
+<p>Visual Studio 2015 Dark retrieved from <a href="https://cdnjs.com/libraries/highlight.js" title="Highlight.js CDN">Highlight.js</a></p>
+<p><pre><code class="language-css hljs"><span class="hljs-comment">/*! Highlight.js Visual Studio 2015 Dark */</span>
+<span class="hljs-selector-class">.hljs</span> {
+  <span class="hljs-attribute">background</span>: <span class="hljs-number">#1e1e1e</span>;
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#dcdcdc</span>;
 }
-<span class="hljs-selector-tag">body</span> {
-  <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
-  <span class="hljs-attribute">overflow</span>: hidden;
+<span class="hljs-selector-class">.hljs-keyword</span>,
+<span class="hljs-selector-class">.hljs-literal</span>,
+<span class="hljs-selector-class">.hljs-name</span>,
+<span class="hljs-selector-class">.hljs-symbol</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#569cd6</span>;
 }
-<span class="hljs-selector-tag">code</span> {
-  <span class="hljs-attribute">font-size</span>: <span class="hljs-number">85%</span>;
+<span class="hljs-selector-class">.hljs-link</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#569cd6</span>;
+  <span class="hljs-attribute">text-decoration</span>: underline;
 }
-<span class="hljs-selector-tag">html</span> {
-  <span class="hljs-attribute">overflow</span>: hidden;
-  -webkit-print-<span class="hljs-attribute">color</span>-adjust: exact;
-  print-<span class="hljs-attribute">color</span>-adjust: exact;
+<span class="hljs-selector-class">.hljs-built_in</span>,
+<span class="hljs-selector-class">.hljs-type</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#4ec9b0</span>;
 }
-<span class="hljs-selector-tag">img</span> {
-  <span class="hljs-attribute">max-width</span>: <span class="hljs-number">100%</span>;
+<span class="hljs-selector-class">.hljs-class</span>,
+<span class="hljs-selector-class">.hljs-number</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#b8d7a3</span>;
 }
-<span class="hljs-selector-tag">li</span> {
-  <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">0.25em</span>;
+<span class="hljs-selector-class">.hljs-meta</span> <span class="hljs-selector-class">.hljs-string</span>,
+<span class="hljs-selector-class">.hljs-string</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#d69d85</span>;
 }
-<span class="hljs-selector-tag">p</span><span class="hljs-selector-pseudo">:empty</span> {
-  <span class="hljs-attribute">display</span>: none;
+<span class="hljs-selector-class">.hljs-regexp</span>,
+<span class="hljs-selector-class">.hljs-template-tag</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#9a5334</span>;
 }
-pre {
-  <span class="hljs-attribute">white-space</span>: pre-wrap;
-  <span class="hljs-attribute">overflow-wrap</span>: break-word;
+<span class="hljs-selector-class">.hljs-formula</span>,
+<span class="hljs-selector-class">.hljs-function</span>,
+<span class="hljs-selector-class">.hljs-params</span>,
+<span class="hljs-selector-class">.hljs-subst</span>,
+<span class="hljs-selector-class">.hljs-title</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#dcdcdc</span>;
 }
-pre &gt; <span class="hljs-selector-tag">code</span> {
-  <span class="hljs-attribute">display</span>: block;
-  <span class="hljs-attribute">padding</span>: <span class="hljs-number">1em</span>;
+<span class="hljs-selector-class">.hljs-comment</span>,
+<span class="hljs-selector-class">.hljs-quote</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#57a64a</span>;
+  <span class="hljs-attribute">font-style</span>: italic;
 }
-<span class="hljs-selector-tag">video</span> {
-  <span class="hljs-attribute">max-width</span>: <span class="hljs-number">100%</span>;
+<span class="hljs-selector-class">.hljs-doctag</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#608b4e</span>;
 }
-<span class="hljs-selector-class">.slide</span> {
-  <span class="hljs-attribute">padding</span>: <span class="hljs-number">1em</span> <span class="hljs-number">2em</span>;
+<span class="hljs-selector-class">.hljs-meta</span>,
+<span class="hljs-selector-class">.hljs-meta</span> <span class="hljs-selector-class">.hljs-keyword</span>,
+<span class="hljs-selector-class">.hljs-tag</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#9b9b9b</span>;
 }
-<span class="hljs-selector-id">#slides</span> {
-  <span class="hljs-attribute">display</span>: flex;
-  <span class="hljs-attribute">flex-direction</span>: column;
-  <span class="hljs-attribute">position</span>: absolute; <span class="hljs-comment">/* fix height on mobile */</span>
-  <span class="hljs-attribute">width</span>: <span class="hljs-number">100vw</span>;
-  <span class="hljs-attribute">height</span>: <span class="hljs-number">100vh</span>;
-  <span class="hljs-attribute">overflow-y</span>: scroll;
-  overscroll-behavior: none;
-  scroll-behavior: smooth;
-  <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1.5</span>;
+<span class="hljs-selector-class">.hljs-template-variable</span>,
+<span class="hljs-selector-class">.hljs-variable</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#bd63c5</span>;
 }
-<span class="hljs-keyword">@media</span> print {
-  <span class="hljs-keyword">@page</span> {
-    <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
-    size: auto;
-  }
-  <span class="hljs-selector-id">#slides</span> {
-    <span class="hljs-attribute">width</span>: auto;
-    <span class="hljs-attribute">height</span>: auto;
-  }
+<span class="hljs-selector-class">.hljs-attr</span>,
+<span class="hljs-selector-class">.hljs-attribute</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#9cdcfe</span>;
+}
+<span class="hljs-selector-class">.hljs-section</span> {
+  <span class="hljs-attribute">color</span>: gold;
+}
+<span class="hljs-selector-class">.hljs-emphasis</span> {
+  <span class="hljs-attribute">font-style</span>: italic;
+}
+<span class="hljs-selector-class">.hljs-strong</span> {
+  <span class="hljs-attribute">font-weight</span>: <span class="hljs-number">700</span>;
+}
+<span class="hljs-selector-class">.hljs-bullet</span>,
+<span class="hljs-selector-class">.hljs-selector-attr</span>,
+<span class="hljs-selector-class">.hljs-selector-class</span>,
+<span class="hljs-selector-class">.hljs-selector-id</span>,
+<span class="hljs-selector-class">.hljs-selector-pseudo</span>,
+<span class="hljs-selector-class">.hljs-selector-tag</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#d7ba7d</span>;
+}
+<span class="hljs-selector-class">.hljs-addition</span> {
+  <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#144212</span>;
+  <span class="hljs-attribute">display</span>: inline-block;
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
+}
+<span class="hljs-selector-class">.hljs-deletion</span> {
+  <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#600</span>;
+  <span class="hljs-attribute">display</span>: inline-block;
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
 }
 </code></pre></p>
 </div>
@@ -903,6 +944,7 @@ By default it reads manifest from stdin.`</span>
 </ul>
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 <span class="hljs-keyword">import</span> { formatZodError } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
+<span class="hljs-keyword">import</span> { homepage } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../package.json&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">CLIOptions</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">CLIOptions</span>.<span class="hljs-property">schema</span>&gt;;
 
@@ -921,8 +963,9 @@ By default it reads manifest from stdin.`</span>
     .<span class="hljs-title function_">strict</span>()
     .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`\
-Cannot parse the CLI options:
-\t<span class="hljs-subst">${formatZodError(e.error.errors[<span class="hljs-number">0</span>])}</span>`</span>
+Cannot parse the Front Matter section:
+\t<span class="hljs-subst">${formatZodError(e.error, [<span class="hljs-string">&#x27;codeslide&#x27;</span>])}</span>
+\tReference: <span class="hljs-subst">${homepage}</span>/docs/REFERENCE.md`</span>
       );
     });
 }

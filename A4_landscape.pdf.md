@@ -87,14 +87,16 @@ codeslide:
 [:code.html](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/assets/slides.html)
 
 ---
-# CSS (Horizontal layout)
+# Default CSS for slides
 
-[:code.css](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/assets/slides.horizontal.css)
+[:code.css](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/assets/slides.css)
 
 ---
-# CSS (Vertical layout)
+# Default CSS for syntax highlighting
 
-[:code.css](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/assets/slides.vertical.css)
+Visual Studio 2015 Dark retrieved from [Highlight.js](https://cdnjs.com/libraries/highlight.js "Highlight.js CDN")
+
+[:code.css](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/assets/highlight.css)
 
 ---
 # The entry point
