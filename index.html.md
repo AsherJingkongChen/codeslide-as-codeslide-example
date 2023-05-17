@@ -1,8 +1,7 @@
 ---
 codeslide:
-  version: 0.13.0
+  version: 0.14.0
   format: html
-  layout: vertical
   codeFont:
     family: Noto Sans Mono
     rule: https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&display=swap

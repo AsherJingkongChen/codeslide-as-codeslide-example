@@ -1,12 +1,10 @@
 #! /usr/bin/env sh
 
-echo "html_horizontal.html";
-../../dist/app.js -m ./html_horizontal.md -o ./html_horizontal.html;
+echo "index.html";
+../../dist/app.js -m ./index.html.md -o ./index.html;
 
-echo "html_vertical.html";
-../../dist/app.js -m ./html_vertical.md -o ./html_vertical.html;
+echo "A4_landscape.pdf";
+../../dist/app.js -m ./A4_landscape.pdf.md -o ./A4_landscape.pdf;
 
-echo "pdf_A4.pdf";
-../../dist/app.js -m ./pdf_A4.md -o ./pdf_A4.pdf;
-
-cp ./html_horizontal.html ./index.html;
+echo "A4_portrait.pdf";
+../../dist/app.js -m ./A4_portrait.pdf.md -o ./A4_portrait.pdf;
