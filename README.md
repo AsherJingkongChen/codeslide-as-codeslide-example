@@ -5,8 +5,7 @@
 - [Other examples of CodeSlide CLI](https://github.com/AsherJingkongChen/codeslide/tree/main/app/cli/examples)
 - [Demo on GitHub Pages!](https://asherjingkongchen.github.io/codeslide-cli-as-codeslide-cli-example/)
 
-## Configuration
-Styles
-- [Noto Sans Mono](https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&display=swap) (Font)
+## Resources
+- [Noto Sans Mono](https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&display=swap) (codeFont)
 
 Maker Script: [`./make.sh`](./make.sh)
