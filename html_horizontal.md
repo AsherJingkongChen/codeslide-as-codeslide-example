@@ -1,13 +1,11 @@
 ---
 codeslide:
-  version: 0.12.0
-  fontFamily: Noto Sans Mono
-  fontSize: large
-  fontWeight: normal
+  version: 0.13.0
   format: html
   layout: horizontal
-  styles:
-    - https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&display=swap
+  codeFont:
+    family: Noto Sans Mono
+    rule: https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&display=swap
 
 ---
 # Behind the Scenes of CodeSlide CLI

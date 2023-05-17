@@ -11,88 +11,83 @@
 <link
   href="https://fonts.gstatic.com"
   rel="preconnect" crossorigin>
-<style>
+<style>/*! Highlight.js VisualStudio.css */
 pre code.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 1em;
+  display:block;
+  overflow-x:auto;
+  padding:1em;
 }
 code.hljs {
-  padding: 3px 5px;
+  padding:3px 5px;
 }
 .hljs {
-  color: #abb2bf;
-  background: #282c34;
+  background:#fff;
+  color:#000;
 }
 .hljs-comment,
-.hljs-quote {
-  color: #5c6370;
-  font-style: italic;
+.hljs-quote,
+.hljs-variable {
+  color:green;
 }
-.hljs-doctag,
-.hljs-formula,
-.hljs-keyword {
-  color: #c678dd;
-}
-.hljs-deletion,
+.hljs-built_in,
+.hljs-keyword,
 .hljs-name,
-.hljs-section,
 .hljs-selector-tag,
-.hljs-subst {
-  color: #e06c75;
-}
-.hljs-literal {
-  color: #56b6c2;
+.hljs-tag {
+  color:#00f;
 }
 .hljs-addition,
 .hljs-attribute,
-.hljs-meta .hljs-string,
-.hljs-regexp,
-.hljs-string {
-  color: #98c379;
-}
-.hljs-attr,
-.hljs-number,
-.hljs-selector-attr,
-.hljs-selector-class,
-.hljs-selector-pseudo,
+.hljs-literal,
+.hljs-section,
+.hljs-string,
+.hljs-template-tag,
 .hljs-template-variable,
-.hljs-type,
-.hljs-variable {
-  color: #d19a66;
+.hljs-title,
+.hljs-type {
+  color:#a31515;
+}
+.hljs-deletion,
+.hljs-meta,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color:#2b91af;
+}
+.hljs-doctag {
+  color:grey;
+}
+.hljs-attr {
+  color:red;
 }
 .hljs-bullet,
 .hljs-link,
-.hljs-meta,
-.hljs-selector-id,
-.hljs-symbol,
-.hljs-title {
-  color: #61aeee;
-}
-.hljs-built_in,
-.hljs-class .hljs-title,
-.hljs-title.class_ {
-  color: #e6c07b;
+.hljs-symbol {
+  color:#00b0e8;
 }
 .hljs-emphasis {
-  font-style: italic;
+  font-style:italic;
 }
 .hljs-strong {
-  font-weight: 700;
-}
-.hljs-link {
-  text-decoration: underline;
+  font-weight:700;
 }
 
 /*! CodeSlide slides.vertical.css */
-html, body {
-  margin: 0;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
-  overflow: hidden;
-}
 a {
   color: dodgerblue;
+}
+body {
+  margin: 0;
+  overflow: hidden;
+}
+code {
+  font-size: 85%;
+}
+html {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+img {
+  max-width: 100%;
 }
 li {
   margin-top: 0.25em;
@@ -108,6 +103,9 @@ pre > code {
   display: block;
   padding: 1em;
 }
+video {
+  max-width: 100%;
+}
 .slide {
   padding: 1em 2em;
 }
@@ -120,6 +118,7 @@ pre > code {
   overflow-y: scroll;
   overscroll-behavior: none;
   scroll-behavior: smooth;
+  line-height: 1.5;
 }
 @media print {
   @page {
@@ -132,6 +131,7 @@ pre > code {
   }
 }
 
+/*! CodeSlide codeFont.rule */
 @font-face {
   font-family: 'Noto Sans Mono';
   font-style: normal;
@@ -149,23 +149,27 @@ pre > code {
   src: url(https://fonts.gstatic.com/s/notosansmono/v26/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_LRO49o.ttf) format('truetype');
 }
 
+/*! CodeSlide codeFont properties */
 code {
   font-family: Noto Sans Mono, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-  font-size: 85%;
 }
+pre > code {
+  font-size: medium;
+  font-weight: normal;
+}
+
+/* CodeSlide slideFont properties */
 #slides {
   font-family: system-ui;
   font-size: large;
   font-weight: normal;
-  line-height: 1.5;
-}
-</style>
+}</style>
 </head>
 <body class="hljs">
 <div id="slides">
 <div class="slide" id="slide_0">
 <h1 id="behind-the-scenes-of-codeslide-cli">Behind the Scenes of CodeSlide CLI</h1>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;cli&quot;</span>&gt;</span>
+<pre><code class="language-html hljs"><span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;cli&quot;</span>&gt;</span>
   CodeSlide CLI
 <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
 </code></pre>
@@ -217,7 +221,7 @@ code {
 <li><code>Manifest.parse</code>: Parse a <a href="#manifest-file">manifest file</a> into a <code>Manifest</code> schema</li>
 <li><code>Manifest.render</code>: Render the slideshow</li>
 </ul>
-<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> matter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;gray-matter&#x27;</span>;
+<p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> matter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;gray-matter&#x27;</span>;
 <span class="hljs-keyword">import</span> { launch } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;puppeteer&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">FrontMatter</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./FrontMatter&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">SlideShow</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./SlideShow&#x27;</span>;
@@ -289,7 +293,7 @@ code {
 <li>An extended <code>Renderer</code> schema</li>
 <li>Parsed from the Front Matter section of <a href="#manifest-file">manifest file</a> (YAML syntax)</li>
 </ul>
-<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
+<p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../src&#x27;</span>;
 <span class="hljs-keyword">import</span> { version } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../../../package.json&#x27;</span>;
 <span class="hljs-keyword">import</span> { formatZodError } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
@@ -345,7 +349,7 @@ Cannot parse the Front Matter section:
 <li>Each slide is splitted by a horizontal line</li>
 <li>Has special rules for rendering embedding code snippets and slides</li>
 </ul>
-<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> hljs, { <span class="hljs-title class_">HighlightResult</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js&#x27;</span>;
+<p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> hljs, { <span class="hljs-title class_">HighlightResult</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;highlight.js&#x27;</span>;
 <span class="hljs-keyword">import</span> { marked } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;marked&#x27;</span>;
 <span class="hljs-keyword">import</span> { getContent } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
 
@@ -459,7 +463,7 @@ Cannot parse the code at <span class="hljs-subst">${href}</span>:
 <ul>
 <li><code>Renderer</code> is the root schema of <a href="#manifest"><code>Manifest</code></a>. That is, <a href="#manifest"><code>Manifest</code></a> is an extended <code>Renderer</code>.</li>
 </ul>
-<p><pre><code class="language-ts"><span class="hljs-keyword">declare</span> <span class="hljs-variable language_">module</span> <span class="hljs-string">&#x27;*.css&#x27;</span> {
+<p><pre><code class="language-ts hljs"><span class="hljs-keyword">declare</span> <span class="hljs-variable language_">module</span> <span class="hljs-string">&#x27;*.css&#x27;</span> {
   <span class="hljs-keyword">const</span> <span class="hljs-attr">_</span>: <span class="hljs-built_in">string</span>;
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _;
 }
@@ -468,7 +472,7 @@ Cannot parse the code at <span class="hljs-subst">${href}</span>:
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _;
 }
 </code></pre>
-<pre><code class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-title class_">GithubDarkDimmed</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./github-dark-dimmed.css&#x27;</span>;
+<pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> <span class="hljs-title class_">AtomOneDark</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./atom-one-dark.css&#x27;</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-title class_">HorizontalStylesheet</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.horizontal.css&#x27;</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-title class_">VerticalStylesheet</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.vertical.css&#x27;</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-title class_">HTMLTemplate</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.html&#x27;</span>;
@@ -476,12 +480,12 @@ Cannot parse the code at <span class="hljs-subst">${href}</span>:
 <span class="hljs-keyword">const</span> <span class="hljs-title class_">Stylesheets</span> = {
   <span class="hljs-attr">horizontal</span>: <span class="hljs-title class_">HorizontalStylesheet</span>,
   <span class="hljs-attr">vertical</span>: <span class="hljs-title class_">VerticalStylesheet</span>,
-  <span class="hljs-attr">highlight</span>: <span class="hljs-title class_">GithubDarkDimmed</span>,
+  <span class="hljs-attr">highlight</span>: <span class="hljs-title class_">AtomOneDark</span>,
 };
 
 <span class="hljs-keyword">export</span> { <span class="hljs-title class_">HTMLTemplate</span>, <span class="hljs-title class_">Stylesheets</span> };
 </code></pre>
-<pre><code class="language-ts"><span class="hljs-keyword">import</span> { render <span class="hljs-keyword">as</span> renderEta } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;eta&#x27;</span>;
+<pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { render <span class="hljs-keyword">as</span> renderEta } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;eta&#x27;</span>;
 <span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Stylesheets</span>, <span class="hljs-title class_">HTMLTemplate</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../assets&#x27;</span>;
 
@@ -544,7 +548,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 <hr>
 <h1 id="html-template">HTML template</h1>
 <p>{% and %} are interpolation characters</p>
-<p><pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<p><pre><code class="language-html hljs"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hljs&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span>
@@ -577,7 +581,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 <div class="slide" id="slide_9">
 <hr>
 <h1 id="css-horizontal-layout">CSS (Horizontal layout)</h1>
-<p><pre><code class="language-css"><span class="hljs-comment">/*! CodeSlide slides.horizontal.css */</span>
+<p><pre><code class="language-css hljs"><span class="hljs-comment">/*! CodeSlide slides.horizontal.css */</span>
 <span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
   <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
   -webkit-print-<span class="hljs-attribute">color</span>-adjust: exact;
@@ -644,7 +648,7 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 <div class="slide" id="slide_10">
 <hr>
 <h1 id="css-vertical-layout">CSS (Vertical layout)</h1>
-<p><pre><code class="language-css"><span class="hljs-comment">/*! CodeSlide slides.vertical.css */</span>
+<p><pre><code class="language-css hljs"><span class="hljs-comment">/*! CodeSlide slides.vertical.css */</span>
 <span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
   <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
   -webkit-print-<span class="hljs-attribute">color</span>-adjust: exact;
@@ -696,7 +700,7 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 <div class="slide" id="slide_11">
 <hr>
 <h1 id="the-entry-point">The entry point</h1>
-<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { program } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;commander&#x27;</span>;
+<p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { program } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;commander&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync, writeFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { stdin, stdout } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;process&#x27;</span>;
 <span class="hljs-keyword">import</span> { version, homepage, name } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../package.json&#x27;</span>;
@@ -763,7 +767,7 @@ By default it reads manifest from stdin.`</span>
 <li><code>-m, --manifest</code>: Manifest file path</li>
 <li><code>-o, --output</code>: Output file path</li>
 </ul>
-<p><pre><code class="language-ts"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
+<p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 <span class="hljs-keyword">import</span> { formatZodError } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utils&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">CLIOptions</span> = z.<span class="hljs-property">infer</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">CLIOptions</span>.<span class="hljs-property">schema</span>&gt;;
@@ -794,7 +798,7 @@ Cannot parse the CLI options:
 <h1 id="miscellaneous">Miscellaneous</h1>
 <ul>
 <li>Because <a href="https://github.com/node-fetch/node-fetch">Node Fetch</a> does not handle <code>file:</code> URI scheme, CodeSlide CLI implements it with <code>fs.readFileSync</code>:
-<pre><code class="language-ts"><span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;node-fetch&#x27;</span>;
+<pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;node-fetch&#x27;</span>;
 <span class="hljs-keyword">import</span> statuses <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;statuses&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { pathToFileURL } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;url&#x27;</span>;
