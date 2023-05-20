@@ -103,8 +103,11 @@
 a {
   color: dodgerblue;
 }
-a.hljs {
-  text-decoration: none;
+blockquote {
+  border-left: currentColor solid medium;
+  margin-inline: 1em;
+  padding-inline: 1em;
+  opacity: 50%;
 }
 body {
   margin: 0;
@@ -136,6 +139,9 @@ pre > code {
 }
 video {
   max-width: 100%;
+}
+:is(h1, h2, h3, h4, h5, h6) > a {
+  text-decoration: none;
 }
 .slide {
   padding: 1em 2em;
@@ -218,35 +224,49 @@ pre > code {
 <body>
 <div id="slides">
 <div class="slide" id="slide_0">
-<a class="hljs" href="#behind-the-scenes-of-codeslide-cli"><h1 id="behind-the-scenes-of-codeslide-cli">Behind the Scenes of CodeSlide CLI</h1>
-</a><pre><code class="language-html hljs"><span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;cli&quot;</span>&gt;</span>
+<h1 id="behind-the-scenes-of-codeslide-cli">
+  <a class="hljs" href="#behind-the-scenes-of-codeslide-cli">Behind the Scenes of CodeSlide CLI</a>
+</h1>
+<pre><code class="language-html hljs"><span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;cli&quot;</span>&gt;</span>
   CodeSlide CLI
 <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
 </code></pre>
 </div>
 <div class="slide" id="slide_1">
-<p><a class="hljs" href="#codeslide-cli"><h1 id="codeslide-cli">CodeSlide CLI</h1>
-</a><p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm&style=flat-square" alt=""></a></p>
-<a class="hljs" href="#usage-demo"><h2 id="usage-demo">Usage demo</h2>
-</a><p><a href="https://github.com/AsherJingkongChen/codeslide/assets/37398747/7b56b373-86b0-43ba-bebc-ceff04323fdd">Video link</a></p>
+<p><h1 id="codeslide-cli">
+  <a class="hljs" href="#codeslide-cli">CodeSlide CLI</a>
+</h1>
+<p><a href="https://www.npmjs.com/package/codeslide-cli?activeTab=readme"><img src="https://img.shields.io/npm/v/codeslide-cli?color=%230647D4&label=npm&style=flat-square" alt=""></a></p>
+<h2 id="usage-demo">
+  <a class="hljs" href="#usage-demo">Usage demo</a>
+</h2>
+<p><a href="https://github.com/AsherJingkongChen/codeslide/assets/37398747/7b56b373-86b0-43ba-bebc-ceff04323fdd">Video link</a></p>
 <p>See also <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/app/cli/examples">Example usages</a></p>
-<a class="hljs" href="#installation"><h2 id="installation">Installation</h2>
-</a><ol>
+<h2 id="installation">
+  <a class="hljs" href="#installation">Installation</a>
+</h2>
+<ol>
 <li>Prepare <code>Node.js</code> runtime and <code>NPM</code> package manager</li>
 <li>Run <code>npm install -g codeslide-cli</code> on the command line</li>
 </ol>
-<a class="hljs" href="#features"><h2 id="features">Features</h2>
-</a><ul>
+<h2 id="features">
+  <a class="hljs" href="#features">Features</a>
+</h2>
+<ul>
 <li>It allows you to easily make awesome slideshows for code snippets on command lines</li>
 <li>It is an application of <a href="https://github.com/AsherJingkongChen/codeslide">CodeSlide</a></li>
 <li>It is a Node.js Command Line Interface (CLI)</li>
 </ul>
-<a class="hljs" href="#documents"><h2 id="documents">Documents</h2>
-</a><ul>
+<h2 id="documents">
+  <a class="hljs" href="#documents">Documents</a>
+</h2>
+<ul>
 <li>See <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/docs/REFERENCE.md">Reference</a> for more information</li>
 </ul>
-<a class="hljs" href="#dependencies"><h2 id="dependencies">Dependencies</h2>
-</a><ul>
+<h2 id="dependencies">
+  <a class="hljs" href="#dependencies">Dependencies</a>
+</h2>
+<ul>
 <li>It uses <a href="https://github.com/evanw/esbuild">esbuild</a> as module bundler</li>
 <li>It uses <a href="https://github.com/jonschlinkert/gray-matter">gray-matter</a> as YAML Front Matter parser</li>
 <li>It uses <a href="https://github.com/tj/commander.js">Commander.js</a> as CLI framework</li>
@@ -258,23 +278,29 @@ pre > code {
 <li>It uses <a href="https://www.typescriptlang.org/">TypeScript</a> as the main programming language</li>
 <li>It uses <a href="https://github.com/colinhacks/zod">Zod</a> as JSON schema validator</li>
 </ul>
-<a class="hljs" href="#creator"><h2 id="creator">Creator</h2>
-</a><ul>
+<h2 id="creator">
+  <a class="hljs" href="#creator">Creator</a>
+</h2>
+<ul>
 <li><a href="https://github.com/AsherJingkongChen">AsherJingkongChen</a></li>
 </ul>
 </p>
 </div>
 <div class="slide" id="slide_2">
-<a class="hljs" href="#the-general-process"><h1 id="the-general-process">The general process</h1>
-</a><ol>
+<h1 id="the-general-process">
+  <a class="hljs" href="#the-general-process">The general process</a>
+</h1>
+<ol>
 <li>Build a schema</li>
 <li>Render HTML and CSS to slideshow with it</li>
 <li>Print the rendered slideshow to the output</li>
 </ol>
 </div>
 <div class="slide" id="slide_3">
-<a class="hljs" href="#manifest"><h1 id="manifest"><code>Manifest</code></h1>
-</a><ul>
+<h1 id="manifest">
+  <a class="hljs" href="#manifest"><code>Manifest</code></a>
+</h1>
+<ul>
 <li>The main schema</li>
 <li>A combination of <a href="#frontmatter"><code>FrontMatter</code></a> and <a href="#slideshow"><code>SlideShow</code></a></li>
 <li>An extended <a href="#renderer"><code>Renderer</code></a> schema</li>
@@ -332,18 +358,23 @@ pre > code {
     }
   };  
 }
-</code></pre></p>
+</code></pre>
+</p>
 </div>
 <div class="slide" id="slide_4">
-<a class="hljs" href="#manifest-file"><h1 id="manifest-file">Manifest file</h1>
-</a><ul>
+<h1 id="manifest-file">
+  <a class="hljs" href="#manifest-file">Manifest file</a>
+</h1>
+<ul>
 <li>A markdown document constructed of the Front Matter section and the Slide Show section</li>
 <li>The specifications of Manifest file is <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/docs/REFERENCE.md#manifest-file-specifications">here</a></li>
 </ul>
 </div>
 <div class="slide" id="slide_5">
-<a class="hljs" href="#frontmatter"><h1 id="frontmatter"><code>FrontMatter</code></h1>
-</a><ul>
+<h1 id="frontmatter">
+  <a class="hljs" href="#frontmatter"><code>FrontMatter</code></a>
+</h1>
+<ul>
 <li>The Front Matter section schema</li>
 <li>An extended <code>Renderer</code> schema</li>
 <li>Parsed from the Front Matter section of <a href="#manifest-file">manifest file</a> (YAML syntax)</li>
@@ -423,11 +454,14 @@ Cannot parse the Front Matter section:
       );
     });
 }
-</code></pre></p>
+</code></pre>
+</p>
 </div>
 <div class="slide" id="slide_6">
-<a class="hljs" href="#slideshow"><h1 id="slideshow"><code>SlideShow</code></h1>
-</a><ul>
+<h1 id="slideshow">
+  <a class="hljs" href="#slideshow"><code>SlideShow</code></a>
+</h1>
+<ul>
 <li>The Slide Show section schema</li>
 <li>An labeled object whose type is <code>{ slides: string[] }</code></li>
 <li>Parsed from the Slide Show section of <a href="#manifest-file">manifest file</a> (Markdown syntax)</li>
@@ -512,17 +546,18 @@ Cannot parse the Front Matter section:
     <span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span>,
     <span class="hljs-attr">level</span>: <span class="hljs-number">1</span> | <span class="hljs-number">2</span> | <span class="hljs-number">3</span> | <span class="hljs-number">4</span> | <span class="hljs-number">5</span> | <span class="hljs-number">6</span>,
     <span class="hljs-attr">raw</span>: <span class="hljs-built_in">string</span>,
-    <span class="hljs-attr">slugger</span>: marked.<span class="hljs-property">Slugger</span>
+    <span class="hljs-attr">slugger</span>: marked.<span class="hljs-property">Slugger</span>,
   ): <span class="hljs-built_in">string</span> {
-    <span class="hljs-keyword">const</span> original = <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">heading</span>(text, level, raw, slugger);
-    <span class="hljs-keyword">let</span> id_index = original.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;id=&quot;&#x27;</span>);
-    <span class="hljs-keyword">if</span> (id_index === -<span class="hljs-number">1</span>) {
-      <span class="hljs-keyword">return</span> original;
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">options</span>.<span class="hljs-property">headerIds</span>) {
+      <span class="hljs-keyword">const</span> id = <span class="hljs-variable language_">this</span>.<span class="hljs-property">options</span>.<span class="hljs-property">headerPrefix</span> + slugger.<span class="hljs-title function_">slug</span>(raw);
+      <span class="hljs-keyword">return</span> <span class="hljs-string">`\
+&lt;h<span class="hljs-subst">${level}</span> id=&quot;<span class="hljs-subst">${id}</span>&quot;&gt;
+  &lt;a class=&quot;hljs&quot; href=&quot;#<span class="hljs-subst">${id}</span>&quot;&gt;<span class="hljs-subst">${text}</span>&lt;/a&gt;
+&lt;/h<span class="hljs-subst">${level}</span>&gt;
+`</span>;
     }
-    id_index += <span class="hljs-string">&#x27;id=&quot;&#x27;</span>.<span class="hljs-property">length</span>;
-    <span class="hljs-keyword">const</span> id_endindex = original.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;&quot;&#x27;</span>, id_index);
-    <span class="hljs-keyword">const</span> id = original.<span class="hljs-title function_">slice</span>(id_index, id_endindex);
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;a class=&quot;hljs&quot; href=&quot;#<span class="hljs-subst">${id}</span>&quot;&gt;<span class="hljs-subst">${original}</span>&lt;/a&gt;`</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;h<span class="hljs-subst">${level}</span>&gt;<span class="hljs-subst">${text}</span>&lt;/h<span class="hljs-subst">${level}</span>&gt;
+`</span>;
   }
 };
 
@@ -549,7 +584,8 @@ Cannot parse the Front Matter section:
     <span class="hljs-string">` class=&quot;language-<span class="hljs-subst">${result.language}</span> hljs&quot;`</span> : <span class="hljs-string">&#x27;&#x27;</span>
 }</span>&gt;<span class="hljs-subst">${
   result.value
-}</span>&lt;/code&gt;&lt;/pre&gt;`</span>;
+}</span>&lt;/code&gt;&lt;/pre&gt;
+`</span>;
     }
   }
 };
@@ -570,18 +606,23 @@ Cannot parse the Front Matter section:
   token.<span class="hljs-property">pre</span> = <span class="hljs-literal">true</span>;
   <span class="hljs-keyword">return</span> token;
 };
-</code></pre></p>
+</code></pre>
+</p>
 </div>
 <div class="slide" id="slide_7">
-<a class="hljs" href="#renderer"><h1 id="renderer"><code>Renderer</code></h1>
-</a><ul>
+<h1 id="renderer">
+  <a class="hljs" href="#renderer"><code>Renderer</code></a>
+</h1>
+<ul>
 <li>The slideshow renderer schema </li>
 <li>Depends on <a href="https://github.com/eta-dev/eta">Eta</a> to render <a href="#html-template">HTML template</a></li>
 <li><code>Renderer.parse</code>: Parse an object into a <code>Renderer</code> schema</li>
 <li><code>Renderer.render</code>: Render the slideshow to HTML text</li>
 </ul>
-<a class="hljs" href="#note"><h2 id="note">Note</h2>
-</a><ul>
+<h2 id="note">
+  <a class="hljs" href="#note">Note</a>
+</h2>
+<ul>
 <li><code>Renderer</code> is the root schema of <a href="#manifest"><code>Manifest</code></a>. That is, <a href="#manifest"><code>Manifest</code></a> is an extended <code>Renderer</code>.</li>
 </ul>
 <p><pre><code class="language-ts hljs"><span class="hljs-keyword">declare</span> <span class="hljs-variable language_">module</span> <span class="hljs-string">&#x27;*.css&#x27;</span> {
@@ -593,6 +634,7 @@ Cannot parse the Front Matter section:
   <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _;
 }
 </code></pre>
+
 <pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;eta&#x27;</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-title class_">HighlightCSS</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./highlight.css&#x27;</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-title class_">SlidesCSS</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./slides.css&#x27;</span>;
@@ -625,6 +667,7 @@ Cannot parse the Front Matter section:
   }
 );
 </code></pre>
+
 <pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zod&#x27;</span>;
 <span class="hljs-keyword">import</span> {
   <span class="hljs-title class_">HighlightCSS</span>,
@@ -704,11 +747,14 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
     }).<span class="hljs-title function_">default</span>({}),
   });
 }
-</code></pre></p>
+</code></pre>
+</p>
 </div>
 <div class="slide" id="slide_8">
-<a class="hljs" href="#html-template"><h1 id="html-template">HTML template</h1>
-</a><p>{% and %} are interpolation characters</p>
+<h1 id="html-template">
+  <a class="hljs" href="#html-template">HTML template</a>
+</h1>
+<p>{% and %} are interpolation characters</p>
 <p><pre><code class="language-html hljs"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hljs&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
@@ -728,16 +774,22 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 &lt;%~ it.slides %&gt;
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
-</code></pre></p>
+</code></pre>
+</p>
 </div>
 <div class="slide" id="slide_9">
-<a class="hljs" href="#default-css-for-slides"><h1 id="default-css-for-slides">Default CSS for slides</h1>
-</a><p><pre><code class="language-css hljs"><span class="hljs-comment">/*! CodeSlide Presets */</span>
+<h1 id="default-css-for-slides">
+  <a class="hljs" href="#default-css-for-slides">Default CSS for slides</a>
+</h1>
+<p><pre><code class="language-css hljs"><span class="hljs-comment">/*! CodeSlide Presets */</span>
 <span class="hljs-selector-tag">a</span> {
   <span class="hljs-attribute">color</span>: dodgerblue;
 }
-<span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.hljs</span> {
-  <span class="hljs-attribute">text-decoration</span>: none;
+<span class="hljs-selector-tag">blockquote</span> {
+  <span class="hljs-attribute">border-left</span>: currentColor solid medium;
+  <span class="hljs-attribute">margin-inline</span>: <span class="hljs-number">1em</span>;
+  <span class="hljs-attribute">padding-inline</span>: <span class="hljs-number">1em</span>;
+  <span class="hljs-attribute">opacity</span>: <span class="hljs-number">50%</span>;
 }
 <span class="hljs-selector-tag">body</span> {
   <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
@@ -769,6 +821,9 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 }
 <span class="hljs-selector-tag">video</span> {
   <span class="hljs-attribute">max-width</span>: <span class="hljs-number">100%</span>;
+}
+<span class="hljs-selector-pseudo">:is</span>(<span class="hljs-selector-tag">h1</span>, <span class="hljs-selector-tag">h2</span>, <span class="hljs-selector-tag">h3</span>, <span class="hljs-selector-tag">h4</span>, <span class="hljs-selector-tag">h5</span>, <span class="hljs-selector-tag">h6</span>) &gt; <span class="hljs-selector-tag">a</span> {
+  <span class="hljs-attribute">text-decoration</span>: none;
 }
 <span class="hljs-selector-class">.slide</span> {
   <span class="hljs-attribute">padding</span>: <span class="hljs-number">1em</span> <span class="hljs-number">2em</span>;
@@ -813,11 +868,14 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
     <span class="hljs-attribute">break-after</span>: page;
   }
 }
-</code></pre></p>
+</code></pre>
+</p>
 </div>
 <div class="slide" id="slide_10">
-<a class="hljs" href="#default-css-for-syntax-highlighting"><h1 id="default-css-for-syntax-highlighting">Default CSS for syntax highlighting</h1>
-</a><p>Visual Studio 2015 Dark retrieved from <a href="https://cdnjs.com/libraries/highlight.js" title="Highlight.js CDN">Highlight.js</a></p>
+<h1 id="default-css-for-syntax-highlighting">
+  <a class="hljs" href="#default-css-for-syntax-highlighting">Default CSS for syntax highlighting</a>
+</h1>
+<p>Visual Studio 2015 Dark retrieved from <a href="https://cdnjs.com/libraries/highlight.js" title="Highlight.js CDN">Highlight.js</a></p>
 <p><pre><code class="language-css hljs"><span class="hljs-comment">/*! Highlight.js Visual Studio 2015 Dark */</span>
 <span class="hljs-selector-class">.hljs</span> {
   <span class="hljs-attribute">background</span>: <span class="hljs-number">#1e1e1e</span>;
@@ -904,11 +962,14 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
   <span class="hljs-attribute">display</span>: inline-block;
   <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
 }
-</code></pre></p>
+</code></pre>
+</p>
 </div>
 <div class="slide" id="slide_11">
-<a class="hljs" href="#the-entry-point"><h1 id="the-entry-point">The entry point</h1>
-</a><p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { program } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;commander&#x27;</span>;
+<h1 id="the-entry-point">
+  <a class="hljs" href="#the-entry-point">The entry point</a>
+</h1>
+<p><pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> { program } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;commander&#x27;</span>;
 <span class="hljs-keyword">import</span> { readFileSync, writeFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { stdin, stdout } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;process&#x27;</span>;
 <span class="hljs-keyword">import</span> { version, homepage, name } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../package.json&#x27;</span>;
@@ -964,9 +1025,12 @@ By default it writes the output to stdout.`</span>)
   })
   .<span class="hljs-title function_">parseAsync</span>()
   .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> { <span class="hljs-keyword">throw</span> err; });
-</code></pre></p>
-<a class="hljs" href="#clioptions"><h2 id="clioptions"><code>CLIOptions</code></h2>
-</a><ul>
+</code></pre>
+</p>
+<h2 id="clioptions">
+  <a class="hljs" href="#clioptions"><code>CLIOptions</code></a>
+</h2>
+<ul>
 <li>The CLI options schema</li>
 <li><code>-m, --manifest</code>: Manifest file path</li>
 <li><code>-o, --output</code>: Output file path</li>
@@ -998,11 +1062,14 @@ Cannot parse the Front Matter section:
       );
     });
 }
-</code></pre></p>
+</code></pre>
+</p>
 </div>
 <div class="slide" id="slide_12">
-<a class="hljs" href="#miscellaneous"><h1 id="miscellaneous">Miscellaneous</h1>
-</a><ul>
+<h1 id="miscellaneous">
+  <a class="hljs" href="#miscellaneous">Miscellaneous</a>
+</h1>
+<ul>
 <li>Because <a href="https://github.com/node-fetch/node-fetch">Node Fetch</a> does not handle <code>file:</code> URI scheme, CodeSlide CLI implements it with <code>fs.readFileSync</code>:
 <pre><code class="language-ts hljs"><span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;node-fetch&#x27;</span>;
 <span class="hljs-keyword">import</span> statuses <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;statuses&#x27;</span>;
@@ -1030,12 +1097,18 @@ Cannot parse the Front Matter section:
     );
   }
 };
-</code></pre></li>
+</code></pre>
+</li>
 </ul>
 </div>
 <div class="slide" id="slide_13">
-<a class="hljs" href="#thanks-for-your-watching"><h1 id="thanks-for-your-watching">Thanks for your watching!</h1>
-</a><ul>
+<h1 id="thanks-for-your-watching">
+  <a class="hljs" href="#thanks-for-your-watching">Thanks for your watching!</a>
+</h1>
+<blockquote>
+<p>This slideshow is made by CodeSlide as well</p>
+</blockquote>
+<ul>
 <li>The repository of this example is <a href="https://github.com/AsherJingkongChen/codeslide-cli-as-codeslide-cli-example.git">here</a></li>
 <li>See other CodeSlide CLI examples <a href="https://github.com/AsherJingkongChen/codeslide/tree/main/app/cli/examples">here</a></li>
 <li>See the installation guide of CodeSlide CLI <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/README.md#installation">here</a></li>
