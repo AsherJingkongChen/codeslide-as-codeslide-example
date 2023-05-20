@@ -216,7 +216,7 @@ pre > code {
 <div id="slides">
 <div class="slide" id="slide_0">
 <h1 id="behind-the-scenes-of-codeslide-cli">Behind the Scenes of CodeSlide CLI</h1>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;cli&quot;</span>&gt;</span>
+<pre><code class="language-html hljs"><span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;cli&quot;</span>&gt;</span>
   CodeSlide CLI
 <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
 </code></pre>
@@ -241,6 +241,19 @@ pre > code {
 <h2 id="documents">Documents</h2>
 <ul>
 <li>See <a href="https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/docs/REFERENCE.md">Reference</a> for more information</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>It uses <a href="https://github.com/evanw/esbuild">esbuild</a> as module bundler</li>
+<li>It uses <a href="https://github.com/jonschlinkert/gray-matter">gray-matter</a> as YAML Front Matter parser</li>
+<li>It uses <a href="https://github.com/tj/commander.js">Commander.js</a> as CLI framework</li>
+<li>It uses <a href="https://github.com/eta-dev/eta">Eta</a> as HTML template engine</li>
+<li>It uses <a href="https://github.com/highlightjs/highlight.js">Highlight.js</a> as syntax highlighter</li>
+<li>It uses <a href="https://github.com/markedjs/marked">Marked</a> as Markdown renderer</li>
+<li>It uses <a href="https://github.com/node-fetch/node-fetch">Node Fetch</a> as resource fetcher</li>
+<li>It uses <a href="https://github.com/puppeteer/puppeteer">Puppeteer</a> as PDF printer</li>
+<li>It uses <a href="https://www.typescriptlang.org/">TypeScript</a> as the main programming language</li>
+<li>It uses <a href="https://github.com/colinhacks/zod">Zod</a> as JSON schema validator</li>
 </ul>
 <h2 id="creator">Creator</h2>
 <ul>
@@ -451,10 +464,20 @@ Cannot parse the Front Matter section:
   })
 );
 
-<span class="hljs-keyword">const</span> highlight = (<span class="hljs-attr">code</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">language</span>: <span class="hljs-built_in">string</span>): <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> {
+<span class="hljs-keyword">const</span> highlight = (
+  <span class="hljs-attr">code</span>: <span class="hljs-built_in">string</span>,
+  <span class="hljs-attr">language</span>: <span class="hljs-built_in">string</span>,
+): <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> (
+  <span class="hljs-title function_">_highlight</span>(code, language).<span class="hljs-property">value</span>
+);
+
+<span class="hljs-keyword">const</span> _highlight = (
+  <span class="hljs-attr">code</span>: <span class="hljs-built_in">string</span>,
+  <span class="hljs-attr">language</span>: <span class="hljs-built_in">string</span>,
+): <span class="hljs-function"><span class="hljs-params">HighlightResult</span> =&gt;</span> {
   <span class="hljs-keyword">try</span> {
     language = language || <span class="hljs-string">&#x27;plaintext&#x27;</span>;
-    <span class="hljs-keyword">return</span> hljs.<span class="hljs-title function_">highlight</span>(code, { language }).<span class="hljs-property">value</span>;
+    <span class="hljs-keyword">return</span> hljs.<span class="hljs-title function_">highlight</span>(code, { language });
   } <span class="hljs-keyword">catch</span> (e) {
     <span class="hljs-keyword">const</span> err = e <span class="hljs-keyword">as</span> <span class="hljs-title class_">Error</span>;
     err.<span class="hljs-property">message</span> =
@@ -472,10 +495,14 @@ Cannot parse the Front Matter section:
     <span class="hljs-attr">isEscaped</span>: <span class="hljs-built_in">boolean</span>
   ): <span class="hljs-built_in">string</span> {
     <span class="hljs-keyword">const</span> original = <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">code</span>(code, language, isEscaped);
-    <span class="hljs-keyword">const</span> index = original.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;&quot;&gt;&#x27;</span>);
-    <span class="hljs-keyword">return</span> index === -<span class="hljs-number">1</span>
-      ? <span class="hljs-string">`<span class="hljs-subst">${original.slice(<span class="hljs-number">0</span>, index)}</span> hljs<span class="hljs-subst">${original.slice(index)}</span>`</span>
-      : original;
+    <span class="hljs-keyword">const</span> class_index = original.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;&quot;&gt;&#x27;</span>);
+    <span class="hljs-keyword">return</span> class_index === -<span class="hljs-number">1</span>
+      ? original
+      : <span class="hljs-string">`<span class="hljs-subst">${
+        original.slice(<span class="hljs-number">0</span>, class_index)
+      }</span> hljs<span class="hljs-subst">${
+        original.slice(class_index)
+      }</span>`</span>;
   }
 };
 
@@ -495,18 +522,7 @@ Cannot parse the Front Matter section:
       token.<span class="hljs-property">text</span> = <span class="hljs-keyword">await</span> <span class="hljs-title function_">_parseMarkdown</span>(slide);
     } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (prefix === <span class="hljs-string">&#x27;:code&#x27;</span>) {
       <span class="hljs-keyword">const</span> code = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getContent</span>(href);
-      <span class="hljs-keyword">let</span> <span class="hljs-attr">result</span>: <span class="hljs-title class_">HighlightResult</span> | <span class="hljs-literal">undefined</span>;
-      <span class="hljs-keyword">try</span> {
-        result = hljs.<span class="hljs-title function_">highlight</span>(code, {
-          <span class="hljs-attr">language</span>: suffix ?? <span class="hljs-string">&#x27;plaintext&#x27;</span>
-        });
-      } <span class="hljs-keyword">catch</span> (e) {
-        <span class="hljs-keyword">const</span> err = e <span class="hljs-keyword">as</span> <span class="hljs-title class_">Error</span>;
-        err.<span class="hljs-property">message</span> = <span class="hljs-string">`\
-Cannot parse the code at <span class="hljs-subst">${href}</span>:
-\t<span class="hljs-subst">${err.message}</span>`</span>;
-        <span class="hljs-keyword">throw</span> e;
-      }
+      <span class="hljs-keyword">const</span> result = <span class="hljs-title function_">_highlight</span>(code, suffix ?? <span class="hljs-string">&#x27;plaintext&#x27;</span>);
       token.<span class="hljs-property">text</span> = <span class="hljs-string">`\
 &lt;pre&gt;&lt;code<span class="hljs-subst">${
   result.language ?
