@@ -109,6 +109,7 @@ body {
 }
 code {
   font-size: 85%;
+  padding-inline: 0.15em;
 }
 html {
   overflow: hidden;
@@ -452,6 +453,7 @@ Cannot parse the Front Matter section:
 
 <span class="hljs-keyword">const</span> highlight = (<span class="hljs-attr">code</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">language</span>: <span class="hljs-built_in">string</span>): <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> {
   <span class="hljs-keyword">try</span> {
+    language = language || <span class="hljs-string">&#x27;plaintext&#x27;</span>;
     <span class="hljs-keyword">return</span> hljs.<span class="hljs-title function_">highlight</span>(code, { language }).<span class="hljs-property">value</span>;
   } <span class="hljs-keyword">catch</span> (e) {
     <span class="hljs-keyword">const</span> err = e <span class="hljs-keyword">as</span> <span class="hljs-title class_">Error</span>;
@@ -704,6 +706,7 @@ SF Mono, Menlo, Consolas, Liberation Mono, monospace`</span>
 }
 <span class="hljs-selector-tag">code</span> {
   <span class="hljs-attribute">font-size</span>: <span class="hljs-number">85%</span>;
+  <span class="hljs-attribute">padding-inline</span>: <span class="hljs-number">0.15em</span>;
 }
 <span class="hljs-selector-tag">html</span> {
   <span class="hljs-attribute">overflow</span>: hidden;
@@ -870,7 +873,7 @@ pre &gt; <span class="hljs-selector-tag">code</span> {
 <span class="hljs-keyword">import</span> { readFileSync, writeFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
 <span class="hljs-keyword">import</span> { stdin, stdout } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;process&#x27;</span>;
 <span class="hljs-keyword">import</span> { version, homepage, name } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../package.json&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CLIOptions</span>, <span class="hljs-title class_">Manifest</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./schemas&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CLIOptions</span>, <span class="hljs-title class_">Manifest</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;.&#x27;</span>;
 
 program
   .<span class="hljs-title function_">name</span>(name)
