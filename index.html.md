@@ -21,7 +21,7 @@ codeslide:
 ---
 # The general process
 
-1. Build a schema
+1. Build schemas
 2. Render HTML and CSS to slideshow with it
 3. Print the rendered slideshow to the output
 
@@ -39,8 +39,26 @@ codeslide:
 ---
 # Manifest file
 
-- A markdown document constructed of the Front Matter section and the Slide Show section
-- The specifications of Manifest file is [here](https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/docs/REFERENCE.md#manifest-file-specifications)
+- The complete specifications of Manifest file is [here](https://github.com/AsherJingkongChen/codeslide/blob/main/app/cli/docs/REFERENCE.md#manifest-file-specifications)
+- It is a Markdown document constructed of two sections:
+  - the Front Matter section
+  - the Slide Show section
+- The skeleton of manifest file:
+```md
+---
+[](# "The Front Matter section")
+codeslide:
+  ...
+
+---
+[](# "The Slide Show section")
+# Slide 1
+...
+
+---
+# Slide 2
+...
+```
 
 ---
 # `FrontMatter`
@@ -70,7 +88,7 @@ codeslide:
 - `Renderer.parse`: Parse an object into a `Renderer` schema
 - `Renderer.render`: Render the slideshow to HTML text
 
-## Note
+## Notes
 - `Renderer` is the root schema of [`Manifest`](#manifest). That is, [`Manifest`](#manifest) is an extended `Renderer`.
 
 [:code.ts](https://raw.githubusercontent.com/AsherJingkongChen/codeslide/main/src/assets/text.d.ts)
